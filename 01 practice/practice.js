@@ -1,7 +1,8 @@
+/*
 let country = "Croatia";
 let population = 4000000;
 let continent = "Europe";
-/*
+
 console.log(`Country: ${country} with population of ${population} at the continent: ${continent}`)
 
 const isIsland = false;
