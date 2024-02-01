@@ -147,3 +147,84 @@ console.log(years[0], years[2]);
 
 console.log(friends.length);
 console.log(friends[friends.length - 1]);
+
+friends[2] = "Leo";
+console.log(friends);
+//friends = ["Bob", 1991];
+
+const firstName = "Leo";
+const leo = [firstName, "Kovacevic", 2024 - 1999, "programmer", friends];
+console.log(leo);
+console.log(leo.length);
+
+const ageCalculator = function (birthYear) {
+  return 2024 - birthYear;
+};
+
+const yearsArray = [1990, 1967, 2002, 2010, 2018];
+
+const calculatedAge1 = ageCalculator(yearsArray[0]);
+const calculatedAge2 = ageCalculator(yearsArray[1]);
+const calculatedAge3 = ageCalculator(yearsArray[yearsArray.length - 1]);
+
+console.log(calculatedAge1, calculatedAge2, calculatedAge3);
+
+const ages = [
+  ageCalculator(yearsArray[0]),
+  ageCalculator(yearsArray[1]),
+  ageCalculator(yearsArray[yearsArray.length - 1]),
+];
+console.log(ages);
+
+//add elements
+const newLength = friends.push("Joy");
+console.log(friends);
+console.log(newLength);
+
+friends.unshift("Marinko");
+console.log(friends);
+
+//remove elements
+friends.pop;
+const popedElement = friends.pop();
+console.log(popedElement);
+console.log(friends);
+
+friends.shift();
+console.log(friends);
+
+//
+console.log(friends.indexOf("Steven"));
+console.log(friends.indexOf("Bob"));
+
+friends.push(23);
+console.log(friends.includes("Steven"));
+console.log(friends.includes("Bob"));
+console.log(friends.includes("23"));
+console.log(friends.includes(23));
+
+if (friends.includes("Leo")) console.log("You have a friend named Leo");
+
+const tips = [];
+const totals = [];
+const bills = [125, 555, 44];
+
+const calcTip = function (bills) {
+  for (let i = 0, n = bills.length; i < n; i++) {
+    if (bills[i] >= 50 && bills[i] <= 300) {
+      tips.push(bills[i] * 0.15);
+    } else {
+      tips.push(bills[i] * 0.2);
+    }
+  }
+};
+
+const calcTotals = function (bills, tips) {
+  for (let i = 0, n = bills.length; i < n; i++) {
+    totals.push(bills[i] + tips[i]);
+  }
+};
+
+calcTip(bills);
+calcTotals(bills, tips);
+console.log(bills, tips, totals);
