@@ -95,7 +95,7 @@ function fruitPiecesProcessor(apples, oranges) {
 
 console.log(fruitPiecesProcessor(4, 2));
 
-
+///
 const calculateAge = function (birthYear) {
   return 2024 - birthYear;
 };
@@ -113,7 +113,7 @@ const yearsUntilRetirement2 = function (firstName, birthYear) {
 console.log(yearsUntilRetirement2("Leo", 1999));
 console.log(yearsUntilRetirement2("Leo", 1920));
 
-
+///
 const calcAverage = (score1, score2, score3) => (score1 + score2 + score3) / 3;
 
 const scoreDolphins = calcAverage(44, 23, 71);
@@ -132,10 +132,10 @@ function checkWinner(avgDolphins, avgKoalas) {
 checkWinner(scoreDolphins, scoreKoalas);
 
 
+
 ////////////////////////
 ///////ARRAYS
 ////////////////////////
-
 const friends = ["Michael", "Steven", "Peter"];
 console.log(friends);
 
@@ -175,6 +175,7 @@ const ages = [
 ];
 console.log(ages);
 
+
 //add elements
 const newLength = friends.push("Joy");
 console.log(friends);
@@ -182,6 +183,7 @@ console.log(newLength);
 
 friends.unshift("Marinko");
 console.log(friends);
+
 
 //remove elements
 friends.pop;
@@ -271,7 +273,7 @@ console.log(
   `${objectLeo.firstName} has ${objectLeo.friends.length} friends and his best friend is ${objectLeo.friends[0]}`
 );
 
-
+///
 const objLeo = {
   //properties
   firstName: "Leo",
@@ -369,7 +371,7 @@ console.log(
 );
 
 
-*/
+
 ////////////////////////
 ///////LOOPS
 ////////////////////////
@@ -382,3 +384,66 @@ console.log(
 for (let rep = 0; rep < 10; rep++) {
   console.log("Lifting weights repetition " + Number(rep + 1));
 }
+
+const leosArray = [
+  "Leo",
+  "Kov",
+  2024 - 1999,
+  "programmer",
+  ["Peter Parker, Iron Man, Batman"],
+  true,
+];
+
+const types = [];
+const types2 = [];
+for (let i = 0, n = leosArray.length; i < n; i++) {
+  console.log(leosArray[i], typeof leosArray[i]);
+  types[i] = typeof leosArray[i];
+  //or
+  types2.push(typeof leosArray[i]);
+}
+
+console.log(types);
+console.log(types2);
+
+///
+const years = [1999, 2004, 2008, 2011];
+const ages = [];
+
+for (let i = 0, n = years.length; i < n; i++) {
+  ages[i] = 2024 - years[i];
+}
+
+console.log(ages);
+
+
+//continue and break
+console.log("--- ONLY STRINGS ---");
+for (let i = 0, n = leosArray.length; i < n; i++) {
+  if (typeof leosArray[i] !== "string") continue;
+  console.log(leosArray[i], typeof leosArray[i]);
+}
+
+console.log("--- BREAK WITH NUMBER ---");
+for (let i = 0, n = leosArray.length; i < n; i++) {
+  if (typeof leosArray[i] === "number") break;
+  console.log(leosArray[i], typeof leosArray[i]);
+}
+
+*/
+//loop backwards
+const leosArray2 = [
+  "Leo",
+  "Kov",
+  2024 - 1999,
+  "programmer",
+  ["Peter Parker, Iron Man, Batman"],
+  true,
+  false,
+];
+
+for (let n = leosArray2.length - 1, i = n; i >= 0; i--) {
+  console.log(i, leosArray2[i]);
+}
+
+//loop inside a loop
