@@ -131,7 +131,7 @@ function checkWinner(avgDolphins, avgKoalas) {
 }
 
 checkWinner(scoreDolphins, scoreKoalas);
-*/
+
 
 ////////////////////////
 ///////ARRAYS
@@ -193,7 +193,7 @@ console.log(friends);
 friends.shift();
 console.log(friends);
 
-//
+///
 console.log(friends.indexOf("Steven"));
 console.log(friends.indexOf("Bob"));
 
@@ -205,6 +205,7 @@ console.log(friends.includes(23));
 
 if (friends.includes("Leo")) console.log("You have a friend named Leo");
 
+///
 const tips = [];
 const totals = [];
 const bills = [125, 555, 44];
@@ -228,3 +229,69 @@ const calcTotals = function (bills, tips) {
 calcTip(bills);
 calcTotals(bills, tips);
 console.log(bills, tips, totals);
+
+////////////////////////
+///////OBJECTS
+////////////////////////
+const objectLeo = {
+  firstName: "Leo",
+  lastName: "Kov",
+  age: 2024 - 1999,
+  job: "programmer",
+  friends: ["Peter Parker", "Iron Man", "Batman"],
+};
+console.log(objectLeo);
+
+console.log(objectLeo.lastName);
+console.log(objectLeo["lastName"]);
+
+const nameKey = "Name";
+console.log(objectLeo["first" + nameKey]);
+console.log(objectLeo["last" + nameKey]);
+//WRONG: console.log(objectLeo."first" + nameKey)
+
+const interestedIn = prompt(
+  "What do you want to know about Leo. Choose between first name, last name, friends, job and age"
+);
+console.log(interestedIn);
+// WRONG: console.log(objectLeo.interestedIn)
+console.log(objectLeo[interestedIn]);
+
+objectLeo[interestedIn]
+  ? console.log(objectLeo[interestedIn])
+  : console.log("Does not exist");
+
+objectLeo.location = "Croatia";
+objectLeo.linkedIn = "Leo Kovačević";
+console.log(objectLeo);
+
+console.log(
+  `${objectLeo.firstName} has ${objectLeo.friends.length} friends and his best friend is ${objectLeo.friends[0]}`
+);
+*/
+
+const objLeo = {
+  firstName: "Leo",
+  lastName: "Kov",
+  birthYear: 1999,
+  job: "programmer",
+  friends: ["Peter Parker", "Iron Man", "Batman"],
+  hasDriversLicense: true,
+  calcAge: function (birthYear) {
+    return 2024 - birthYear;
+  },
+
+  calcAge2: function () {
+    return 2024 - this.birthYear;
+  },
+};
+
+console.log(objLeo.calcAge(1999));
+console.log(objLeo["calcAge"](1999));
+
+console.log("calcAge dot notation", objLeo.calcAge(objLeo.birthYear));
+console.log(
+  "calcAge bracket notation: ",
+  objLeo["calcAge"](objLeo["birthYear"])
+);
+console.log("calcAge2: ", objLeo.calcAge2());
