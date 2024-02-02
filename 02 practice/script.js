@@ -430,7 +430,7 @@ for (let i = 0, n = leosArray.length; i < n; i++) {
   console.log(leosArray[i], typeof leosArray[i]);
 }
 
-*/
+
 //loop backwards
 const leosArray2 = [
   "Leo",
@@ -447,3 +447,62 @@ for (let n = leosArray2.length - 1, i = n; i >= 0; i--) {
 }
 
 //loop inside a loop
+for (let exercise = 0; exercise < 3; exercise++) {
+  console.log(`---Starting exercise ${exercise + 1}---`);
+  for (let repetition = 0; repetition < 10; repetition++) {
+    console.log(`Repetition ${repetition + 1}`);
+  }
+}
+
+///
+console.log("-- FOR LOOP ---");
+for (let rep = 0; rep < 10; rep++) {
+  console.log("Lifting weights repetition " + Number(rep + 1));
+}
+
+let rep = 1;
+console.log("--- WHILE LOOP ---");
+while (rep <= 10) {
+  console.log("Lifting weights repetition " + rep);
+  rep++;
+}
+
+///
+let dice = Math.floor(Math.random() * 6 + 1);
+console.log(dice);
+
+while (dice !== 6) {
+  console.log("You rolled a ", dice);
+  dice = Math.floor(Math.random() * 6 + 1);
+  if (dice === 6) console.log("Loop is gonna end...");
+}
+
+///
+const bills = [22, 295, 176, 440, 37, 105, 10, 1100, 86, 52];
+const tips = [];
+const totals = [];
+
+const calculateTips = function (a) {
+  return a >= 50 && a <= 300 ? 0.15 * a : 0.2 * a;
+};
+
+for (let i = 0, n = bills.length; i < n; i++) {
+  tips.push(calculateTips(bills[i]));
+  totals.push(bills[i] + tips[i]);
+}
+
+console.log("Tips: " + tips, "Totals: " + totals);
+
+const calculateAverage = function (array) {
+  let totalSum = 0;
+  const n = array.length;
+  for (let i = 0; i < n; i++) {
+    totalSum += array[i];
+  }
+  return totalSum / n;
+};
+
+console.log(calculateAverage(bills));
+console.log(calculateAverage(tips));
+console.log(calculateAverage(totals));
+*/
