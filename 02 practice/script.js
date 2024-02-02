@@ -1,7 +1,5 @@
 "use strict";
-
 /* 
-
 ////////////////////////
 ///////STRICT MODE
 ////////////////////////
@@ -53,7 +51,7 @@ console.log(age1);
 
 
 //function expression
-//const age2FromExpression = calcAge2(1991);
+//Can't be called before expression: const age2FromExpression = calcAge2(1991);
 const calcAge2 = function (birthYear) {
   return 2037 - birthYear;
 };
@@ -115,6 +113,7 @@ const yearsUntilRetirement2 = function (firstName, birthYear) {
 console.log(yearsUntilRetirement2("Leo", 1999));
 console.log(yearsUntilRetirement2("Leo", 1920));
 
+
 const calcAverage = (score1, score2, score3) => (score1 + score2 + score3) / 3;
 
 const scoreDolphins = calcAverage(44, 23, 71);
@@ -150,7 +149,7 @@ console.log(friends[friends.length - 1]);
 
 friends[2] = "Leo";
 console.log(friends);
-//friends = ["Bob", 1991];
+// it's a const-> wrong: friends = ["Bob", 1991];
 
 const firstName = "Leo";
 const leo = [firstName, "Kovacevic", 2024 - 1999, "programmer", friends];
@@ -230,6 +229,8 @@ calcTip(bills);
 calcTotals(bills, tips);
 console.log(bills, tips, totals);
 
+
+
 ////////////////////////
 ///////OBJECTS
 ////////////////////////
@@ -253,6 +254,7 @@ console.log(objectLeo["last" + nameKey]);
 const interestedIn = prompt(
   "What do you want to know about Leo. Choose between first name, last name, friends, job and age"
 );
+
 console.log(interestedIn);
 // WRONG: console.log(objectLeo.interestedIn)
 console.log(objectLeo[interestedIn]);
@@ -268,21 +270,45 @@ console.log(objectLeo);
 console.log(
   `${objectLeo.firstName} has ${objectLeo.friends.length} friends and his best friend is ${objectLeo.friends[0]}`
 );
-*/
+
 
 const objLeo = {
+  //properties
   firstName: "Leo",
   lastName: "Kov",
   birthYear: 1999,
   job: "programmer",
   friends: ["Peter Parker", "Iron Man", "Batman"],
-  hasDriversLicense: true,
+  hasDriversLicense: false,
+
+  //methods
   calcAge: function (birthYear) {
     return 2024 - birthYear;
   },
 
   calcAge2: function () {
     return 2024 - this.birthYear;
+  },
+
+  calcAge3: function () {
+    this.age = 2024 - this.birthYear;
+    return;
+  },
+
+  getSummary: function () {
+    return console.log(
+      `${this.firstName} ${this.lastName} is a ${this.job} born in ${
+        this.birthYear
+      } and has ${this.friends.length} friends and also has ${
+        this.hasDriversLicense ? "a" : "no"
+      } driver's license`
+    );
+  },
+
+  getSummary2: function () {
+    return console.log(
+      `${this.firstName} is a ${this.calcAge(this.birthYear)} old ${this.job}`
+    );
   },
 };
 
@@ -295,3 +321,64 @@ console.log(
   objLeo["calcAge"](objLeo["birthYear"])
 );
 console.log("calcAge2: ", objLeo.calcAge2());
+
+//it' computed every time
+objLeo.calcAge2();
+objLeo.calcAge2();
+objLeo.calcAge2();
+
+//it's computed just once
+objLeo.calcAge3();
+console.log(objLeo.age);
+console.log(objLeo.age);
+console.log(objLeo.age);
+
+objLeo.getSummary();
+objLeo.getSummary2();
+
+///
+const mark = {
+  fullName: "Mark Miller",
+  mass: 78,
+  height: 1.69,
+  calcBMI: function () {
+    this.bmi = this.mass / (this.height * this.height);
+    return this.bmi;
+  },
+};
+
+const john = {
+  fullName: "John Smith",
+  mass: 92,
+  height: 1.95,
+  calcBMI: function () {
+    this.bmi = this.mass / (this.height * this.height);
+    return this.bmi;
+  },
+};
+
+john.calcBMI();
+mark.calcBMI();
+
+console.log(
+  `${
+    mark.bmi > john.bmi
+      ? `${mark.fullName}'s BMI (${mark.bmi}) is higher than ${john.fullName}'s (${john.bmi})!`
+      : `${john.fullName}'s BMI (${john.bmi}) is higher than ${mark.fullName}'s (${mark.bmi})!`
+  }`
+);
+
+
+*/
+////////////////////////
+///////LOOPS
+////////////////////////
+// console.log("Lifting weights repetition 1")
+// console.log("Lifting weights repetition 2")
+// console.log("Lifting weights repetition 3")
+// console.log("Lifting weights repetition 4")
+// console.log("Lifting weights repetition 5")
+
+for (let rep = 0; rep < 10; rep++) {
+  console.log("Lifting weights repetition " + Number(rep + 1));
+}
