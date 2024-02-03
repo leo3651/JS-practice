@@ -71,3 +71,102 @@ const croPercent = describePopulation("Croatia", 4);
 console.log(chinaPercent);
 console.log(germanyPercent);
 console.log(croPercent);
+
+//arrays
+const populations = [4, 60, 1441, 80];
+console.log(populations.length === 4);
+const percentages = [];
+for (let i = 0, n = populations.length; i < n; i++) {
+  percentages.push(percentageOfWorld1(populations[i]));
+}
+console.log(percentages);
+
+///
+const neighbours = [
+  "Slovenia",
+  "Hungary",
+  "BIH",
+  "Serbia",
+  "Montenegro",
+  "Italy",
+];
+console.log(neighbours);
+neighbours.push("Utopia");
+console.log(neighbours);
+neighbours.pop();
+console.log(neighbours);
+
+neighbours.includes("Germany")
+  ? console.log("Probably central European country")
+  : console.log("Probably not central European country");
+
+neighbours[neighbours.indexOf("Italy")] = "Italija";
+console.log(neighbours);
+
+//objects
+const myCountry = {
+  country: "Croatia",
+  capital: "Zagreb",
+  language: "croatian",
+  population: 4,
+  neighbours: neighbours,
+  describe: function () {
+    console.log(
+      `Method: ${this.country} has ${this.population} million ${this.language} speaking people, ${this.neighbours.length} neighbouring countries and a capital called ${this.capital}`
+    );
+  },
+  checkIsland: function () {
+    this.isIsland = this.neighbours.length === 0 ? true : false;
+  },
+};
+
+console.log(
+  `${myCountry.country} has ${myCountry.population} million ${myCountry.language} speaking people, ${myCountry.neighbours.length} neighbouring countries and a capital called ${myCountry.capital}`
+);
+
+myCountry.population += 2;
+console.log(myCountry.population);
+console.log(myCountry);
+myCountry["population"] -= 2;
+console.log(myCountry.population);
+console.log(myCountry);
+
+myCountry.describe();
+myCountry.checkIsland();
+console.log(myCountry.isIsland);
+
+//loops
+for (let i = 0; i < 50; i++) {
+  console.log("Voter number " + (i + 1) + " is currently voting");
+}
+
+///
+const populationsCopy = [4, 60, 1441, 80];
+const percentages2 = [];
+for (let i = 0, n = populationsCopy.length; i < n; i++) {
+  percentages2.push(percentageOfWorld1(populationsCopy[i]));
+}
+console.log(percentages2);
+
+///
+const listOfNeighbours = [
+  ["Canada", "Mexico"],
+  ["Spain"],
+  ["Norway", "Sweden", "Russia"],
+];
+
+for (let i = 0, n = listOfNeighbours.length; i < n; i++) {
+  for (let j = 0, s = listOfNeighbours[i].length; j < s; j++) {
+    console.log("Neighbour: " + listOfNeighbours[i][j]);
+  }
+}
+
+///
+const populations3 = [4, 60, 1441, 80];
+const percentages3 = [];
+let i = 0;
+while (i != populations3.length) {
+  percentages3.push(percentageOfWorld1(populations3[i]));
+  i++;
+}
+console.log(percentages3);
