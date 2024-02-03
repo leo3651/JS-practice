@@ -1,4 +1,4 @@
-"use strict";
+/* "use strict";
 
 //functions
 const describeCountry = function (country, population, capitalCity) {
@@ -170,3 +170,61 @@ while (i != populations3.length) {
   i++;
 }
 console.log(percentages3);
+
+///Find amplitude
+const temperatures1 = [3, -2, -6, -1, "error", 9, 13, 17, 15, 14, 9, 5];
+const temperatures2 = [-10, 20, "error"];
+
+function calcAmplitude(temperatures1, temperatures2) {
+  const temperatures = temperatures1.concat(temperatures2);
+  let max = temperatures[0];
+  let min = temperatures[0];
+  for (let i = 1, n = temperatures.length; i < n; i++) {
+    if (typeof temperatures[i] !== "number") continue;
+    if (temperatures[i] > max) {
+      max = temperatures[i];
+    } else if (temperatures[i] < min) {
+      min = temperatures[i];
+    }
+  }
+  return max - min;
+}
+const amplitude = calcAmplitude(temperatures1, temperatures2);
+console.log(amplitude);
+
+///
+const measureKelvin = function () {
+  const measurement = {
+    type: "temp",
+    unit: "celsius",
+    value: prompt("Degrees celsius: "),
+  };
+
+  console.log(measurement);
+  console.table(measurement);
+
+  console.log(measurement.value);
+  console.warn(measurement.value);
+  console.error(measurement.value);
+
+  const kelvin = Number(measurement.value) + 273.15;
+  return kelvin;
+};
+
+console.log(measureKelvin());
+ */
+///
+const t = [17, 21, 23];
+const t2 = [12, 5, -5, 0, 4];
+
+function printForecast(temperatures) {
+  let string = "... ";
+  for (let i = 0, n = temperatures.length; i < n; i++) {
+    const tempString = `${temperatures[i]}°C in ${i + 1} days ... `;
+    string = string + tempString;
+  }
+  console.log(string);
+}
+
+printForecast(t);
+printForecast(t2);
