@@ -1,4 +1,4 @@
-"use strict";
+/* "use strict";
 
 const books = [
   {
@@ -224,3 +224,25 @@ const books = [
     highlighted: true,
   },
 ];
+
+const ratings = [
+  ["rating", 4.19],
+  ["ratingsCount", 144584],
+];
+
+const ratingStars = [63405, 1808];
+
+// destructuring arrays
+const [firstBook, secondBook] = books;
+const [, , thirdBook] = books;
+console.log(firstBook, secondBook);
+console.log(thirdBook);
+
+///
+const [[, rating], [, ratingsCount]] = ratings;
+console.log(rating, ratingsCount);
+
+///
+const [fiveStarRatings, oneStarRatings, threeStarRatings = 0] = ratingStars;
+console.log(fiveStarRatings, oneStarRatings, threeStarRatings);
+ */
