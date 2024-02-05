@@ -300,7 +300,74 @@ thisFunction(1999);
 
 const thisFunctionArrow = (birthYear) => {
   console.log(2024 - birthYear);
-  console.log(this); // window object
+  console.log(this); // window object (this of parent scope)
 };
 
-thisFunctionArrow();
+thisFunctionArrow(1999);
+
+const thisObjectLeo = {
+  birthYear: 1999,
+  calcAge: function () {
+    console.log(this);
+    console.log(2024 - this.birthYear);
+  },
+};
+
+thisObjectLeo.calcAge();
+
+const matildaObject = {
+  birthYear: 1995,
+};
+
+matildaObject.calcAge = thisObjectLeo.calcAge;
+matildaObject.calcAge();
+
+const f = matildaObject.calcAge;
+// f(); // this -> undefined
+
+///
+var firstName = "Matilda";
+const thisObjectLeo2 = {
+  firstName: "Leo",
+  year: 1999,
+  calcAge: function () {
+    console.log(this);
+    console.log(2024 - this.year);
+    const self = this;
+    const isMillenial = function () {
+      console.log(self);
+      console.log(self.year >= 1981 && self.year <= 1996);
+      // console.log(this); //regular call -> undefined
+      // console.log(this.year >= 1981 && this.year <= 1996);
+    };
+    isMillenial();
+    const isMillenial2 = () => {
+      console.log(this); // arrow func -> this of parent scope
+      console.log(this.year >= 1981 && this.year <= 1996);
+    };
+    isMillenial2();
+  },
+  greet: () => {
+    console.log(this); // window object
+    console.log(`Hey ${this.firstName}`); // Matilda because var firstName made property on window obj, without var -> undefined
+  },
+};
+
+thisObjectLeo2.greet();
+thisObjectLeo2.calcAge();
+
+// arguments keyword
+const expressionFunc = function (a, b) {
+  console.log(arguments);
+  return a + b;
+};
+
+expressionFunc(2, 5);
+expressionFunc(2, 5, 4, 7);
+
+const arrowFunc = (a, b) => {
+  // console.log(arguments); //not available at arrow func
+  return a + b;
+};
+
+arrowFunc(2, 5);
