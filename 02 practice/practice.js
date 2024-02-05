@@ -1,4 +1,4 @@
-/* "use strict";
+"use strict";
 
 //functions
 const describeCountry = function (country, population, capitalCity) {
@@ -212,7 +212,7 @@ const measureKelvin = function () {
 };
 
 console.log(measureKelvin());
- */
+
 ///
 const t = [17, 21, 23];
 const t2 = [12, 5, -5, 0, 4];
@@ -228,3 +228,79 @@ function printForecast(temperatures) {
 
 printForecast(t);
 printForecast(t2);
+
+// hoistnig and tdz
+
+//variables
+console.log(me); // undefined
+// console.log(job); // reference error
+// console.log(year); // reference error
+
+var me = "leo";
+let job = "programmer";
+const year = 1999;
+
+//functions
+console.log(addDecl(4, 5)); // 9
+// console.log(addExpr(4, 5)); // reference error
+// console.log(addArrow(4, 5)); // reference error
+
+// console.log(addExpr2(4, 5)); // not a function because it's undefined
+console.log(addArrow2); // undefined
+// console.log(addArrow2(4, 5)); // not a function because it's undefined
+
+function addDecl(a, b) {
+  return a + b;
+}
+
+const addExpr = function (a, b) {
+  return a + b;
+};
+
+const addArrow = (a, b) => {
+  return a + b;
+};
+
+var addExpr2 = function (a, b) {
+  return a + b;
+};
+
+var addArrow2 = (a, b) => {
+  return a + b;
+};
+
+console.log(addArrow2);
+
+//Where bug might occur
+console.log(numProduct);
+if (!numProduct) deleteShoppingChart(); // deletes it because numProduct set to falsy value undefined before 276 line
+var numProduct = 10;
+function deleteShoppingChart() {
+  console.log("Delete all products!");
+}
+
+///
+var x = 1;
+let y = 2;
+const z = 3;
+
+console.log(x === window.x);
+console.log(x === window.y);
+console.log(x === window.z);
+
+// this keyword
+console.log(this); // window object
+
+const thisFunction = function (birthYear) {
+  console.log(2024 - birthYear);
+  console.log(this); //undefinded in strict mode
+};
+
+thisFunction(1999);
+
+const thisFunctionArrow = (birthYear) => {
+  console.log(2024 - birthYear);
+  console.log(this); // window object
+};
+
+thisFunctionArrow();
