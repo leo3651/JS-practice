@@ -371,3 +371,44 @@ const arrowFunc = (a, b) => {
 };
 
 arrowFunc(2, 5);
+
+// primitives VS objects
+
+// primitive types
+let lastName = "Marulic";
+let oldLastName = lastName;
+lastName = "Preradovic";
+console.log(oldLastName);
+console.log(lastName);
+
+// reference types
+const maria = {
+  firstName: "Maria",
+  lastName: "Marulic",
+  age: 29,
+};
+
+const marriedMaria = maria; // Reference to original object, not a copy
+marriedMaria.lastName = "Preradovic";
+// both changed
+console.log("Before marrige: ", maria);
+console.log("After marrige: ", marriedMaria);
+
+//marriedMaria = {}; //const -> can't change value in the stack(reference to object), let ? can
+
+// copying objects
+const maria2 = {
+  firstName: "Maria",
+  lastName: "Marulic",
+  age: 29,
+  family: ["Petar", "Zoran", "Marinko"],
+};
+
+const mariaCopy = Object.assign({}, maria2); //shallow copy
+mariaCopy.lastName = "Preradovic";
+console.log(maria2);
+console.log(mariaCopy);
+
+mariaCopy.family.push("Natali", "Ana");
+console.log(maria2);
+console.log(mariaCopy);
