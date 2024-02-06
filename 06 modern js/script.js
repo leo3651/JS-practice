@@ -82,13 +82,12 @@ restaurant.orderDelivery({
   starterIndex: 2,
 });
 
-/* 
 // destructuring arrays
 const arr = [44, 55, 66];
-const a = arr[0];
-const b = arr[1];
+const g = arr[0];
+const d = arr[1];
 const c = arr[2];
-console.log(a, b, c);
+console.log(g, d, c);
 
 const [x, y, z] = arr;
 console.log(x);
@@ -128,4 +127,29 @@ console.log(l, e, o);
 
 const [p = 1, q = 1, r = 1] = [2, 3];
 console.log(p, q, r);
- */
+
+// spread operator
+const array = [7, 8, 9];
+const badNewArray = [4, 5, 6, array[0], array[1], array[2]];
+console.log(badNewArray);
+
+const newArray = [4, 5, 6, ...array];
+console.log(newArray);
+
+console.log(4, 5, 6, 7, 8, 9);
+console.log(...newArray);
+
+const newMenu = [...restaurant.mainMenu, "Gnocchi"];
+console.log(newMenu);
+
+// copy array
+const newMenuCopy = [...restaurant.mainMenu];
+newMenuCopy.push("Tortillas");
+console.log(newMenu);
+console.log(newMenuCopy);
+
+// join 2 arrays
+const newestMenu = [...restaurant.starterMenu, ...restaurant.mainMenu];
+console.log(newestMenu);
+
+// iterables: arrays, strings, maps, sets, NOT objects
