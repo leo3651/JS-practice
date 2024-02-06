@@ -1,4 +1,4 @@
-"use strict";
+/* "use strict";
 
 const books = [
   {
@@ -335,3 +335,14 @@ for (let i = 0, n = books.length; i < n; i++) {
   books[i].onlineContent ??
     console.log(`${books[i].title} provides no data about online content`);
 }
+
+for (let i = 0, n = books.length; i < n; i++) {
+  books[i].edition ||= 1;
+  console.log(books[i].edition);
+}
+
+for (let i = 0, n = books.length; i < n; i++) {
+  books[i].highlighted &&= !(books[i].thirdParty.goodreads.rating < 4.2);
+  console.log(books[i].highlighted);
+}
+ */
