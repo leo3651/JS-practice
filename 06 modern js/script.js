@@ -1,34 +1,33 @@
 "use strict";
 
+const days = ["mon", "thu", "wed", "thru", "fri", "sat", "sun"];
+
+const openingHours = {
+  [days[1]]: {
+    open: 12,
+    close: 22,
+  },
+  fri: {
+    open: 11,
+    close: 23,
+  },
+  sat: {
+    open: 0, // Open 24 hours
+    close: 12 + 12,
+  },
+};
+
 const restaurant = {
   name: "Classico Italiano",
   location: "Via Angelo Tavanti 23, Firenze, Italy",
   categories: ["Italian", "Pizzeria", "Vegetarian", "Organic"],
   starterMenu: ["Focaccia", "Bruschetta", "Garlic Bread", "Caprese Salad"],
   mainMenu: ["Pizza", "Pasta", "Risotto"],
-  order: function (starterMenuIndex, mainMenuIndex) {
+  openingHours, //ES6 enhanced objects literals
+  order(starterMenuIndex, mainMenuIndex) {
     return [this.starterMenu[starterMenuIndex], this.mainMenu[mainMenuIndex]];
   },
-  openingHours: {
-    thu: {
-      open: 12,
-      close: 22,
-    },
-    fri: {
-      open: 11,
-      close: 23,
-    },
-    sat: {
-      open: 0, // Open 24 hours
-      close: 24,
-    },
-  },
-  orderDelivery: function ({
-    time = "20:00",
-    adress,
-    starterIndex = 1,
-    mainIndex = 0,
-  }) {
+  orderDelivery({ time = "20:00", adress, starterIndex = 1, mainIndex = 0 }) {
     console.log(
       `Order recived! ${this.starterMenu[starterIndex]} and ${this.mainMenu[mainIndex]} will be delivered to ${adress} at ${time}`
     );
@@ -45,9 +44,9 @@ const restaurant = {
 };
 
 // destructuring objects
-const { name, categories, openingHours } = restaurant;
+const { name, categories, openingHours: oh } = restaurant;
 console.log(name);
-console.log(openingHours);
+console.log(oh);
 console.log(categories);
 
 const {
@@ -304,6 +303,7 @@ console.log("Res 2 owner: ", res2.owner);
 console.log("Res 1 owner: ", res1.owner);
 
 ///
+console.log("--- FOR PRACTICE ---");
 const game = {
   team1: "Bayern Munich",
   team2: "Borrussia Dortmund",
@@ -379,3 +379,33 @@ printGoals(...game.scored);
 
 team1 > team2 || console.log(`${game.team1} is more likely to win`);
 team2 > team1 || console.log(`${game.team2} is more likely to win`);
+
+//loops
+console.log("--- FOR OF LOOP ---");
+const entireMenu = [...restaurant.starterMenu, ...restaurant.mainMenu];
+
+for (const item of entireMenu) console.log(item);
+
+for (const [index, item] of entireMenu.entries())
+  console.log(`${index + 1}: ${item}`);
+
+// console.log([...entireMenu.entries()]);
+
+// optional chaining
+console.log("--- OPTIONAL CHAINING ---");
+if (restaurant.openingHours && restaurant.openingHours.mon)
+  console.log(restaurant.openingHours.mon.open);
+
+// console.log(restaurant.openingHours.mon.open);
+console.log(restaurant.openingHours?.mon?.open);
+console.log(restaurant.openingHours.mon?.open);
+
+const daysInWeek = ["mon", "thu", "wed", "thru", "fri", "sat", "sun"];
+
+for (const day of days) {
+  // console.log(day);
+  const open = restaurant.openingHours[day]?.open ?? "closed";
+  console.log(`On ${day} we are open at: ${open}`);
+}
+
+// optional chaining on methods
