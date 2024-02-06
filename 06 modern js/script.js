@@ -33,6 +33,15 @@ const restaurant = {
       `Order recived! ${this.starterMenu[starterIndex]} and ${this.mainMenu[mainIndex]} will be delivered to ${adress} at ${time}`
     );
   },
+  orderPasta: function (ing1, ing2, ing3) {
+    console.log(
+      `Here is your delicious pasta with ${ing1}, ${ing2} and ${ing3}`
+    );
+  },
+  orderPizza: function (mainIng, ...others) {
+    console.log(mainIng);
+    console.log(others);
+  },
 };
 
 // destructuring objects
@@ -153,3 +162,76 @@ const newestMenu = [...restaurant.starterMenu, ...restaurant.mainMenu];
 console.log(newestMenu);
 
 // iterables: arrays, strings, maps, sets, NOT objects
+const string = "leonardo";
+const letters = [...string, " ", "S."];
+console.log(letters);
+
+console.log("l", "e", "o", "n", "a", "r", "d", "o");
+console.log(...string);
+
+//console.log(`${...string} Kov`); // can't
+
+///
+// const ings = [
+//   prompt("Ingredient 1: "),
+//   prompt("Ingredient 2: "),
+//   prompt("Ingredient 3: "),
+// ];
+
+// restaurant.orderPasta(...ings);
+
+//objects
+const newRestaurant = { founded: 1999, ...restaurant, founder: "Leo" };
+console.log(restaurant);
+console.log(newRestaurant);
+
+const restaurantCopy = { ...restaurant };
+restaurantCopy.name = "Leo's restaurant";
+console.log(restaurant.name);
+console.log(restaurantCopy.name);
+
+// SPREAD -> on RIGHT SIDE of =
+const array1 = [1, 2, ...[3, 4]];
+
+// REST -> on LEFT SIDE of =
+const [a1, b1, ...others] = [1, 2, 3, 4, 5, 6];
+
+console.log(array1);
+console.log(a1);
+console.log(b1);
+console.log(others);
+
+const [pizza, , risotto, ...starterMeals] = [
+  ...restaurant.mainMenu,
+  ...restaurant.starterMenu,
+];
+
+console.log(pizza);
+console.log(risotto);
+console.log(starterMeals);
+
+///
+const { sat, ...weekdays } = restaurant.openingHours;
+console.log(sat, weekdays);
+
+///
+const add = function (...numbers) {
+  console.log(numbers);
+  let sum = 0;
+  for (let i = 0, n = numbers.length; i < n; i++) {
+    sum += numbers[i];
+  }
+  return sum;
+};
+
+add(2, 3);
+add(2, 4, 5, 4, 3);
+add(3, 4, 2, 4, 5, 4, 3, 2);
+
+console.log(add(2, 3));
+console.log(add(2, 4, 5, 4, 3));
+console.log(add(3, 4, 2, 4, 5, 4, 3, 2));
+
+///
+restaurant.orderPizza("cheese", "onion", "spinach");
+restaurant.orderPizza("cheese");
