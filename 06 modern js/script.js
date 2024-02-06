@@ -1,4 +1,4 @@
-"use strict";
+/* "use strict";
 
 const restaurant = {
   name: "Classico Italiano",
@@ -235,3 +235,71 @@ console.log(add(3, 4, 2, 4, 5, 4, 3, 2));
 ///
 restaurant.orderPizza("cheese", "onion", "spinach");
 restaurant.orderPizza("cheese");
+
+// short circuting
+console.log("--- OR ---");
+console.log(3 || "Leo");
+console.log("" || "Leo");
+console.log(true || 0);
+console.log(undefined || null);
+console.log(null || undefined);
+console.log(null || undefined || "" || 0 || "Hello" || 23 || null);
+
+restaurant.numGuests = 23;
+const guests1 = restaurant.numGuests ? restaurant.numGuests : 10;
+console.log(guests1);
+
+restaurant.numGuests = 0;
+const guests2 = restaurant.numGuests || 10;
+console.log(guests2);
+
+// nullish: null and undefined
+const guestsCorrect = restaurant.numGuests ?? 10;
+console.log(guestsCorrect);
+
+///
+console.log("--- AND ---");
+console.log(0 && "Leo");
+console.log(7 && "Leo");
+console.log(7 && "Leo" && 23 && null && "Hello" && undefined);
+
+if (restaurant.orderPizza) restaurant.orderPizza("cheese", "onion");
+
+restaurant.orderPizza && restaurant.orderPizza("cheese", "onion");
+
+///
+const res1 = {
+  name: "Rustica",
+  numGuests: 20,
+  numGuests: 0, // falsy value
+};
+
+const res2 = {
+  name: "Piazza",
+  owner: "Leo Kov",
+};
+
+// OR assignment operator
+// res1.numGuests = res1.numGuests || 10;
+// res2.numGuests = res2.numGuests || 10;
+
+// res1.numGuests ||= 10; //gets tricked by falsy value
+// res2.numGuests ||= 10; //gets tricked by falsy value
+
+// nullish assignment operator
+res1.numGuests ??= 10; //works with falsy values
+res2.numGuests ??= 10; //works with falsy values
+
+console.log("Res 1: ", res1.numGuests);
+console.log("Res 2: ", res2.numGuests);
+
+// AND assignment operator
+// res2.owner = res2.owner && "<ANONYMOUS>";
+// res1.owner = res1.owner && "<ANONYMOUS>";
+
+res1.owner &&= "<ANONYMOUS>";
+res2.owner &&= "<ANONYMOUS>";
+
+console.log("Res 2 owner: ", res2.owner);
+console.log("Res 1 owner: ", res1.owner);
+ */

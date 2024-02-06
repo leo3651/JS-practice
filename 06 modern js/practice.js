@@ -1,4 +1,4 @@
-/* "use strict";
+"use strict";
 
 const books = [
   {
@@ -288,4 +288,50 @@ printBookInfo({
   title: "Algorithms",
   author: "Robert Sedgewick",
 });
- */
+
+// spread operator
+const bookAuthors = [...books[0].author, ...books[1].author];
+console.log(bookAuthors);
+
+///
+const spellWord = function (string) {
+  console.log(...string);
+};
+
+spellWord("JavaScript");
+
+// rest pattern
+const [mainWord, ...rest] = books[0].keywords;
+console.log(mainWord);
+console.log(rest);
+
+///
+const { publisher: bookPublisher, ...restOfTheBook } = books[1];
+console.log(bookPublisher);
+console.log(restOfTheBook);
+
+///
+const printBookAuthorsCount = function (title, ...authors) {
+  console.log(`The book ${title} has ${authors.length} authors`);
+};
+
+printBookAuthorsCount("Algorithms", "Robert Sedgewick", "Kevin Wayne");
+printBookAuthorsCount("Leo's book");
+
+// short circuting
+const hasExamplesInJava = function (book) {
+  return book.programmingLanguage === "Java" || "No data available";
+};
+
+console.log(hasExamplesInJava(books[0]));
+console.log(hasExamplesInJava(books[1]));
+
+for (let i = 0, n = books.length; i < n; i++) {
+  books[i].onlineContent &&
+    console.log(`${books[i].title} privides online content`);
+}
+
+for (let i = 0, n = books.length; i < n; i++) {
+  books[i].onlineContent ??
+    console.log(`${books[i].title} provides no data about online content`);
+}
