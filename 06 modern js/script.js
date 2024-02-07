@@ -380,6 +380,26 @@ printGoals(...game.scored);
 team1 > team2 || console.log(`${game.team1} is more likely to win`);
 team2 > team1 || console.log(`${game.team2} is more likely to win`);
 
+for (const [index, name] of game.scored.entries()) {
+  console.log(`Goal ${index + 1}: ${name}`);
+}
+
+let average = 0;
+const odds = Object.entries(game.odds);
+const oddsValues = Object.values(game.odds);
+console.log(oddsValues);
+for (const value of oddsValues) {
+  average += value;
+}
+console.log(average);
+average /= oddsValues.length;
+console.log(average);
+
+for (const [key, value] of odds) {
+  const str = key === "x" ? "draw" : `victory of ${game[key]}`;
+  console.log(`Odd of ${str} ${value}`);
+}
+
 //loops
 console.log("--- FOR OF LOOP ---");
 const entireMenu = [...restaurant.starterMenu, ...restaurant.mainMenu];
@@ -443,3 +463,43 @@ console.log(entries);
 for (const [key, { open, close }] of entries) {
   console.log(`On ${key} we opet at ${open} and colse at ${close}`);
 }
+
+// sets
+const ordersSet = new Set([
+  "Pasta",
+  "Pizza",
+  "Risotto",
+  "Pasta",
+  "Pizza",
+  "Risotto",
+]);
+console.log(ordersSet);
+console.log(ordersSet[2]); //undefined
+
+console.log(new Set("Leo"));
+
+console.log(ordersSet.size);
+console.log(ordersSet.has("Pizza"));
+console.log(ordersSet.has("Garlic Bread"));
+ordersSet.add("Garlic Bread");
+ordersSet.add("Garlic Bread");
+ordersSet.delete("Risotto");
+console.log(ordersSet);
+
+for (const item of ordersSet) {
+  console.log(item);
+}
+
+ordersSet.clear();
+console.log(ordersSet);
+
+const staff = ["Waiter", "Chef", "Manager", "Waiter", "Chef", "Manager"];
+let staffSet = new Set(staff);
+console.log(staffSet);
+staffSet = [...staffSet];
+console.log(staffSet);
+console.log(new Set(staff).size);
+console.log(
+  new Set(["Waiter", "Chef", "Manager", "Waiter", "Chef", "Manager"]).size
+);
+console.log(new Set("Leo Kovacevic").size);

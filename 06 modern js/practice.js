@@ -1,4 +1,4 @@
-"use strict";
+/* "use strict";
 
 const books = [
   {
@@ -417,3 +417,19 @@ for (const [index, value] of Object.values(
   entries2[index].push(value);
 }
 console.log(entries2);
+
+///
+const entries3 = [];
+for (const key of Object.entries(books[0].thirdParty.goodreads)) {
+  console.log(key);
+  entries3.push(key);
+}
+console.log(entries3);
+
+///
+const entries4 = Object.entries(books[0].thirdParty.goodreads);
+
+console.log(entries2);
+console.log(entries3);
+console.log(entries4);
+ */
