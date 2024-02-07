@@ -1,4 +1,4 @@
-/* "use strict";
+"use strict";
 
 const books = [
   {
@@ -393,4 +393,27 @@ const newBook2 = {
 };
 
 console.log(newBook2);
- */
+
+// optional chaining
+const getFirstKeyword = function (book) {
+  return book.keywords?.[0] ?? "Does not exists";
+};
+
+console.log(getFirstKeyword(books[0]));
+
+//looping objects
+const entries2 = [];
+
+for (const key of Object.keys(books[0].thirdParty.goodreads)) {
+  console.log(key);
+  entries2.push([key]);
+}
+console.log(entries2);
+
+for (const [index, value] of Object.values(
+  books[0].thirdParty.goodreads
+).entries()) {
+  console.log(index, value);
+  entries2[index].push(value);
+}
+console.log(entries2);

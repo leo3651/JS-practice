@@ -404,8 +404,42 @@ const daysInWeek = ["mon", "thu", "wed", "thru", "fri", "sat", "sun"];
 
 for (const day of days) {
   // console.log(day);
-  const open = restaurant.openingHours[day]?.open ?? "closed";
+  const open = restaurant.openingHours?.[day]?.open ?? "closed";
   console.log(`On ${day} we are open at: ${open}`);
 }
 
 // optional chaining on methods
+console.log(restaurant.order?.(1, 1) ?? "Method does not exists");
+console.log(restaurant.orderRisotto?.(1, 1) ?? "Method does not exists");
+
+// optional chaining on arrays
+const users = [{ name: "Leo", email: "leo.kowacevic@" }];
+
+console.log(users[0]?.["name"] ?? "User does not exist");
+
+console.log(users[0]?.["number"] ?? "User does not exist");
+
+// looping objects
+const properties = Object.keys(openingHours);
+console.log(properties);
+
+console.log(`We are open ${properties.length} days per week`);
+
+let openStr = `We are open ${properties.length} days per week:`;
+
+for (const day of Object.keys(openingHours)) {
+  console.log(day);
+  openStr += ` ${day},`;
+}
+console.log(openStr);
+
+///
+const values = Object.values(openingHours);
+console.log(values);
+
+const entries = Object.entries(openingHours);
+console.log(entries);
+
+for (const [key, { open, close }] of entries) {
+  console.log(`On ${key} we opet at ${open} and colse at ${close}`);
+}
