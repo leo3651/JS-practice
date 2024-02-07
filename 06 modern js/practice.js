@@ -1,4 +1,4 @@
-/* "use strict";
+"use strict";
 
 const books = [
   {
@@ -301,9 +301,9 @@ const spellWord = function (string) {
 spellWord("JavaScript");
 
 // rest pattern
-const [mainWord, ...rest] = books[0].keywords;
+const [mainWord, ...allOthers] = books[0].keywords;
 console.log(mainWord);
-console.log(rest);
+console.log(allOthers);
 
 ///
 const { publisher: bookPublisher, ...restOfTheBook } = books[1];
@@ -432,4 +432,49 @@ const entries4 = Object.entries(books[0].thirdParty.goodreads);
 console.log(entries2);
 console.log(entries3);
 console.log(entries4);
- */
+
+// sets
+const allKeywords = [];
+for (const book of books) {
+  allKeywords.push(...book.keywords);
+}
+console.log(allKeywords);
+
+const uniqueKeywords = new Set(allKeywords);
+console.log(uniqueKeywords);
+
+uniqueKeywords.add("coding");
+uniqueKeywords.add("science");
+console.log(uniqueKeywords);
+
+uniqueKeywords.delete("business");
+console.log(uniqueKeywords);
+
+const uniqueKeywordsArr = [...uniqueKeywords];
+console.log(uniqueKeywordsArr);
+
+uniqueKeywords.clear();
+console.log(uniqueKeywords);
+console.log(uniqueKeywordsArr);
+
+// maps
+const bookMap = new Map([
+  ["title", "Clean Code"],
+  ["author", "Robert C. Martin"],
+]);
+console.log(bookMap);
+bookMap.set("pages", 464);
+console.log(bookMap);
+
+console.log(`${bookMap.get("title")} by ${bookMap.get("author")}`);
+
+console.log(bookMap.size);
+
+bookMap.has("author") && console.log("The author of book is known");
+
+const firstBookMap = new Map(Object.entries(books[0]));
+console.log(firstBookMap);
+
+for (const [key, value] of firstBookMap) {
+  if (typeof value === "number") console.log(key);
+}

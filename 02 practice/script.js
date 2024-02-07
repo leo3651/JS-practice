@@ -1,5 +1,5 @@
-"use strict";
-/* 
+/* "use strict";
+
 ////////////////////////
 ///////STRICT MODE
 ////////////////////////
@@ -7,13 +7,11 @@ let hasDriversLicense = false;
 const passTest = true;
 
 if (passTest) hasDriversLicense = true;
-if (hasDriversLicense) console.log("I can drive"); 
+if (hasDriversLicense) console.log("I can drive");
 
 //const interface = "Audio";
 //const private = 534;
 //const if = 44;
-
-
 
 ////////////////////////
 ///////FUNCTIONS
@@ -40,7 +38,6 @@ console.log(appleJuice);
 const appleOrangeJuice = fruitProcessor(3, 5);
 console.log(appleOrangeJuice);
 
-
 //function declaration
 const age = calcAge1(1991);
 function calcAge1(birthYear) {
@@ -48,7 +45,6 @@ function calcAge1(birthYear) {
 }
 const age1 = calcAge1(1991);
 console.log(age1);
-
 
 //function expression
 //Can't be called before expression: const age2FromExpression = calcAge2(1991);
@@ -59,12 +55,10 @@ const age2 = calcAge2(1991);
 
 console.log(age, age1, age2);
 
-
 //function expression
 const calcAge3 = function (birthYear) {
   return 2037 - birthYear;
 };
-
 
 //arrow function
 const calcAge4 = (birthYear) => 2037 - birthYear;
@@ -79,7 +73,6 @@ const yearsUntilRetirement = (birthYear, firstName) => {
 };
 console.log(yearsUntilRetirement(1999, "Leo"));
 console.log(yearsUntilRetirement(1995, "Mia"));
-
 
 //Function calling other functions
 const cutPieces = function (fruit) {
@@ -131,8 +124,6 @@ function checkWinner(avgDolphins, avgKoalas) {
 
 checkWinner(scoreDolphins, scoreKoalas);
 
-
-
 ////////////////////////
 ///////ARRAYS
 ////////////////////////
@@ -175,7 +166,6 @@ const ages = [
 ];
 console.log(ages);
 
-
 //add elements
 const newLength = friends.push("Joy");
 console.log(friends);
@@ -183,7 +173,6 @@ console.log(newLength);
 
 friends.unshift("Marinko");
 console.log(friends);
-
 
 //remove elements
 friends.pop;
@@ -230,8 +219,6 @@ const calcTotals = function (bills, tips) {
 calcTip(bills);
 calcTotals(bills, tips);
 console.log(bills, tips, totals);
-
-
 
 ////////////////////////
 ///////OBJECTS
@@ -370,8 +357,6 @@ console.log(
   }`
 );
 
-
-
 ////////////////////////
 ///////LOOPS
 ////////////////////////
@@ -416,7 +401,6 @@ for (let i = 0, n = years.length; i < n; i++) {
 
 console.log(ages);
 
-
 //continue and break
 console.log("--- ONLY STRINGS ---");
 for (let i = 0, n = leosArray.length; i < n; i++) {
@@ -429,7 +413,6 @@ for (let i = 0, n = leosArray.length; i < n; i++) {
   if (typeof leosArray[i] === "number") break;
   console.log(leosArray[i], typeof leosArray[i]);
 }
-
 
 //loop backwards
 const leosArray2 = [
@@ -505,4 +488,4 @@ const calculateAverage = function (array) {
 console.log(calculateAverage(bills));
 console.log(calculateAverage(tips));
 console.log(calculateAverage(totals));
-*/
+ */
