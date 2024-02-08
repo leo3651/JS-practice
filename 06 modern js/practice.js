@@ -478,3 +478,86 @@ console.log(firstBookMap);
 for (const [key, value] of firstBookMap) {
   if (typeof value === "number") console.log(key);
 }
+
+// strings
+console.log("--- dot ---");
+console.log(books[0].ISBN["6"]);
+console.log(books[0].ISBN["4"]);
+console.log(books[0].ISBN["9"]);
+console.log(books[0].ISBN["8"]);
+console.log("--- bracket ---");
+console.log(books[0]["ISBN"][6]);
+console.log(books[0]["ISBN"][4]);
+console.log(books[0]["ISBN"][9]);
+console.log(books[0]["ISBN"][8]);
+
+const quote =
+  "A computer once beat me at chess, but it was no match for me at kick boxing";
+console.log(quote.indexOf("chess"));
+console.log(quote[27]);
+console.log(quote.slice(quote.lastIndexOf("b")));
+console.log(quote.lastIndexOf("boxing"));
+
+///
+const isContributor = function (string) {
+  if (string.toLowerCase().endsWith("(contributor)")) return true;
+  else return false;
+};
+
+console.log(isContributor("Julie Sussman (Contributor)"));
+console.log(isContributor("Robert Sedgewick"));
+
+///
+const normalizeAuthorName = function (author) {
+  let authorTrimmed = author.toLowerCase();
+  if (authorTrimmed.includes("(contributor)")) {
+    authorTrimmed = authorTrimmed.slice(
+      0,
+      authorTrimmed.indexOf("(contributor)") - 1
+    );
+  }
+  authorTrimmed = authorTrimmed.trim();
+  const firstName =
+    authorTrimmed[0].toUpperCase() +
+    authorTrimmed.slice(1, authorTrimmed.indexOf(" "));
+  const lastName =
+    authorTrimmed[authorTrimmed.lastIndexOf(" ") + 1].toUpperCase() +
+    authorTrimmed.slice(authorTrimmed.lastIndexOf(" ") + 2);
+
+  return firstName + " " + lastName;
+};
+
+console.log(
+  normalizeAuthorName("   JuliE sussMan          (Contributor)     ")
+);
+console.log(normalizeAuthorName("  JuliE suSSsMan (Contributor)   "));
+console.log(normalizeAuthorName("  JuliE    suSSsMan     (Contributor)   "));
+
+///
+const newBookTitle = books[1].title.replace(books[1].title, "Software");
+console.log(newBookTitle);
+
+///
+const logBookTheme = function (title) {
+  const lowerTitle = title.toLowerCase();
+  if (lowerTitle.startsWith("computer")) {
+    console.log("This book is about computers");
+  } else if (
+    lowerTitle.includes("algorithms") &&
+    lowerTitle.includes("structures")
+  ) {
+    console.log("This book is about algorithms and data structures");
+  } else if (
+    (lowerTitle.includes("system") || lowerTitle.includes("systems")) &&
+    !lowerTitle.includes("operating")
+  ) {
+    console.log(
+      "This book is about some systems, but definitely not about operating systems"
+    );
+  }
+};
+
+for (const book of books) {
+  console.log(book.title);
+  logBookTheme(book.title);
+}
