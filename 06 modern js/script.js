@@ -625,7 +625,7 @@ console.log([...question.entries()]);
 console.log([...question.keys()]);
 console.log([...question.values()]);
 
-// Working with strings
+// working with strings
 const airline = "TAP Air Portugal";
 const plane = "A320";
 
@@ -734,3 +734,63 @@ const checkBaggage = function (items) {
 checkBaggage("I have a laptop, some Food and a Pocket kniFe.");
 checkBaggage("I have my clothes and my proffesional camera");
 checkBaggage("I have some snacks and a gun for self defense");
+
+// split and join
+console.log("a+very+nice+strin".split("+"));
+console.log("Leo Kovacevic".split(" "));
+
+const [firstName, lastName] = "Leo Kovacevic".split(" ");
+console.log(firstName);
+console.log(lastName);
+
+const newName = ["---", "Mr." + firstName, lastName.toUpperCase(), "---"].join(
+  " "
+);
+console.log(newName);
+
+///
+const traveller = "jessica mary jane smith";
+const capitalizeName = function (name) {
+  const capitalizedName = [];
+  const nameArray = name.split(" ");
+  for (let n of nameArray) {
+    // capitalizedName.push(n[0].toUpperCase() + n.slice(1).toLowerCase()); // or
+    n = n.toLowerCase();
+    capitalizedName.push(n.replace(n[0], n[0].toUpperCase()));
+    // console.log(capitalizedName);
+  }
+  return capitalizedName.join(" ");
+};
+
+console.log(capitalizeName(traveller));
+console.log(capitalizeName("lEo KoVAcevic"));
+console.log(capitalizeName("peTar MarKovic preradovic"));
+console.log(capitalizeName("marko marulic dubrovcanin"));
+
+// padding
+const message = "Go to gate 23!";
+console.log(message.padStart(33, "-").padEnd(66, "-"));
+console.log("Leo".padStart(33, "-").padEnd(66, "+"));
+
+const maskCreditCard = function (number) {
+  const str = number + "";
+  const last4digit = str.slice(-4);
+  return last4digit.padStart(str.length, "*");
+};
+
+console.log(maskCreditCard(43432423423453));
+console.log(maskCreditCard("35893279587239"));
+console.log(maskCreditCard("35893"));
+
+// repeat
+const message2 = "Bad waether... All Departues Delayed... ";
+console.log(message2.repeat(6));
+
+const planesInLine = function (n) {
+  console.log(`There are ${n} planes waiting in line ${"✈".repeat(n)}`);
+};
+
+planesInLine(3);
+planesInLine(7);
+planesInLine(12);
+planesInLine(4);
