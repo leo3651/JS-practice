@@ -491,6 +491,8 @@ for (const day of Object.keys(openingHours)) {
   openStr += ` ${day},`;
 }
 console.log(openStr);
+const openStrCorrectSentence = `${openStr.slice(1, -1)}.`;
+console.log(openStrCorrectSentence);
 
 ///
 const values = Object.values(openingHours);
@@ -650,3 +652,85 @@ console.log(airline.slice(airline.lastIndexOf(" ") + 1));
 console.log(airline.slice(-2));
 console.log(airline.slice(1, -2));
 console.log(airline.slice(1, -1));
+
+const checkMiddleSeat = function (seat) {
+  const row = seat.slice(-1);
+  if (row === "B" || row === "E") console.log("Middle seat");
+  else console.log("You got lucky");
+};
+checkMiddleSeat("11B");
+checkMiddleSeat("17C");
+checkMiddleSeat("6E");
+
+console.log(new String("Leo"));
+console.log(typeof new String("Leo")); // conversion to object behind the scenes
+console.log(typeof new String("Leo").slice(-1)); // method returns primitive: string
+
+console.log(airline.toLowerCase());
+console.log(airline.toUpperCase());
+
+// fix capitalization
+const passenger = "lEonaRDo";
+const passengerLower = passenger.toLocaleLowerCase();
+const correctPassenger =
+  passengerLower[0].toUpperCase() + passengerLower.slice(1);
+console.log(passenger);
+console.log(passengerLower);
+console.log(correctPassenger);
+
+const fixCapitalization = function (name) {
+  return name[0].toUpperCase() + name.toLocaleLowerCase().slice(1);
+};
+console.log(fixCapitalization("leoNArdO"));
+
+// compare emails
+const email = "hello.leo@gmail.com";
+const loginMail = "  HeLLo.Leo@gmail.com \n";
+
+const lowerMail = loginMail.toLowerCase();
+console.log(loginMail);
+const trimmedMail = lowerMail.trim();
+console.log(trimmedMail);
+
+const comperableEmail = loginMail.toLowerCase().trim();
+console.log(comperableEmail);
+comperableEmail === email && console.log("Correct email");
+console.log(comperableEmail === email || false);
+
+// replacing
+const priceCRO = "274,63🎁";
+const priceUSA = priceCRO.replace(",", ".").replace("🎁", "$");
+console.log(priceCRO);
+console.log(priceUSA);
+
+const annoucement =
+  "All passengers come to boarding door 23. Boarding door 23!";
+console.log(annoucement);
+console.log(annoucement.replace("door", "gate")); // case sensitive
+console.log(annoucement.replace(/door/g, "gate"));
+console.log(annoucement.replaceAll("door", "gate"));
+
+// returns boolean
+const airPlane = "Airbus A320neo";
+console.log(airPlane.includes("A320"));
+console.log(airPlane.includes("Boeing"));
+console.log(airPlane.includes("neo"));
+console.log(airPlane.includes("NEo")); // case sensitive
+console.log(airPlane.startsWith("Air"));
+console.log(airPlane.startsWith("Airb"));
+console.log(airPlane.startsWith("Airbsu"));
+
+if (airPlane.startsWith("Air") && airPlane.endsWith("A320neo"))
+  console.log("New Plane");
+
+///
+const checkBaggage = function (items) {
+  const baggage = items.toLowerCase();
+  if (baggage.includes("gun") || baggage.includes("knife"))
+    console.log("NOT allowed to plane");
+  else console.log("Allowed to board");
+};
+
+checkBaggage("I have a laptop, some Food and a Pocket kniFe.");
+checkBaggage("I have my clothes and my proffesional camera");
+checkBaggage("I have some snacks and a gun for self defense");
