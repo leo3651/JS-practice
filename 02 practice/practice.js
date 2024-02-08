@@ -1,6 +1,6 @@
 "use strict";
 
-//functions
+// functions
 const describeCountry = function (country, population, capitalCity) {
   return `${country} has popultaion of ${population} people and it's capital city is ${capitalCity}`;
 };
@@ -13,7 +13,7 @@ console.log(cro);
 console.log(germany);
 console.log(montenegro);
 
-//function declaration
+// function declaration
 function percentageOfWorld1(population) {
   return `${
     Math.round((population / 7900) * 10000) / 100
@@ -28,7 +28,7 @@ console.log("World 1 function: ", chinaPercentageOfWorld);
 console.log("World 1 function: ", germanyPercentageOfWorld);
 console.log("World 1 function: ", croPercentageOfWorld);
 
-//function expression
+// function expression
 const percentageOfWorld2 = function (population) {
   return `${
     Math.round((population / 7900) * 10000) / 100
@@ -43,7 +43,7 @@ console.log("World 2 function: ", chinaPercentageOfWorld2);
 console.log("World 2 function: ", germanyPercentageOfWorld2);
 console.log("World 2 function: ", croPercentageOfWorld2);
 
-//arrow function
+// arrow function
 const percentageOfWorld3 = (population) => {
   return `${
     Math.round((population / 7900) * 10000) / 100
@@ -58,7 +58,7 @@ console.log(chinaPercentageOfWorld3);
 console.log(germanyPercentageOfWorld3);
 console.log(croPercentageOfWorld3);
 
-//func calling func
+// func calling func
 const describePopulation = function (country, population) {
   const percentage = percentageOfWorld1(population);
   return `${country} has population of ${population} million people which is about ${percentage}% of the world `;
@@ -72,7 +72,7 @@ console.log(chinaPercent);
 console.log(germanyPercent);
 console.log(croPercent);
 
-//arrays
+// arrays
 const populations = [4, 60, 1441, 80];
 console.log(populations.length === 4);
 const percentages = [];
@@ -103,7 +103,7 @@ neighbours.includes("Germany")
 neighbours[neighbours.indexOf("Italy")] = "Italija";
 console.log(neighbours);
 
-//objects
+// objects
 const myCountry = {
   country: "Croatia",
   capital: "Zagreb",
@@ -135,7 +135,7 @@ myCountry.describe();
 myCountry.checkIsland();
 console.log(myCountry.isIsland);
 
-//loops
+// loops
 for (let i = 0; i < 50; i++) {
   console.log("Voter number " + (i + 1) + " is currently voting");
 }
@@ -171,7 +171,7 @@ while (i != populations3.length) {
 }
 console.log(percentages3);
 
-///Find amplitude
+/// find amplitude
 const temperatures1 = [3, -2, -6, -1, "error", 9, 13, 17, 15, 14, 9, 5];
 const temperatures2 = [-10, 20, "error"];
 
@@ -231,7 +231,7 @@ printForecast(t2);
 
 // hoistnig and tdz
 
-//variables
+// variables
 console.log(me); // undefined
 // console.log(job); // reference error
 // console.log(year); // reference error
@@ -240,7 +240,7 @@ var me = "leo";
 let job = "programmer";
 const year = 1999;
 
-//functions
+// functions
 console.log(addDecl(4, 5)); // 9
 // console.log(addExpr(4, 5)); // reference error
 // console.log(addArrow(4, 5)); // reference error
@@ -271,7 +271,7 @@ var addArrow2 = (a, b) => {
 
 console.log(addArrow2);
 
-//Where bug might occur
+// Where bug might occur
 console.log(numProduct);
 if (!numProduct) deleteShoppingChart(); // deletes it because numProduct set to falsy value undefined before 276 line
 var numProduct = 10;
@@ -293,7 +293,7 @@ console.log(this); // window object
 
 const thisFunction = function (birthYear) {
   console.log(2024 - birthYear);
-  console.log(this); //undefinded in strict mode
+  console.log(this); // undefinded in strict mode
 };
 
 thisFunction(1999);
@@ -326,7 +326,7 @@ const f = matildaObject.calcAge;
 // f(); // this -> undefined
 
 ///
-var firstName = "Matilda";
+var firstNameVar = "Matilda";
 const thisObjectLeo2 = {
   firstName: "Leo",
   year: 1999,
@@ -349,7 +349,7 @@ const thisObjectLeo2 = {
   },
   greet: () => {
     console.log(this); // window object
-    console.log(`Hey ${this.firstName}`); // Matilda because var firstName made property on window obj, without var -> undefined
+    console.log(`Hey ${this.firstNameVar}`); // Matilda because var firstName made property on window obj, without var -> undefined
   },
 };
 
@@ -366,7 +366,7 @@ expressionFunc(2, 5);
 expressionFunc(2, 5, 4, 7);
 
 const arrowFunc = (a, b) => {
-  // console.log(arguments); //not available at arrow func
+  // console.log(arguments); // not available at arrow func
   return a + b;
 };
 
@@ -394,7 +394,7 @@ marriedMaria.lastName = "Preradovic";
 console.log("Before marrige: ", maria);
 console.log("After marrige: ", marriedMaria);
 
-//marriedMaria = {}; //const -> can't change value in the stack(reference to object), let ? can
+// marriedMaria = {}; //const -> can't change value in the stack(reference to object), let ? can
 
 // copying objects
 const maria2 = {
@@ -404,7 +404,7 @@ const maria2 = {
   family: ["Petar", "Zoran", "Marinko"],
 };
 
-const mariaCopy = Object.assign({}, maria2); //shallow copy
+const mariaCopy = Object.assign({}, maria2); // shallow copy
 mariaCopy.lastName = "Preradovic";
 console.log(maria2);
 console.log(mariaCopy);

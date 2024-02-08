@@ -1,4 +1,4 @@
-/* "use strict";
+"use strict";
 
 ////////////////////////
 ///////STRICT MODE
@@ -38,7 +38,7 @@ console.log(appleJuice);
 const appleOrangeJuice = fruitProcessor(3, 5);
 console.log(appleOrangeJuice);
 
-//function declaration
+// function declaration
 const age = calcAge1(1991);
 function calcAge1(birthYear) {
   return 2037 - birthYear;
@@ -46,8 +46,8 @@ function calcAge1(birthYear) {
 const age1 = calcAge1(1991);
 console.log(age1);
 
-//function expression
-//Can't be called before expression: const age2FromExpression = calcAge2(1991);
+// function expression
+// Can't be called before expression: const age2FromExpression = calcAge2(1991);
 const calcAge2 = function (birthYear) {
   return 2037 - birthYear;
 };
@@ -55,12 +55,12 @@ const age2 = calcAge2(1991);
 
 console.log(age, age1, age2);
 
-//function expression
+// function expression
 const calcAge3 = function (birthYear) {
   return 2037 - birthYear;
 };
 
-//arrow function
+// arrow function
 const calcAge4 = (birthYear) => 2037 - birthYear;
 const age4 = calcAge4(1991);
 console.log(calcAge3(1991), age4);
@@ -68,13 +68,13 @@ console.log(calcAge3(1991), age4);
 const yearsUntilRetirement = (birthYear, firstName) => {
   const age = 2024 - birthYear;
   const retirement = 65 - age;
-  //return retirement;
+  // return retirement;
   return `${firstName} retires in ${retirement} years`;
 };
 console.log(yearsUntilRetirement(1999, "Leo"));
 console.log(yearsUntilRetirement(1995, "Mia"));
 
-//Function calling other functions
+// function calling other functions
 const cutPieces = function (fruit) {
   return fruit * 4;
 };
@@ -130,10 +130,10 @@ checkWinner(scoreDolphins, scoreKoalas);
 const friends = ["Michael", "Steven", "Peter"];
 console.log(friends);
 
-const years = new Array(1991, 1984, 1999, 2024);
+const yearsArr = new Array(1991, 1984, 1999, 2024);
 
 console.log(friends[0], friends[2]);
-console.log(years[0], years[2]);
+console.log(yearsArr[0], yearsArr[2]);
 
 console.log(friends.length);
 console.log(friends[friends.length - 1]);
@@ -166,7 +166,7 @@ const ages = [
 ];
 console.log(ages);
 
-//add elements
+// add elements
 const newLength = friends.push("Joy");
 console.log(friends);
 console.log(newLength);
@@ -174,7 +174,7 @@ console.log(newLength);
 friends.unshift("Marinko");
 console.log(friends);
 
-//remove elements
+// remove elements
 friends.pop;
 const popedElement = friends.pop();
 console.log(popedElement);
@@ -238,7 +238,7 @@ console.log(objectLeo["lastName"]);
 const nameKey = "Name";
 console.log(objectLeo["first" + nameKey]);
 console.log(objectLeo["last" + nameKey]);
-//WRONG: console.log(objectLeo."first" + nameKey)
+// WRONG: console.log(objectLeo."first" + nameKey)
 
 const interestedIn = prompt(
   "What do you want to know about Leo. Choose between first name, last name, friends, job and age"
@@ -262,7 +262,7 @@ console.log(
 
 ///
 const objLeo = {
-  //properties
+  // properties
   firstName: "Leo",
   lastName: "Kov",
   birthYear: 1999,
@@ -270,7 +270,7 @@ const objLeo = {
   friends: ["Peter Parker", "Iron Man", "Batman"],
   hasDriversLicense: false,
 
-  //methods
+  // methods
   calcAge: function (birthYear) {
     return 2024 - birthYear;
   },
@@ -311,12 +311,12 @@ console.log(
 );
 console.log("calcAge2: ", objLeo.calcAge2());
 
-//it' computed every time
+// it' computed every time
 objLeo.calcAge2();
 objLeo.calcAge2();
 objLeo.calcAge2();
 
-//it's computed just once
+// it's computed just once
 objLeo.calcAge3();
 console.log(objLeo.age);
 console.log(objLeo.age);
@@ -384,7 +384,7 @@ const types2 = [];
 for (let i = 0, n = leosArray.length; i < n; i++) {
   console.log(leosArray[i], typeof leosArray[i]);
   types[i] = typeof leosArray[i];
-  //or
+  // or
   types2.push(typeof leosArray[i]);
 }
 
@@ -393,15 +393,15 @@ console.log(types2);
 
 ///
 const years = [1999, 2004, 2008, 2011];
-const ages = [];
+const agesArr = [];
 
 for (let i = 0, n = years.length; i < n; i++) {
-  ages[i] = 2024 - years[i];
+  agesArr[i] = 2024 - years[i];
 }
 
-console.log(ages);
+console.log(agesArr);
 
-//continue and break
+// continue and break
 console.log("--- ONLY STRINGS ---");
 for (let i = 0, n = leosArray.length; i < n; i++) {
   if (typeof leosArray[i] !== "string") continue;
@@ -414,7 +414,7 @@ for (let i = 0, n = leosArray.length; i < n; i++) {
   console.log(leosArray[i], typeof leosArray[i]);
 }
 
-//loop backwards
+// loop backwards
 const leosArray2 = [
   "Leo",
   "Kov",
@@ -429,7 +429,7 @@ for (let n = leosArray2.length - 1, i = n; i >= 0; i--) {
   console.log(i, leosArray2[i]);
 }
 
-//loop inside a loop
+// loop inside a loop
 for (let exercise = 0; exercise < 3; exercise++) {
   console.log(`---Starting exercise ${exercise + 1}---`);
   for (let repetition = 0; repetition < 10; repetition++) {
@@ -461,20 +461,20 @@ while (dice !== 6) {
 }
 
 ///
-const bills = [22, 295, 176, 440, 37, 105, 10, 1100, 86, 52];
-const tips = [];
-const totals = [];
+const bills2 = [22, 295, 176, 440, 37, 105, 10, 1100, 86, 52];
+const tips2 = [];
+const totals2 = [];
 
 const calculateTips = function (a) {
   return a >= 50 && a <= 300 ? 0.15 * a : 0.2 * a;
 };
 
 for (let i = 0, n = bills.length; i < n; i++) {
-  tips.push(calculateTips(bills[i]));
-  totals.push(bills[i] + tips[i]);
+  tips.push(calculateTips(bills2[i]));
+  totals.push(bills2[i] + tips2[i]);
 }
 
-console.log("Tips: " + tips, "Totals: " + totals);
+console.log("Tips: " + tips2, "Totals: " + totals2);
 
 const calculateAverage = function (array) {
   let totalSum = 0;
@@ -485,7 +485,6 @@ const calculateAverage = function (array) {
   return totalSum / n;
 };
 
-console.log(calculateAverage(bills));
-console.log(calculateAverage(tips));
-console.log(calculateAverage(totals));
- */
+console.log(calculateAverage(bills2));
+console.log(calculateAverage(tips2));
+console.log(calculateAverage(totals2));

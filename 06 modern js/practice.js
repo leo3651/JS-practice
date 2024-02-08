@@ -401,7 +401,7 @@ const getFirstKeyword = function (book) {
 
 console.log(getFirstKeyword(books[0]));
 
-//looping objects
+// looping objects
 const entries2 = [];
 
 for (const key of Object.keys(books[0].thirdParty.goodreads)) {

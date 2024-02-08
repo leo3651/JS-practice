@@ -12,7 +12,7 @@ const openingHours = {
     close: 23,
   },
   sat: {
-    open: 0, // Open 24 hours
+    open: 0, // open 24 hours
     close: 12 + 12,
   },
 };
@@ -23,7 +23,7 @@ const restaurant = {
   categories: ["Italian", "Pizzeria", "Vegetarian", "Organic"],
   starterMenu: ["Focaccia", "Bruschetta", "Garlic Bread", "Caprese Salad"],
   mainMenu: ["Pizza", "Pasta", "Risotto"],
-  openingHours, //ES6 enhanced objects literals
+  openingHours, // ES6 enhanced objects literals
   order(starterMenuIndex, mainMenuIndex) {
     return [this.starterMenu[starterMenuIndex], this.mainMenu[mainMenuIndex]];
   },
@@ -71,7 +71,7 @@ const obj = { a: 23, b: 27, c: 14 };
 ({ a, b } = obj);
 console.log(a, b);
 
-//nested objects
+// nested objects
 const {
   fri: { open, close: fridayClose },
 } = openingHours;
@@ -168,7 +168,7 @@ console.log(letters);
 console.log("l", "e", "o", "n", "a", "r", "d", "o");
 console.log(...string);
 
-//console.log(`${...string} Kov`); // can't
+// console.log(`${...string} Kov`); // can't
 
 ///
 // const ings = [
@@ -179,7 +179,7 @@ console.log(...string);
 
 // restaurant.orderPasta(...ings);
 
-//objects
+// objects
 const newRestaurant = { founded: 1999, ...restaurant, founder: "Leo" };
 console.log(restaurant);
 console.log(newRestaurant);
@@ -282,12 +282,12 @@ const res2 = {
 // res1.numGuests = res1.numGuests || 10;
 // res2.numGuests = res2.numGuests || 10;
 
-// res1.numGuests ||= 10; //gets tricked by falsy value
-// res2.numGuests ||= 10; //gets tricked by falsy value
+// res1.numGuests ||= 10; // gets tricked by falsy value
+// res2.numGuests ||= 10; // gets tricked by falsy value
 
 // nullish assignment operator
-res1.numGuests ??= 10; //works with falsy values
-res2.numGuests ??= 10; //works with falsy values
+res1.numGuests ??= 10; // works with falsy values
+res2.numGuests ??= 10; // works with falsy values
 
 console.log("Res 1: ", res1.numGuests);
 console.log("Res 2: ", res2.numGuests);
@@ -400,7 +400,46 @@ for (const [key, value] of odds) {
   console.log(`Odd of ${str} ${value}`);
 }
 
-//loops
+const scorers = {};
+for (const [index, value] of game.scored.entries()) {
+  scorers[value] = scorers[value] ? scorers[value] + 1 : 1;
+}
+console.log(scorers);
+
+const gameEvents = new Map([
+  [17, "⚽ GOAL"],
+  [36, "🔁 Substitution"],
+  [47, "⚽ GOAL"],
+  [61, "🔁 Substitution"],
+  [64, "🔶 Yellow card"],
+  [69, "🔴 Red card"],
+  [70, "🔁 Substitution"],
+  [72, "🔁 Substitution"],
+  [76, "⚽ GOAL"],
+  [80, "⚽ GOAL"],
+  [92, "🔶 Yellow card"],
+]);
+console.log(gameEvents);
+console.log(gameEvents.values());
+const events = [...new Set(gameEvents.values())];
+console.log(events);
+gameEvents.delete(64);
+console.log(gameEvents);
+console.log(
+  `An event happened, on average, every ${90 / gameEvents.size} minutes`
+);
+const actualTimeOfGame = [...gameEvents.keys()].pop();
+console.log(actualTimeOfGame);
+console.log(
+  `An event happened, on average, every ${
+    actualTimeOfGame / gameEvents.size
+  } minutes`
+);
+for (const [key, value] of gameEvents) {
+  console.log(`[${key <= 45 ? "FIRST" : "SECOND"} HALF] ${key}: ${value}`);
+}
+
+// loops
 console.log("--- FOR OF LOOP ---");
 const entireMenu = [...restaurant.starterMenu, ...restaurant.mainMenu];
 
@@ -475,7 +514,7 @@ const ordersSet = new Set([
   "Risotto",
 ]);
 console.log(ordersSet);
-console.log(ordersSet[2]); //undefined
+console.log(ordersSet[2]); // undefined
 
 console.log(new Set("Leo"));
 
@@ -521,7 +560,7 @@ rest
 
 console.log(rest.get(false));
 console.log(rest.get(true));
-console.log(rest.get("true")); //data type matters
+console.log(rest.get("true")); // data type matters
 console.log(rest.get(1));
 console.log(rest.get("1"));
 
@@ -561,7 +600,7 @@ const question = new Map([
 ]);
 console.log(question);
 
-//Convert objects to map
+// convert objects to map
 console.log(Object.entries(openingHours));
 const openingHoursMap = new Map(Object.entries(openingHours));
 console.log(openingHoursMap);
@@ -574,7 +613,7 @@ for (const [key, value] of question) {
     console.log(`Answer ${key}: ${value}`);
   }
 }
-//const answer = Number(prompt("Your answer: "));
+// const answer = Number(prompt("Your answer: "));
 const answer = 3;
 console.log(question.get(answer === question.get("correct")));
 
@@ -583,3 +622,31 @@ console.log([...question]);
 console.log([...question.entries()]);
 console.log([...question.keys()]);
 console.log([...question.values()]);
+
+// Working with strings
+const airline = "TAP Air Portugal";
+const plane = "A320";
+
+console.log(plane[0]);
+console.log(plane[1]);
+console.log(plane[2]);
+console.log("B737"[0]);
+
+console.log(airline.length);
+console.log("TAP Air Portugal".length);
+
+console.log(airline.indexOf("r")); // first occurrence
+console.log(airline.lastIndexOf("r")); // last occurrence
+console.log(airline.indexOf("Portugal"));
+console.log(airline.indexOf("portugal")); // case sensitive
+
+console.log(airline.slice(4));
+console.log(airline.slice(4, 7));
+
+console.log(airline.slice(0, airline.indexOf(" ")));
+console.log(airline.slice(airline.indexOf("TAP"), airline.indexOf("P") + 1));
+console.log(airline.slice(airline.lastIndexOf(" ") + 1));
+
+console.log(airline.slice(-2));
+console.log(airline.slice(1, -2));
+console.log(airline.slice(1, -1));
