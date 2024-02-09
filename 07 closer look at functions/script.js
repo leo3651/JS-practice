@@ -75,4 +75,95 @@ const upperFirstWord = function (string) {
 
 const transforemer = function (str, func) {
   // higher oreder function
+  console.log(`Original string: ${str}`);
+  console.log(`Transformed string: ${func(str)}`);
+
+  console.log(`Transformed by: ${func.name}`);
 };
+
+transforemer("JavaScript is the best", upperFirstWord);
+console.log("--- ---");
+transforemer("JavaScript is the best", oneWord);
+
+const emoji = function () {
+  console.log("😎");
+};
+document.body.addEventListener("click", emoji);
+
+["Leo", "Jon", "Bob"].forEach(emoji);
+
+// function returning function
+console.log("--- FUNCTION RETURNING FUNCTION ---");
+
+const greet = function (greeting) {
+  return function (name) {
+    console.log(`${greeting} ${name}`);
+  };
+};
+console.log("--- greet ---");
+const greetHey = greet("Hey");
+greetHey("Leo");
+greetHey("Bob");
+
+greet("Hello")("Leo");
+greet("Hello")("Bob");
+
+const greet2 = (greeting) => (name) => console.log(`${greeting} ${name}`);
+
+console.log("--- greet2 ---");
+const greet2Hey = greet2("Hey");
+greet2Hey("Leo");
+greet2Hey("Bob");
+
+greet2("Hello")("Leo");
+greet2("Hello")("Bob");
+
+// call and apply methods
+const lufthansa = {
+  airline: "Lufthansa",
+  iataCode: "LH",
+  bookings: [],
+  book(flightNum, name) {
+    console.log(
+      `${name} booked a seat on ${this.airline} flight ${this.iataCode}${flightNum}`
+    );
+    this.bookings.push({ flight: `${this.iataCode}${flightNum}`, name });
+  },
+};
+
+lufthansa.book("932", "Leo");
+lufthansa.book("543", "John");
+console.log(lufthansa);
+
+const eurowings = {
+  airline: "Eurowings",
+  iataCode: "EW",
+  bookings: [],
+};
+
+const book = lufthansa.book;
+
+// book(23, "Sarah"); // worng
+// call method
+book.call(eurowings, 23, "Sarah"); // sets this keyword to eurowings
+console.log(eurowings);
+
+book.call(lufthansa, 55, "Mario");
+console.log(lufthansa);
+
+const swiss = {
+  airline: "Swiss Air Lines",
+  iataCode: "SW",
+  bookings: [],
+};
+book.call(swiss, 44, "Peter Parker");
+console.log(swiss);
+
+// apply method
+const flightInfo = [456, "Hulk"];
+book.apply(swiss, flightInfo);
+book.apply(swiss, [456, "Hulk"]);
+console.log(swiss);
+
+book.call(eurowings, ...flightInfo);
+console.log(eurowings);
