@@ -606,28 +606,37 @@ const logBookChapters = function (array) {
 logBookChapters(bookChapters);
 
 ///
+// for testing
+// underscore_case
+//  first_name
+// Some_Variable
+//   calculate_AGE
+// delayed_departure
+
 document.body.append(document.createElement("textarea"));
 document.body.append(document.createElement("button"));
 
 const btn = document.querySelector("button");
 const textarea = document.querySelector("textarea");
-// console.log(btn);
-// console.log(textarea);
-// console.log(typeof btn);
-// console.log(typeof btn);
+console.log("--- ABOUT ELEMENTS ---");
+console.log(btn);
+console.log(textarea);
+console.log(typeof btn);
+console.log(typeof btn);
 
 btn.addEventListener("click", function () {
+  console.log("--- EVENT HANDLER ---");
   const textAreaValue = textarea.value;
-  // console.log(textAreaValue);
+  console.log(textAreaValue);
   const textareaArray = textAreaValue.split("\n");
-  // console.log(textareaArray);
+  console.log(textareaArray);
   for (const [wordIndex, word] of textareaArray.entries()) {
     // console.log(wordIndex, word);
     const variables = word.split("_");
     let cammelCased = [];
     for (let [index, variable] of variables.entries()) {
       // console.log(index, variable);
-      variable = variable.toLowerCase();
+      variable = variable.trim().toLowerCase();
       if (index !== 0) {
         variable = variable.replace(variable[0], variable[0].toUpperCase());
         // console.log("variable: ", variable);
@@ -635,7 +644,26 @@ btn.addEventListener("click", function () {
       cammelCased.push(variable);
     }
     console.log(
-      `${cammelCased.join("").padEnd(10, " ")} ${"✔".repeat(wordIndex + 1)}`
+      `${cammelCased.join("").padEnd(18, " ")} ${"✔".repeat(wordIndex + 1)}`
     );
   }
 });
+
+const flights =
+  "_Delayed_Departure;fao93766109;txl2133758440;11:25+_Arrival;bru0943384722;fao93766109;11:45+_Delayed_Arrival;hel7439299980;fao93766109;12:05+_Departure;fao93766109;lis2323639855;12:30";
+
+const getName = (str) => str.slice(0, 3).toUpperCase();
+console.log(flights.split("+"));
+for (const flight of flights.split("+")) {
+  // console.log(flight);
+  const [type, from, to, time] = flight.split(";");
+  // console.log(type, from, to, time);
+  const output = `${type.startsWith("_Delayed") ? "🔴" : ""}${type.replaceAll(
+    "_",
+    " "
+  )} from ${getName(from)} to ${getName(to)} (${time.replace(
+    ":",
+    "h"
+  )})`.padStart(50, " ");
+  console.log(output);
+}
