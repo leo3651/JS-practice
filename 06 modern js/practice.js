@@ -561,3 +561,81 @@ for (const book of books) {
   console.log(book.title);
   logBookTheme(book.title);
 }
+
+///
+
+const bookCategories =
+  "science;computing;computer science;algorithms;business;operating systems;networking;electronics";
+
+const logBookCategories = function (string) {
+  const categories = string.split(";");
+  console.log(categories);
+  for (const category of categories) {
+    console.log(category);
+  }
+};
+logBookCategories(bookCategories);
+
+///
+const getKeywordAsString = function (books) {
+  const keywords = [];
+  for (const book of books) {
+    keywords.push(...book.keywords);
+  }
+  const uniqueKeywords = [...new Set(keywords)];
+  console.log(uniqueKeywords);
+  return uniqueKeywords.join(";");
+};
+
+console.log(getKeywordAsString(books));
+
+///
+const bookChapters = [
+  ["The Basics", 14],
+  ["Sorting", 254],
+  ["Searching", 372],
+  ["Graphs", 526],
+  ["Strings", 706],
+];
+
+const logBookChapters = function (array) {
+  for (const [chapter, pages] of array) {
+    console.log(`${chapter.padEnd(20, "_")} ${pages}`);
+  }
+};
+logBookChapters(bookChapters);
+
+///
+document.body.append(document.createElement("textarea"));
+document.body.append(document.createElement("button"));
+
+const btn = document.querySelector("button");
+const textarea = document.querySelector("textarea");
+// console.log(btn);
+// console.log(textarea);
+// console.log(typeof btn);
+// console.log(typeof btn);
+
+btn.addEventListener("click", function () {
+  const textAreaValue = textarea.value;
+  // console.log(textAreaValue);
+  const textareaArray = textAreaValue.split("\n");
+  // console.log(textareaArray);
+  for (const [wordIndex, word] of textareaArray.entries()) {
+    // console.log(wordIndex, word);
+    const variables = word.split("_");
+    let cammelCased = [];
+    for (let [index, variable] of variables.entries()) {
+      // console.log(index, variable);
+      variable = variable.toLowerCase();
+      if (index !== 0) {
+        variable = variable.replace(variable[0], variable[0].toUpperCase());
+        // console.log("variable: ", variable);
+      }
+      cammelCased.push(variable);
+    }
+    console.log(
+      `${cammelCased.join("").padEnd(10, " ")} ${"✔".repeat(wordIndex + 1)}`
+    );
+  }
+});
