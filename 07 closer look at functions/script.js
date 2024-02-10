@@ -241,11 +241,10 @@ const poll = {
     }
   },
   registerNewAnswer() {
-    const answer = Number(
-      prompt(
-        `${this.question}\n${this.options.join("\n")}\n(Write option number)`
-      )
+    let answer = prompt(
+      `${this.question}\n${this.options.join("\n")}\n(Write option number)`
     );
+    answer = answer !== "" && answer !== null ? Number(answer) : "F";
     console.log(answer);
     typeof answer === "number" &&
       answer < this.answers.length &&
@@ -361,3 +360,12 @@ const boardPassengers = function (numPassengers, wait) {
 
 const perGroup = 2000; // closure has priority
 boardPassengers(999, 5);
+
+(function () {
+  const header = document.querySelector("h1");
+  header.style.color = "red";
+
+  document.body.addEventListener("click", function () {
+    header.style.color = "blue";
+  });
+})();
