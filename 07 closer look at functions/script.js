@@ -270,3 +270,94 @@ poll.displayResults.call(testData2);
 
 poll.displayResults.call(testData, "string");
 poll.displayResults.call(testData2, "string");
+
+// immediately invoked function expression
+console.log("--- WRONG WAY ---");
+const runOnce = function () {
+  console.log("This will only run once and never again");
+};
+
+runOnce();
+runOnce();
+
+console.log("--- CORRECT WAY ---");
+(function () {
+  console.log("This will only run once and never again");
+  const isPrivate = "Private";
+})();
+
+(() => {
+  console.log("This will ALSO never run again");
+})();
+
+// console.log(isPrivate); // can't access
+
+{
+  const isPrivate = "Private";
+  var notPrivate = "Not private";
+}
+
+// console.log(isPrivate); // can't access
+console.log(notPrivate);
+
+// closure
+const secureBooking = function () {
+  let passengers = 0;
+  return function () {
+    passengers++;
+    console.log("Number of passengers: " + passengers);
+  };
+};
+
+secureBooking()();
+secureBooking()();
+secureBooking()();
+
+const booker = secureBooking();
+
+booker();
+booker();
+booker();
+
+console.dir(booker);
+
+///
+let f;
+const g = function () {
+  const a = 10;
+  f = function () {
+    console.log(a * 2);
+  };
+};
+
+const h = function () {
+  const b = 500;
+  f = function () {
+    console.log(b * 2);
+  };
+};
+
+g();
+f();
+console.dir(g);
+console.dir(f);
+
+h();
+f();
+console.dir(h);
+console.dir(f);
+
+///
+const boardPassengers = function (numPassengers, wait) {
+  const perGroup = numPassengers / 3;
+
+  setTimeout(function () {
+    console.log(`We are now boarding all ${numPassengers} passengers`);
+    console.log(`There are three groups each with ${perGroup} passengers`);
+  }, wait * 1000);
+
+  console.log(`We will start boarding in ${wait} seconds`);
+};
+
+const perGroup = 2000; // closure has priority
+boardPassengers(999, 5);
