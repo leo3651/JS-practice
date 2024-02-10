@@ -167,3 +167,106 @@ console.log(swiss);
 
 book.call(eurowings, ...flightInfo);
 console.log(eurowings);
+
+// bind method
+const bookEW = book.bind(eurowings);
+const bookSW = book.bind(swiss);
+const bookLH = book.bind(lufthansa);
+
+bookEW(23, "Iron Man");
+bookEW(842, "Thor");
+bookSW(32, "Captain America");
+bookLH(9319, "Natasha Romanov");
+
+const bookLH987 = book.bind(lufthansa, 987);
+bookLH987("Thanos");
+
+// with event listeners
+lufthansa.planes = 300;
+lufthansa.buyPlane = function () {
+  console.log(this);
+  this.planes++;
+  console.log(this.planes);
+};
+
+document
+  .querySelector(".buy")
+  .addEventListener("click", lufthansa.buyPlane.bind(lufthansa));
+
+// partial application
+const addTax = (tax, value) => value + value * tax;
+console.log(addTax(0.25, 200));
+const addTax25 = addTax.bind(null, 0.25); // addTax25 = (value) => value + value * 0.25
+console.log(addTax25(1000));
+console.log(addTax25(500));
+console.log(addTax25(100));
+
+///
+console.log("--- TAXES ---");
+const addTax2 = function (value) {
+  return function (tax = 0.25) {
+    return value + value * tax;
+  };
+};
+
+console.log(typeof addTax2(1000));
+console.log(addTax2(1000));
+
+console.log(addTax2(1000)());
+console.log(addTax2(1000)(0.3));
+
+const addTax3 = function (tax = 0.25) {
+  return function (value) {
+    return value + value * tax;
+  };
+};
+
+const addTax3Rate25 = addTax3();
+const addTax3Rate30 = addTax3(0.3);
+
+console.log(addTax3Rate25(1000));
+console.log(addTax3Rate30(1000));
+
+///
+console.log("--- POLL ---");
+const poll = {
+  question: "What is your favourite programming language?",
+  options: ["0: JavaScript", "1: Python", "2: Rust", "3: C++"],
+  answers: new Array(4).fill(0),
+  displayResults(type = "array") {
+    if (type === "array") {
+      console.log(this.answers);
+    } else if (type === "string") {
+      console.log(`Poll results are ${this.answers.join(", ")}`);
+    }
+  },
+  registerNewAnswer() {
+    const answer = Number(
+      prompt(
+        `${this.question}\n${this.options.join("\n")}\n(Write option number)`
+      )
+    );
+    console.log(answer);
+    typeof answer === "number" &&
+      answer < this.answers.length &&
+      answer >= 0 &&
+      this.answers[answer]++;
+    this.displayResults();
+    this.displayResults("string");
+  },
+};
+console.log(poll);
+document
+  .querySelector(".poll")
+  .addEventListener("click", poll.registerNewAnswer.bind(poll));
+
+const testData = {
+  answers: [5, 2, 3],
+};
+const testData2 = { answers: [1, 5, 3, 9, 6, 1] };
+
+poll.displayResults.call(testData);
+poll.displayResults.call(testData2);
+
+poll.displayResults.call(testData, "string");
+poll.displayResults.call(testData2, "string");
