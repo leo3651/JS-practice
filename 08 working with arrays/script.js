@@ -71,7 +71,7 @@ const displayMovements = function (movements) {
       index + 1
     } ${type}</div>
       <div class="movements__date">3 days ago</div>
-      <div class="movements__value">${Math.abs(movement)}</div>
+      <div class="movements__value">${Math.abs(movement)} €</div>
     </div>
     `;
     containerMovements.insertAdjacentHTML("afterbegin", html);
@@ -86,9 +86,37 @@ const calcAndDisplayBalance = function (movement) {
     return (acc += value);
   }, 0);
   console.log(balance);
-  labelBalance.textContent = `${balance}EUR`;
+  labelBalance.textContent = `${balance} €`;
 };
 calcAndDisplayBalance(account1.movements);
+
+const calcDisplaySummary = function (movements) {
+  const incomes = movements
+    .filter((movement) => movement > 0)
+    .reduce((acc, value) => acc + value);
+  labelSumIn.textContent = `${incomes} €`;
+
+  const out = movements
+    .filter((movement) => movement < 0)
+    .reduce((acc, value, i, arr) => {
+      console.log(arr);
+      console.log(acc);
+      return acc + value;
+    }, 0);
+  console.log(out);
+  labelSumOut.textContent = `${Math.abs(out)} €`;
+
+  const interests = movements
+    .filter((movement) => movement > 0)
+    .map((movement) => movement * 0.012)
+    .filter((int, i, arr) => {
+      console.log(arr);
+      return int >= 1;
+    })
+    .reduce((acc, movement) => acc + movement, 0);
+  labelSumInterest.textContent = `${interests} €`;
+};
+calcDisplaySummary(account1.movements);
 
 const createUsername = function (accounts) {
   accounts.forEach((account) => {
@@ -221,7 +249,7 @@ checkDogs(data1Julia, data1Kate);
 checkDogs(data2Julia, data2Kate);
 
 ///
-const calcAverageHumanAge = function (ages) {
+let calcAverageHumanAge = function (ages) {
   const humanAge = ages.map((age, index, array) => {
     if (age <= 2) return 2 * age;
     else if (age > 2) return 16 + age * 4;
@@ -242,8 +270,22 @@ const calcAverageHumanAge = function (ages) {
   return averageAge;
 };
 
-const avg1 = calcAverageHumanAge([5, 2, 4, 1, 15, 8, 3]);
-const avg2 = calcAverageHumanAge([16, 6, 10, 5, 6, 1, 4]);
+let avg1 = calcAverageHumanAge([5, 2, 4, 1, 15, 8, 3]);
+let avg2 = calcAverageHumanAge([16, 6, 10, 5, 6, 1, 4]);
+console.log(avg1);
+console.log(avg2);
+
+///
+console.log("--- CHAINING METHOD ---");
+calcAverageHumanAge = (ages) =>
+  ages
+    .map((age) => (age <= 2 ? age * 2 : 16 + age * 4))
+    .filter((age) => age >= 18)
+    .reduce((acc, value, i, arr) => acc + value / arr.length, 0);
+
+avg1 = calcAverageHumanAge([5, 2, 4, 1, 15, 8, 3]);
+avg2 = calcAverageHumanAge([16, 6, 10, 5, 6, 1, 4]);
+
 console.log(avg1);
 console.log(avg2);
 
@@ -328,3 +370,15 @@ const maximum = movements2.reduce((acc, value) => {
   else return value;
 }, movements2[0]);
 console.log(maximum);
+
+///
+const movements3 = [200, 450, -400, 3000, -650, -130, 70, 1300];
+const eurToUsd2 = 1.1;
+const totalDepositUSD = movements3
+  .filter((movement, i, arr) => {
+    // console.log(arr);
+    return movement > 0;
+  })
+  .map((movement) => movement * eurToUsd2)
+  .reduce((acc, movement) => acc + movement, 0);
+console.log(totalDepositUSD);
