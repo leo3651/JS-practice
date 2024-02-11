@@ -61,6 +61,26 @@ const inputLoanAmount = document.querySelector(".form__input--loan-amount");
 const inputCloseUsername = document.querySelector(".form__input--user");
 const inputClosePin = document.querySelector(".form__input--pin");
 
+const displayMovements = function (movements) {
+  containerMovements.innerHTML = ``;
+  movements.forEach(function (movement, index) {
+    const type = movement < 0 ? "withdrawal" : "deposit";
+    const html = `        
+    <div class="movements__row">
+      <div class="movements__type movements__type--${type}">${
+      index + 1
+    } ${type}</div>
+      <div class="movements__date">3 days ago</div>
+      <div class="movements__value">${movement}</div>
+    </div>
+    `;
+    containerMovements.insertAdjacentHTML("afterbegin", html);
+  });
+  // console.log(containerMovements.innerHTML);
+  // console.log(typeof containerMovements.innerHTML);
+};
+displayMovements(account1.movements);
+
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // LECTURES
@@ -149,3 +169,41 @@ console.log(currenciesUnique);
 currenciesUnique.forEach(function (value, _, set) {
   console.log(`${value}: ${value}`);
 });
+
+///
+const data1Julia = [3, 5, 2, 12, 7];
+const data2Julia = [9, 16, 6, 8, 3];
+const data1Kate = [4, 1, 15, 8, 3];
+const data2Kate = [10, 5, 6, 1, 4];
+const checkDogs = function (dogsJulia, dogsKate) {
+  const dogsJuliaCorrect = dogsJulia.slice(1, -2);
+  const allData = dogsJuliaCorrect.concat(dogsKate);
+  allData.forEach((dog, i) => {
+    dog >= 3
+      ? console.log(`Dog number ${i + 1}
+    is an adult, and is ${dog} years old`)
+      : console.log(`Dog number ${i + 1} is still a puppy
+        🐶`);
+  });
+  // console.log(dogsJulia);
+  // console.log(dogsJuliaCorrect);
+  console.log(allData);
+};
+checkDogs(data1Julia, data1Kate);
+checkDogs(data2Julia, data2Kate);
+
+// map mathod
+console.log("--- MAP METHOD ---");
+const eurToUsd = 1.1;
+const movements2 = [200, -200, 340, -300, -20, 50, 400, -460];
+const movementsUSD = movements2.map(function (movement, i) {
+  return movement * eurToUsd;
+});
+console.log(movements2);
+console.log("Map: ", movementsUSD);
+
+const movementsUSDForOf = [];
+for (const movement of movements2) {
+  movementsUSDForOf.push(movement * eurToUsd);
+}
+console.log(`For of loop: `, movementsUSDForOf);
