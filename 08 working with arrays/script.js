@@ -71,7 +71,7 @@ const displayMovements = function (movements) {
       index + 1
     } ${type}</div>
       <div class="movements__date">3 days ago</div>
-      <div class="movements__value">${movement}</div>
+      <div class="movements__value">${Math.abs(movement)}</div>
     </div>
     `;
     containerMovements.insertAdjacentHTML("afterbegin", html);
@@ -80,6 +80,21 @@ const displayMovements = function (movements) {
   // console.log(typeof containerMovements.innerHTML);
 };
 displayMovements(account1.movements);
+
+const createUsername = function (accounts) {
+  accounts.forEach((account) => {
+    console.log(account);
+    console.log(account.owner);
+    account.username = account.owner
+      .toLowerCase()
+      .split(" ")
+      .map((word) => word[0])
+      .join("");
+    console.log(account);
+  });
+};
+
+console.log(createUsername(accounts));
 
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
@@ -196,9 +211,10 @@ checkDogs(data2Julia, data2Kate);
 console.log("--- MAP METHOD ---");
 const eurToUsd = 1.1;
 const movements2 = [200, -200, 340, -300, -20, 50, 400, -460];
-const movementsUSD = movements2.map(function (movement, i) {
-  return movement * eurToUsd;
-});
+// const movementsUSD = movements2.map(function (movement, i) {
+//   return movement * eurToUsd;
+// });
+const movementsUSD = movements2.map((movement, i) => movement * eurToUsd);
 console.log(movements2);
 console.log("Map: ", movementsUSD);
 
@@ -207,3 +223,56 @@ for (const movement of movements2) {
   movementsUSDForOf.push(movement * eurToUsd);
 }
 console.log(`For of loop: `, movementsUSDForOf);
+
+///
+const movementsDescription = movements2.map((movement, index, array) => {
+  if (movement > 0) {
+    return `Movement ${index + 1}: you deposited ${movement}`;
+  } else {
+    return `Movement ${index + 1}: you withdrew ${movement}`;
+  }
+});
+console.log(movementsDescription);
+
+// filter method
+console.log("--- FILTER METHOD ---");
+const deposits = movements2.filter((movement) => {
+  return movement > 0;
+});
+console.log(movements2);
+console.log("-- deposits --");
+console.log(deposits);
+
+const depositsForOf = [];
+for (const movement of movements2) {
+  if (movement > 0) depositsForOf.push(movement);
+}
+console.log(depositsForOf);
+
+console.log("-- withdrawals --");
+const withdrawals = movements2.filter((movement) => {
+  return movement < 0;
+});
+console.log(withdrawals);
+
+const withdrawalsForOf = [];
+for (const movement of movements2) {
+  if (movement < 0) withdrawalsForOf.push(movement);
+}
+console.log(withdrawalsForOf);
+
+// reduce method
+console.log("--- REDUCE METHOD ---");
+console.log(movements2);
+
+const balance = movements2.reduce((accumulator, currentValue, index, arr) => {
+  console.log(`iteration number ${index}: ${accumulator}`);
+  return (accumulator += currentValue);
+}, 0);
+console.log(balance);
+
+let sum = 0;
+for (const movement of movements2) {
+  sum += movement;
+}
+console.log(sum);
