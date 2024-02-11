@@ -81,6 +81,15 @@ const displayMovements = function (movements) {
 };
 displayMovements(account1.movements);
 
+const calcAndDisplayBalance = function (movement) {
+  const balance = movement.reduce((acc, value) => {
+    return (acc += value);
+  }, 0);
+  console.log(balance);
+  labelBalance.textContent = `${balance}EUR`;
+};
+calcAndDisplayBalance(account1.movements);
+
 const createUsername = function (accounts) {
   accounts.forEach((account) => {
     console.log(account);
@@ -94,7 +103,8 @@ const createUsername = function (accounts) {
   });
 };
 
-console.log(createUsername(accounts));
+createUsername(accounts);
+console.log(accounts);
 
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
@@ -186,10 +196,12 @@ currenciesUnique.forEach(function (value, _, set) {
 });
 
 ///
+console.log("--- FOR PRACTICE ---");
 const data1Julia = [3, 5, 2, 12, 7];
 const data2Julia = [9, 16, 6, 8, 3];
 const data1Kate = [4, 1, 15, 8, 3];
 const data2Kate = [10, 5, 6, 1, 4];
+
 const checkDogs = function (dogsJulia, dogsKate) {
   const dogsJuliaCorrect = dogsJulia.slice(1, -2);
   const allData = dogsJuliaCorrect.concat(dogsKate);
@@ -204,13 +216,42 @@ const checkDogs = function (dogsJulia, dogsKate) {
   // console.log(dogsJuliaCorrect);
   console.log(allData);
 };
+
 checkDogs(data1Julia, data1Kate);
 checkDogs(data2Julia, data2Kate);
+
+///
+const calcAverageHumanAge = function (ages) {
+  const humanAge = ages.map((age, index, array) => {
+    if (age <= 2) return 2 * age;
+    else if (age > 2) return 16 + age * 4;
+  });
+  console.log(humanAge);
+
+  const olderThan18 = humanAge.filter((age) => age >= 18);
+  console.log(olderThan18);
+
+  // const averageAge =
+  //   olderThan18.reduce((acc, age) => (acc += age)) / olderThan18.length;
+  const averageAge = olderThan18.reduce(
+    (acc, age, i, arr) => acc + age / arr.length,
+    0
+  );
+
+  console.log(averageAge);
+  return averageAge;
+};
+
+const avg1 = calcAverageHumanAge([5, 2, 4, 1, 15, 8, 3]);
+const avg2 = calcAverageHumanAge([16, 6, 10, 5, 6, 1, 4]);
+console.log(avg1);
+console.log(avg2);
 
 // map mathod
 console.log("--- MAP METHOD ---");
 const eurToUsd = 1.1;
 const movements2 = [200, -200, 340, -300, -20, 50, 400, -460];
+
 // const movementsUSD = movements2.map(function (movement, i) {
 //   return movement * eurToUsd;
 // });
@@ -232,13 +273,16 @@ const movementsDescription = movements2.map((movement, index, array) => {
     return `Movement ${index + 1}: you withdrew ${movement}`;
   }
 });
+
 console.log(movementsDescription);
 
 // filter method
 console.log("--- FILTER METHOD ---");
+
 const deposits = movements2.filter((movement) => {
   return movement > 0;
 });
+
 console.log(movements2);
 console.log("-- deposits --");
 console.log(deposits);
@@ -276,3 +320,11 @@ for (const movement of movements2) {
   sum += movement;
 }
 console.log(sum);
+
+// maximum value
+console.log(movements2);
+const maximum = movements2.reduce((acc, value) => {
+  if (acc > value) return acc;
+  else return value;
+}, movements2[0]);
+console.log(maximum);
