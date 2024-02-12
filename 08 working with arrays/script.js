@@ -79,24 +79,24 @@ const displayMovements = function (movements) {
   // console.log(containerMovements.innerHTML);
   // console.log(typeof containerMovements.innerHTML);
 };
-displayMovements(account1.movements);
+// displayMovements(account1.movements);
 
-const calcAndDisplayBalance = function (movement) {
-  const balance = movement.reduce((acc, value) => {
+const calcAndDisplayBalance = function (account) {
+  account.balance = account.movements.reduce((acc, value) => {
     return (acc += value);
   }, 0);
-  console.log(balance);
-  labelBalance.textContent = `${balance} €`;
+  console.log(account.balance);
+  labelBalance.textContent = `${account.balance} €`;
 };
-calcAndDisplayBalance(account1.movements);
+// calcAndDisplayBalance(account1.movements);
 
-const calcDisplaySummary = function (movements) {
-  const incomes = movements
+const calcDisplaySummary = function (account) {
+  const incomes = account.movements
     .filter((movement) => movement > 0)
     .reduce((acc, value) => acc + value);
   labelSumIn.textContent = `${incomes} €`;
 
-  const out = movements
+  const out = account.movements
     .filter((movement) => movement < 0)
     .reduce((acc, value, i, arr) => {
       console.log(arr);
@@ -106,9 +106,9 @@ const calcDisplaySummary = function (movements) {
   console.log(out);
   labelSumOut.textContent = `${Math.abs(out)} €`;
 
-  const interests = movements
+  const interests = account.movements
     .filter((movement) => movement > 0)
-    .map((movement) => movement * 0.012)
+    .map((movement) => movement * (account.interestRate / 100))
     .filter((int, i, arr) => {
       console.log(arr);
       return int >= 1;
@@ -116,7 +116,7 @@ const calcDisplaySummary = function (movements) {
     .reduce((acc, movement) => acc + movement, 0);
   labelSumInterest.textContent = `${interests} €`;
 };
-calcDisplaySummary(account1.movements);
+// calcDisplaySummary(account1.movements);
 
 const createUsername = function (accounts) {
   accounts.forEach((account) => {
@@ -134,6 +134,62 @@ const createUsername = function (accounts) {
 createUsername(accounts);
 console.log(accounts);
 
+const updadeUI = function (account) {
+  displayMovements(account.movements);
+  calcDisplaySummary(account);
+  calcAndDisplayBalance(account);
+};
+// login
+let currentAccount;
+btnLogin.addEventListener("click", function (e) {
+  e.preventDefault();
+  // console.log(e);
+  // console.log("login");
+  // console.log(inputLoginUsername.value);
+  currentAccount = accounts.find(
+    (account) => account.username === inputLoginUsername.value
+  );
+  console.log(currentAccount);
+  // console.log(currentAccount.pin);
+  if (currentAccount?.pin === Number(inputLoginPin.value)) {
+    console.log("in");
+    labelWelcome.textContent = `Welcome back, ${
+      currentAccount.owner.split(" ")[0]
+    }`;
+    containerApp.style.opacity = 1;
+    updadeUI(currentAccount);
+  }
+  inputLoginPin.value = inputLoginUsername.value = "";
+  inputLoginPin.blur();
+  inputLoginUsername.blur();
+});
+
+// transfer
+btnTransfer.addEventListener("click", function (event) {
+  event.preventDefault();
+  const receiveAcc = accounts.find(
+    (acc) => acc.username === inputTransferTo.value
+  );
+  const tranferAmount = Number(inputTransferAmount.value);
+  console.log(receiveAcc);
+  console.log(tranferAmount);
+
+  if (
+    tranferAmount > 0 &&
+    receiveAcc &&
+    tranferAmount <= currentAccount.balance &&
+    receiveAcc.username !== currentAccount.username
+  ) {
+    // doing the tranfer
+    currentAccount.movements.push(-tranferAmount);
+    receiveAcc.movements.push(tranferAmount);
+    // display tranfer
+    updadeUI(currentAccount);
+  }
+  inputTransferAmount.value = inputTransferTo.value = "";
+  inputTransferAmount.blur();
+  inputTransferTo.blur();
+});
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // LECTURES
@@ -382,3 +438,20 @@ const totalDepositUSD = movements3
   .map((movement) => movement * eurToUsd2)
   .reduce((acc, movement) => acc + movement, 0);
 console.log(totalDepositUSD);
+
+// find
+console.log("--- FIND ---");
+const firstWithdrawal = movements2.find((mov) => mov < 0);
+
+console.log(movements2);
+console.log(firstWithdrawal);
+
+console.log(accounts);
+let account$ = accounts.find((account) => account.owner === "Jessica Davis");
+console.log(account$);
+
+account$ = [];
+for (const acc of accounts) {
+  acc.owner === "Jessica Davis" && account$.push(acc);
+}
+console.log(account$);
