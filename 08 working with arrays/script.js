@@ -130,7 +130,6 @@ const createUsername = function (accounts) {
     console.log(account);
   });
 };
-
 createUsername(accounts);
 console.log(accounts);
 
@@ -139,6 +138,7 @@ const updadeUI = function (account) {
   calcDisplaySummary(account);
   calcAndDisplayBalance(account);
 };
+
 // login
 let currentAccount;
 btnLogin.addEventListener("click", function (e) {
@@ -152,11 +152,12 @@ btnLogin.addEventListener("click", function (e) {
   console.log(currentAccount);
   // console.log(currentAccount.pin);
   if (currentAccount?.pin === Number(inputLoginPin.value)) {
-    console.log("in");
+    // console.log("in");
     labelWelcome.textContent = `Welcome back, ${
       currentAccount.owner.split(" ")[0]
     }`;
     containerApp.style.opacity = 1;
+    // display new UI
     updadeUI(currentAccount);
   }
   inputLoginPin.value = inputLoginUsername.value = "";
@@ -190,6 +191,60 @@ btnTransfer.addEventListener("click", function (event) {
   inputTransferAmount.blur();
   inputTransferTo.blur();
 });
+
+// loan
+btnLoan.addEventListener("click", function (e) {
+  e.preventDefault();
+  const amount = Number(inputLoanAmount.value);
+  if (
+    amount > 0 &&
+    currentAccount.movements.some((mov) => mov >= 0.1 * amount)
+  ) {
+    currentAccount.movements.push(amount);
+    updadeUI(currentAccount);
+  }
+  inputLoanAmount.value = "";
+  inputLoanAmount.blur();
+});
+
+// delete acc
+btnClose.addEventListener("click", function (event) {
+  event.preventDefault();
+  console.log("DELETE");
+
+  const pinOfCloseAcc = Number(inputClosePin.value);
+  const closeAccount = inputCloseUsername.value;
+
+  console.log(pinOfCloseAcc);
+  console.log(closeAccount);
+
+  if (
+    currentAccount.pin === pinOfCloseAcc &&
+    closeAccount === currentAccount.username
+  ) {
+    const closeAccountIndex = accounts.findIndex(
+      (account) => account.username === closeAccount
+    );
+
+    let closeAccountIndex2;
+    for (const [index, acc] of accounts.entries()) {
+      if (acc.username === closeAccount) closeAccountIndex2 = index;
+    }
+
+    console.log(closeAccountIndex);
+    console.log(closeAccountIndex2);
+
+    accounts.splice(closeAccountIndex, 1);
+
+    console.log("deleted");
+    containerApp.style.opacity = 0;
+    labelWelcome.textContent = "Log in to get started";
+  }
+  inputClosePin.value = inputCloseUsername.value = "";
+  inputClosePin.blur();
+  inputCloseUsername.blur();
+});
+
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // LECTURES
@@ -455,3 +510,26 @@ for (const acc of accounts) {
   acc.owner === "Jessica Davis" && account$.push(acc);
 }
 console.log(account$);
+
+// some
+console.log("--- SOME ---");
+console.log(movements3);
+console.log(movements3.includes(-400)); // equality
+console.log(movements3.includes(-4000));
+
+console.log(movements3.some((mov) => mov === -400));
+const anyDeposits = movements3.some((mov) => mov > 0); // condition
+console.log(anyDeposits);
+console.log(movements3.some((mov) => mov > 5000));
+
+// every
+console.log("--- EVERY ---");
+console.log(movements3.every((mov) => mov > 0));
+console.log(account4.movements);
+console.log(account4.movements.every((mov) => mov > 0));
+
+// separate callbacks
+const deposit = (mov) => mov > 0;
+console.log(account4.movements.every(deposit));
+console.log(account4.movements.some(deposit));
+console.log(account4.movements.filter(deposit));
