@@ -611,3 +611,76 @@ console.log(movements3.sort((a, b) => a - b)); // asc
 console.log(
   movements3.sort((a, b) => b - a) // desc
 );
+
+// creating and filling arrays
+console.log("--- CREATE FILL ARRAYS");
+console.log([1, 2, 3, 4, 5, 6, 7, 8]);
+console.log(new Array(1, 2, 3, 4, 5, 6, 7, 8));
+
+const x = new Array(7);
+console.log(x);
+console.log(x.map(() => 5)); // doesn't work
+
+x.fill(1); // it mutates the original array
+console.log(x);
+console.log(x.fill(4, 3));
+console.log(x.fill(9, 0, 2));
+
+const newArray = [1, 2, 3, 4, 5, 6, 7, 8];
+newArray.fill(23, 4, 5);
+console.log(newArray);
+
+// Array.from()
+const y = Array.from({ length: 7 }, () => 1);
+console.log(y);
+
+const z = Array.from({ length: 7 }, (_, i) => i + 1);
+console.log(z);
+
+const random100Dice = Array.from(
+  { length: 100 },
+  () => Math.trunc(Math.random() * 6) + 1
+);
+
+console.log(random100Dice);
+
+labelBalance.addEventListener("click", function () {
+  const selectAllMovementsUI = document.querySelectorAll(".movements__value");
+  console.log(selectAllMovementsUI);
+  const movementsUI = Array.from(selectAllMovementsUI, (el) =>
+    Number(el.textContent.replace("€", ""))
+  );
+  console.log(movementsUI);
+
+  // console.log(movementsUI.map((el) => Number(el.textContent.replace("€", ""))));
+
+  const movementsUI2 = [...document.querySelectorAll(".movements__value")].map(
+    (el) => Number(el.textContent.replace("€", ""))
+  );
+  console.log(movementsUI2);
+});
+
+///
+console.log("--- PRACTICING ---");
+const bankDepositsSum = accounts
+  .map((acc) => acc.movements)
+  .flat()
+  .filter((mov) => mov > 0)
+  .reduce((acc, value) => acc + value, 0);
+console.log(bankDepositsSum);
+
+const numDeposits1000 = accounts
+  .flatMap((acc) => acc.movements)
+  .filter((mov) => mov >= 1000).length;
+console.log(numDeposits1000);
+
+const numDeposits10002 = accounts
+  .flatMap((acc) => acc.movements)
+  .reduce((acc, value) => (value >= 1000 ? ++acc : acc), 0);
+console.log(numDeposits10002);
+
+// prefixed count operator
+let a = 10;
+// console.log(a++);
+console.log(a);
+console.log(++a);
