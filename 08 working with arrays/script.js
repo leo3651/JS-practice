@@ -61,9 +61,13 @@ const inputLoanAmount = document.querySelector(".form__input--loan-amount");
 const inputCloseUsername = document.querySelector(".form__input--user");
 const inputClosePin = document.querySelector(".form__input--pin");
 
-const displayMovements = function (movements) {
+const displayMovements = function (movements, sort = false) {
+  const sortedMovements = sort
+    ? movements.slice().sort((a, b) => a - b)
+    : movements;
+
   containerMovements.innerHTML = ``;
-  movements.forEach(function (movement, index) {
+  sortedMovements.forEach(function (movement, index) {
     const type = movement < 0 ? "withdrawal" : "deposit";
     const html = `        
     <div class="movements__row">
@@ -243,6 +247,14 @@ btnClose.addEventListener("click", function (event) {
   inputClosePin.value = inputCloseUsername.value = "";
   inputClosePin.blur();
   inputCloseUsername.blur();
+});
+
+// sort movements
+let isSorted = false;
+btnSort.addEventListener("click", function (event) {
+  event.preventDefault();
+  displayMovements(currentAccount.movements, !isSorted);
+  isSorted = !isSorted;
 });
 
 /////////////////////////////////////////////////
@@ -533,3 +545,69 @@ const deposit = (mov) => mov > 0;
 console.log(account4.movements.every(deposit));
 console.log(account4.movements.some(deposit));
 console.log(account4.movements.filter(deposit));
+
+// flat
+console.log("--- FLAT ---");
+console.log("--- nested ---");
+const nestedArray = [[1, 2, 3], [4, 5, 6], 7];
+console.log(nestedArray);
+console.log(nestedArray.flat());
+
+console.log("--- deep nested ---");
+const deepNestedArray = [[1, [2, 3]], [[4, 5], 6], 7];
+console.log(deepNestedArray);
+console.log(deepNestedArray.flat());
+console.log(deepNestedArray.flat(2));
+
+///
+const accMovements = accounts.map((acc) => acc.movements);
+console.log(accMovements);
+const allMovements = accMovements.flat();
+console.log(allMovements);
+let sumAllMovements = allMovements.reduce((acc, value) => acc + value, 0);
+console.log(sumAllMovements);
+
+sumAllMovements = accounts
+  .map((acc) => acc.movements)
+  .flat()
+  .reduce((acc, mov) => acc + mov, 0);
+console.log(sumAllMovements);
+
+// flat map
+sumAllMovements = accounts
+  .flatMap((acc) => acc.movements)
+  .reduce((acc, value) => acc + value);
+console.log(sumAllMovements);
+
+// sorting
+console.log("--- SORTING ---");
+console.log("--- sort strings ---");
+const owners = ["Leo", "Jonas", "Jessica", "Adam"];
+console.log(owners);
+const sorted = owners.sort();
+console.log(sorted);
+console.log(owners); // it mutates the original array
+
+console.log("--- sort numbers ---");
+console.log(movements3);
+console.log(movements3.sort()); // sorting based on strings by default
+
+console.log(
+  movements3.sort((a, b) => {
+    if (a > b) return 1;
+    if (a < b) return -1;
+  })
+); // asc
+
+console.log(
+  movements3.sort((a, b) => {
+    if (a > b) return -1;
+    if (a < b) return 1;
+  }) // desc
+);
+
+console.log(movements3.sort((a, b) => a - b)); // asc
+
+console.log(
+  movements3.sort((a, b) => b - a) // desc
+);
