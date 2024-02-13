@@ -273,6 +273,7 @@ btnSort.addEventListener("click", function (event) {
 // LECTURES
 
 // Number and Math
+console.log("--- NUMBERS ---");
 console.log(32 === 32.0);
 
 // base 10 -> 0 to 9, 1/10 = 0.1, 10/3 = 3.333333
@@ -377,3 +378,77 @@ isEven(6);
 isEven(111);
 isEven(3213);
 isEven(444);
+
+labelBalance.addEventListener("click", () => {
+  [...document.querySelectorAll(".movements__row")].forEach((row, i) => {
+    if ((i + 1) % 2 === 0) row.style.backgroundColor = "#f7f7f7";
+    if ((i + 1) % 3 === 0) row.style.backgroundColor = "orangered";
+  });
+});
+
+///
+console.log("--- numeric separators ---");
+const diameter = 287_460_000_000;
+console.log(diameter);
+
+const priceCents = 345_99;
+console.log(priceCents);
+
+const transferFee1 = 15_00;
+const transferFee2 = 1_500;
+console.log(transferFee1);
+console.log(transferFee2);
+
+const PI = 3.14159;
+console.log(PI);
+
+console.log(Number("230_000")); // NaN
+console.log(Number.parseFloat("230_000")); // wrong
+
+///
+console.log("--- big int ---");
+console.log(2 ** 53 - 1);
+console.log(Number.MAX_SAFE_INTEGER);
+console.log(2 ** 53);
+console.log(2 ** 53 + 1);
+console.log(2 ** 53 + 2);
+console.log(2 ** 53 + 3);
+console.log(2 ** 53 + 4);
+console.log(2 ** 53 + 5);
+
+console.log(23432432423432432322332423432n);
+console.log(BigInt(23432432423432432322332423432n));
+
+console.log(100000n + 100000n);
+console.log(1000002323423423423432423n * 100000234324234n);
+
+const huge = 432432324324324323324324n;
+const n = 2;
+// console.log(n * huge); // cant't mix
+console.log(huge * BigInt(n));
+
+console.log(20n > 15);
+console.log(20n === 20); // different types
+console.log(typeof 20n, typeof 20);
+console.log(20n == 20);
+
+console.log(huge * BigInt(n) + " is REALLY big!!!");
+// console.log(Math.sqrt(huge)); // doesn't work
+
+console.log(10 / 3);
+console.log(10n / 3n);
+console.log(11n / 3n);
+
+// dates
+console.log("--- DATES ---");
+const now = new Date();
+console.log(now);
+
+console.log(new Date(`Jun 8 1999 20:29:06`));
+console.log(new Date(`Dec 24, 2014`));
+console.log(new Date(account1.movementsDates[0]));
+console.log(new Date(2024, 5, 8, 20, 10, 15)); // 0 based months
+console.log(new Date(2024, 5, 31, 20, 10, 15)); // autocorrects
+
+console.log(new Date(0));
+console.log(new Date(3 * 24 * 60 * 60 * 1000)); //3 days after
