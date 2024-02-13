@@ -684,3 +684,81 @@ let a = 10;
 // console.log(a++);
 console.log(a);
 console.log(++a);
+
+///
+const all = {};
+let sums = accounts
+  .flatMap((acc) => acc.movements)
+  .reduce((acc, value) => {
+    console.log(acc, value);
+    if (value > 0) {
+      if (all.dep) {
+        all.dep += value;
+      } else {
+        all.dep = value;
+      }
+      console.log(all.dep);
+      return acc;
+    } else if (value < 0) {
+      if (all.with) {
+        all.with += value;
+      } else {
+        all.with = value;
+      }
+      return acc;
+    }
+  }, 0);
+console.log(all);
+
+sums = accounts
+  .flatMap((acc) => acc.movements)
+  .reduce(
+    (sums, value) => {
+      value > 0 ? (sums.deposits += value) : (sums.withdrawals += value);
+      return sums;
+    },
+    { deposits: 0, withdrawals: 0 }
+  );
+console.log(sums);
+
+const { allDeposits, allWithdrawals } = accounts
+  .flatMap((acc) => acc.movements)
+  .reduce(
+    (sums, value) => {
+      // value > 0 ? (sums.allDeposits += value) : (sums.allWithdrawals += value);
+      sums[value > 0 ? "allDeposits" : "allWithdrawals"] += value;
+      return sums;
+    },
+    { allDeposits: 0, allWithdrawals: 0 }
+  );
+console.log(allDeposits, allWithdrawals);
+
+const convertTitleCase = function (title) {
+  const excpections = [
+    "a",
+    "an",
+    "the",
+    "but",
+    "or",
+    "in",
+    "on",
+    "and",
+    "with",
+  ];
+  const capitalize = (str) => str[0].toUpperCase() + str.slice(1);
+  const titleCase = title
+    .toLowerCase()
+    .split(" ")
+    .map((word) => (excpections.includes(word) ? word : capitalize(word)))
+    .join(" ");
+  return capitalize(titleCase);
+};
+
+console.log(convertTitleCase("this is a nice title"));
+console.log(convertTitleCase("this is a LONG title but not too long"));
+console.log(convertTitleCase("and here is another title with an EXAMPLE"));
+console.log(
+  convertTitleCase(
+    "This withdrawals are turning into a deposits and are quite fun"
+  )
+);
