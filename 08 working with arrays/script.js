@@ -65,7 +65,6 @@ const displayMovements = function (movements, sort = false) {
   const sortedMovements = sort
     ? movements.slice().sort((a, b) => a - b)
     : movements;
-
   containerMovements.innerHTML = ``;
   sortedMovements.forEach(function (movement, index) {
     const type = movement < 0 ? "withdrawal" : "deposit";
@@ -107,6 +106,7 @@ const calcDisplaySummary = function (account) {
       console.log(acc);
       return acc + value;
     }, 0);
+
   console.log(out);
   labelSumOut.textContent = `${Math.abs(out)} €`;
 
@@ -145,6 +145,7 @@ const updadeUI = function (account) {
 
 // login
 let currentAccount;
+
 btnLogin.addEventListener("click", function (e) {
   e.preventDefault();
   // console.log(e);
@@ -164,6 +165,7 @@ btnLogin.addEventListener("click", function (e) {
     // display new UI
     updadeUI(currentAccount);
   }
+
   inputLoginPin.value = inputLoginUsername.value = "";
   inputLoginPin.blur();
   inputLoginUsername.blur();
@@ -176,6 +178,7 @@ btnTransfer.addEventListener("click", function (event) {
     (acc) => acc.username === inputTransferTo.value
   );
   const tranferAmount = Number(inputTransferAmount.value);
+
   console.log(receiveAcc);
   console.log(tranferAmount);
 
@@ -191,6 +194,7 @@ btnTransfer.addEventListener("click", function (event) {
     // display tranfer
     updadeUI(currentAccount);
   }
+
   inputTransferAmount.value = inputTransferTo.value = "";
   inputTransferAmount.blur();
   inputTransferTo.blur();
@@ -200,6 +204,7 @@ btnTransfer.addEventListener("click", function (event) {
 btnLoan.addEventListener("click", function (e) {
   e.preventDefault();
   const amount = Number(inputLoanAmount.value);
+
   if (
     amount > 0 &&
     currentAccount.movements.some((mov) => mov >= 0.1 * amount)
@@ -207,6 +212,7 @@ btnLoan.addEventListener("click", function (e) {
     currentAccount.movements.push(amount);
     updadeUI(currentAccount);
   }
+
   inputLoanAmount.value = "";
   inputLoanAmount.blur();
 });
@@ -244,6 +250,7 @@ btnClose.addEventListener("click", function (event) {
     containerApp.style.opacity = 0;
     labelWelcome.textContent = "Log in to get started";
   }
+
   inputClosePin.value = inputCloseUsername.value = "";
   inputClosePin.blur();
   inputCloseUsername.blur();
@@ -781,6 +788,7 @@ const { allDeposits, allWithdrawals } = accounts
   );
 console.log(allDeposits, allWithdrawals);
 
+///
 const convertTitleCase = function (title) {
   const excpections = [
     "a",
