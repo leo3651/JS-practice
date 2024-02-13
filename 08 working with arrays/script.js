@@ -399,6 +399,54 @@ console.log(avg1);
 console.log(avg2);
 
 ///
+const dogs = [
+  { weight: 22, curFood: 250, owners: ["Alice", "Bob"] },
+  { weight: 8, curFood: 200, owners: ["Matilda"] },
+  { weight: 13, curFood: 275, owners: ["Sarah", "John"] },
+  { weight: 32, curFood: 340, owners: ["Michael"] },
+];
+
+dogs.forEach((dog) => Math.trunc((dog.rFoodPortion = dog.weight ** 0.75 * 28)));
+console.log(dogs);
+
+const dogSarah = dogs.find((dog) => dog.owners.includes("Sarah"));
+console.log(dogSarah);
+console.log(
+  `Sarah's dog eats too ${
+    dogSarah.curFood > dogSarah.rFoodPortion ? "much" : "little"
+  }`
+);
+
+const eatTooMuch = dogs
+  .filter((dog) => dog.curFood > 1.1 * dog.rFoodPortion)
+  .map((dog) => dog.owners)
+  .flat();
+console.log(eatTooMuch);
+
+const eatTooLittle = dogs
+  .filter((dog) => dog.curFood < 0.9 * dog.rFoodPortion)
+  .map((dog) => dog.owners)
+  .flat();
+console.log(eatTooLittle);
+
+console.log(`${eatTooMuch.join("'s and ")}'s dogs eat too much`);
+console.log(`${eatTooLittle.join("'s and ")}'s dogs eat too little`);
+
+console.log(dogs.some((dog) => dog.curFood === dog.rFoodPortion));
+
+const callback = (dog) =>
+  dog.curFood > 0.9 * dog.rFoodPortion && dog.curFood < 1.1 * dog.rFoodPortion;
+
+const okayAmount = dogs.some(callback);
+console.log(okayAmount);
+const okayDogs = dogs.filter(callback);
+console.log(okayDogs);
+
+const shallowCopyDogs = dogs.slice();
+console.log(shallowCopyDogs);
+shallowCopyDogs.sort((a, b) => a.rFoodPortion - b.rFoodPortion);
+
+///
 console.log("--- CHAINING METHOD ---");
 calcAverageHumanAge = (ages) =>
   ages
