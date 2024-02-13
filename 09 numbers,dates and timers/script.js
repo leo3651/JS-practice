@@ -86,7 +86,7 @@ const displayMovements = function (movements, sort = false) {
       index + 1
     } ${type}</div>
       <div class="movements__date">3 days ago</div>
-      <div class="movements__value">${Math.abs(movement)} €</div>
+      <div class="movements__value">${Math.abs(movement).toFixed(2)} €</div>
     </div>
     `;
     containerMovements.insertAdjacentHTML("afterbegin", html);
@@ -101,7 +101,7 @@ const calcAndDisplayBalance = function (account) {
     return (acc += value);
   }, 0);
   console.log(account.balance);
-  labelBalance.textContent = `${account.balance} €`;
+  labelBalance.textContent = `${account.balance.toFixed(2)} €`;
 };
 // calcAndDisplayBalance(account1.movements);
 
@@ -109,7 +109,7 @@ const calcDisplaySummary = function (account) {
   const incomes = account.movements
     .filter((movement) => movement > 0)
     .reduce((acc, value) => acc + value);
-  labelSumIn.textContent = `${incomes} €`;
+  labelSumIn.textContent = `${incomes.toFixed(2)} €`;
 
   const out = account.movements
     .filter((movement) => movement < 0)
@@ -119,7 +119,7 @@ const calcDisplaySummary = function (account) {
       return acc + value;
     }, 0);
   console.log(out);
-  labelSumOut.textContent = `${Math.abs(out)} €`;
+  labelSumOut.textContent = `${Math.abs(out).toFixed(2)} €`;
 
   const interests = account.movements
     .filter((movement) => movement > 0)
@@ -129,7 +129,7 @@ const calcDisplaySummary = function (account) {
       return int >= 1;
     })
     .reduce((acc, movement) => acc + movement, 0);
-  labelSumInterest.textContent = `${interests} €`;
+  labelSumInterest.textContent = `${interests.toFixed(2)} €`;
 };
 // calcDisplaySummary(account1.movements);
 
@@ -271,3 +271,109 @@ btnSort.addEventListener("click", function (event) {
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // LECTURES
+
+// Number and Math
+console.log(32 === 32.0);
+
+// base 10 -> 0 to 9, 1/10 = 0.1, 10/3 = 3.333333
+// binary base 2 -> 0 1
+console.log(0.1 + 0.2);
+console.log(0.1 + 0.2 === 0.3); // similar problem as in base 10, 10/3
+
+console.log(Number("23")); // string to number
+console.log(+"23"); // string to number
+
+///
+console.log("--- parsing ---");
+console.log(Number.parseInt("30px", 10)); //must start with number
+console.log(Number.parseInt("r53", 10)); //NaN
+
+console.log(Number.parseInt("2.5rem"));
+console.log(Number.parseFloat("  2.5rem   ")); // for decimals
+
+console.log(parseFloat("2.5rem")); // old way
+
+///
+console.log("--- isNaN ---");
+console.log(Number.isNaN(20));
+console.log(Number.isNaN("20"));
+console.log(Number.isNaN(+"20c"));
+console.log(Number.isNaN(23 / 0));
+
+console.log("--- isFinite ---");
+// checking if a value is a number
+console.log(Number.isFinite(20));
+console.log(Number.isFinite("20"));
+console.log(Number.isFinite(+"20c"));
+console.log(Number.isFinite(23 / 0));
+
+console.log("--- isInteger ---");
+console.log(Number.isInteger(23));
+console.log(Number.isInteger(23.0));
+console.log(Number.isInteger(23 / 0));
+
+///
+console.log("--- Math ---");
+console.log(Math.sqrt(25));
+console.log(25 ** (1 / 2));
+console.log(8 ** (1 / 3));
+
+console.log(Math.max(2, 4, 23, 4, 6));
+console.log(Math.max(2, 4, "23", 4, 6));
+console.log(Math.max(2, 4, "23 px", 4, 6)); //NaN
+console.log(Math.min(2, 3, 5, 6, -2, 23));
+
+console.log(Math.PI * Number.parseInt("10px") ** 2);
+
+console.log(Math.trunc(Math.random() * 6) + 1);
+
+const randomInt = (min, max) =>
+  Math.floor(Math.random() * (max - min) + 1) + min;
+console.log(randomInt(4, 6));
+
+///
+console.log("--- rounding integers ---");
+console.log("-- trunc --");
+console.log(Math.trunc(23.3)); // removes decimal part
+
+console.log("-- round --");
+console.log(Math.round(23.3));
+console.log(Math.round(23.5));
+
+console.log("-- ceil --");
+console.log(Math.ceil(23.3));
+console.log(Math.ceil("23.5")); // type coersion
+
+console.log("-- floor --");
+console.log(Math.floor(23.3));
+console.log(Math.floor("23.5")); // type coersion
+
+console.log("-- trunc vs floor --");
+console.log(Math.trunc(-5.4));
+console.log(Math.floor(-5.4));
+
+///
+console.log("--- rounding decimals ---");
+console.log((2.7).toFixed(0)); // returns a string
+console.log((2.7).toFixed(3));
+console.log((2.745).toFixed(2));
+console.log(+(2.744).toFixed(2));
+
+///
+console.log("--- remainder ---");
+
+console.log(5 % 2);
+console.log(5 / 2); // 5 = 2 * 2 + 1
+
+console.log(8 % 3);
+console.log(8 / 3); // 8 = 2 * 3 + 2
+
+console.log(6 % 2);
+console.log(6 / 2);
+
+const isEven = (n) => console.log(n % 2 === 0);
+isEven(7);
+isEven(6);
+isEven(111);
+isEven(3213);
+isEven(444);
