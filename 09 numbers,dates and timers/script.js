@@ -640,6 +640,7 @@ console.log(
 
 // timers
 console.log("--- TIMERS ---");
+
 // setTimeout
 console.log("--- setTimeout ---");
 const ingredients = ["olives", "spinach"];
