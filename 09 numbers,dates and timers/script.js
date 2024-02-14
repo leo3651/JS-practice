@@ -73,6 +73,27 @@ const inputLoanAmount = document.querySelector(".form__input--loan-amount");
 const inputCloseUsername = document.querySelector(".form__input--user");
 const inputClosePin = document.querySelector(".form__input--pin");
 
+// logout timet
+const startLogOut = function () {
+  let time = 600;
+  const tick = () => {
+    let minutes = `${Math.trunc(time / 60)}`.padStart(2, "0");
+    let seconds = `${time % 60}`.padStart(2, "0");
+    labelTimer.textContent = `${minutes}:${seconds}`;
+
+    if (time === 0) {
+      clearInterval(timer);
+      labelWelcome.textContent = "Log in to get started";
+      containerApp.style.opacity = 0;
+    }
+    time--;
+  };
+
+  tick();
+  timer = setInterval(tick, 1000);
+  return timer;
+};
+
 // format dates
 const formatMovementDate = function (date, locale) {
   const calcdaysPassed = (date1, date2) =>
@@ -198,7 +219,7 @@ const updadeUI = function (account) {
 };
 
 // login
-let currentAccount;
+let currentAccount, timer;
 btnLogin.addEventListener("click", function (e) {
   e.preventDefault();
   // console.log(e);
@@ -217,6 +238,9 @@ btnLogin.addEventListener("click", function (e) {
     containerApp.style.opacity = 1;
     // display new UI
     updadeUI(currentAccount);
+
+    if (timer) clearInterval(timer);
+    startLogOut();
     const today = new Date();
     const options = {
       hour: "numeric",
@@ -271,6 +295,8 @@ btnTransfer.addEventListener("click", function (event) {
     receiveAcc.movementsDates.push(new Date().toISOString());
     // display tranfer
     updadeUI(currentAccount);
+    clearInterval(timer);
+    startLogOut();
   }
   inputTransferAmount.value = inputTransferTo.value = "";
   inputTransferAmount.blur();
@@ -280,17 +306,21 @@ btnTransfer.addEventListener("click", function (event) {
 // loan
 btnLoan.addEventListener("click", function (e) {
   e.preventDefault();
-  const amount = Number(inputLoanAmount.value);
-  if (
-    amount > 0 &&
-    currentAccount.movements.some((mov) => mov >= 0.1 * amount)
-  ) {
-    currentAccount.movements.push(amount);
-    currentAccount.movementsDates.push(new Date().toISOString());
-    updadeUI(currentAccount);
-  }
-  inputLoanAmount.value = "";
-  inputLoanAmount.blur();
+  setTimeout(() => {
+    const amount = Number(inputLoanAmount.value);
+    if (
+      amount > 0 &&
+      currentAccount.movements.some((mov) => mov >= 0.1 * amount)
+    ) {
+      currentAccount.movements.push(amount);
+      currentAccount.movementsDates.push(new Date().toISOString());
+      updadeUI(currentAccount);
+      clearInterval(timer);
+      startLogOut();
+    }
+    inputLoanAmount.value = "";
+    inputLoanAmount.blur();
+  }, 2500);
 });
 
 // delete acc
@@ -338,9 +368,6 @@ btnSort.addEventListener("click", function (event) {
   displayMovements(currentAccount, !isSorted);
   isSorted = !isSorted;
 });
-currentAccount = account1;
-containerApp.style.opacity = 1;
-updadeUI(currentAccount);
 
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
@@ -610,3 +637,32 @@ console.log(
   navigator.language,
   new Intl.NumberFormat(navigator.language, options2).format(number)
 );
+
+// timers
+console.log("--- TIMERS ---");
+// setTimeout
+console.log("--- setTimeout ---");
+const ingredients = ["olives", "spinach"];
+const pizzaTimer = setTimeout(
+  (ing1, ing2) => console.log(`Here is your pizza with ${ing1} and ${ing2}`),
+  3000,
+  ...ingredients
+);
+console.log("Waiting...");
+
+if (ingredients.includes("spinach")) clearTimeout(pizzaTimer);
+
+// setInterval
+console.log("--- setInterval ---");
+/* 
+setInterval(() => {
+  const rightNow = new Date();
+  const day = rightNow.getDate();
+  const month = `${rightNow.getMonth()}`.padStart(2, "0");
+  const year = rightNow.getFullYear();
+  const hours = `${rightNow.getHours()}`.padStart(2, "0");
+  const minutes = `${rightNow.getMinutes()}`.padStart(2, "0");
+  const seconds = `${rightNow.getSeconds()}`.padStart(2, "0");
+  console.log(`${day}/${month}/${year} ${hours}:${minutes}:${seconds}`);
+}, 1000);
+ */
