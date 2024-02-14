@@ -18,8 +18,8 @@ const account1 = {
     "2020-04-01T10:17:24.185Z",
     "2020-05-08T14:11:59.604Z",
     "2020-05-27T17:01:17.194Z",
-    "2020-07-11T23:36:17.929Z",
-    "2020-07-12T10:51:36.790Z",
+    "2024-02-11T11:00:17.929Z",
+    "2024-02-12T13:51:36.790Z",
   ],
   currency: "EUR",
   locale: "pt-PT", // de-DE
@@ -38,8 +38,8 @@ const account2 = {
     "2020-01-25T14:18:46.235Z",
     "2020-02-05T16:33:06.386Z",
     "2020-04-10T14:43:26.374Z",
-    "2020-06-25T18:49:59.371Z",
-    "2020-07-26T12:01:20.894Z",
+    "2024-02-25T11:49:59.371Z",
+    "2024-02-26T13:01:20.894Z",
   ],
   currency: "USD",
   locale: "en-US",
@@ -73,19 +73,33 @@ const inputLoanAmount = document.querySelector(".form__input--loan-amount");
 const inputCloseUsername = document.querySelector(".form__input--user");
 const inputClosePin = document.querySelector(".form__input--pin");
 
-const displayMovements = function (movements, sort = false) {
+const formatMovementDate = function (date) {
+  const daysPassed = (date1, date2) =>
+    Math.round(Math.abs(date1 - date2) / (1000 * 24 * 60 * 60));
+  console.log(daysPassed(date, new Date()));
+
+  const day = `${date.getDate()}`.padStart(2, "0");
+  const month = `${date.getMonth() + 1}`.padStart(2, "0");
+  const year = date.getFullYear();
+  return `${year}/${day}/${month}`;
+};
+
+const displayMovements = function (account, sort = false) {
   const sortedMovements = sort
-    ? movements.slice().sort((a, b) => a - b)
-    : movements;
+    ? account.movements.slice().sort((a, b) => a - b)
+    : account.movements;
   containerMovements.innerHTML = ``;
   sortedMovements.forEach(function (movement, index) {
+    const present = new Date(account.movementsDates[index]);
+    const displayDate = formatMovementDate(present);
+
     const type = movement < 0 ? "withdrawal" : "deposit";
     const html = `        
     <div class="movements__row">
       <div class="movements__type movements__type--${type}">${
       index + 1
     } ${type}</div>
-      <div class="movements__date">3 days ago</div>
+      <div class="movements__date">${displayDate}</div>
       <div class="movements__value">${Math.abs(movement).toFixed(2)} €</div>
     </div>
     `;
@@ -149,7 +163,7 @@ createUsername(accounts);
 console.log(accounts);
 
 const updadeUI = function (account) {
-  displayMovements(account.movements);
+  displayMovements(account);
   calcDisplaySummary(account);
   calcAndDisplayBalance(account);
 };
@@ -174,6 +188,16 @@ btnLogin.addEventListener("click", function (e) {
     containerApp.style.opacity = 1;
     // display new UI
     updadeUI(currentAccount);
+    const present = new Date();
+    labelDate.textContent = present;
+    const day = `${present.getDate()}`.padStart(2, "0");
+    const month = `${present.getMonth() + 1}`.padStart(2, "0");
+    const year = present.getFullYear();
+    const hour = `${present.getHours()}`.padStart(2, "0");
+    const minutes = `${present.getMinutes()}`.padStart(2, "0");
+    const seconds = present.getSeconds();
+
+    labelDate.textContent = `${day}/${month}/${year}, ${hour}:${minutes}`;
   }
   inputLoginPin.value = inputLoginUsername.value = "";
   inputLoginPin.blur();
@@ -199,6 +223,8 @@ btnTransfer.addEventListener("click", function (event) {
     // doing the tranfer
     currentAccount.movements.push(-tranferAmount);
     receiveAcc.movements.push(tranferAmount);
+    currentAccount.movementsDates.push(new Date().toISOString());
+    receiveAcc.movementsDates.push(new Date().toISOString());
     // display tranfer
     updadeUI(currentAccount);
   }
@@ -216,6 +242,7 @@ btnLoan.addEventListener("click", function (e) {
     currentAccount.movements.some((mov) => mov >= 0.1 * amount)
   ) {
     currentAccount.movements.push(amount);
+    currentAccount.movementsDates.push(new Date().toISOString());
     updadeUI(currentAccount);
   }
   inputLoanAmount.value = "";
@@ -264,10 +291,13 @@ btnClose.addEventListener("click", function (event) {
 let isSorted = false;
 btnSort.addEventListener("click", function (event) {
   event.preventDefault();
-  displayMovements(currentAccount.movements, !isSorted);
+  displayMovements(currentAccount, !isSorted);
   isSorted = !isSorted;
 });
 
+currentAccount = account1;
+updadeUI(currentAccount);
+containerApp.style.opacity = 1;
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // LECTURES
@@ -452,3 +482,42 @@ console.log(new Date(2024, 5, 31, 20, 10, 15)); // autocorrects
 
 console.log(new Date(0));
 console.log(new Date(3 * 24 * 60 * 60 * 1000)); //3 days after
+console.log(new Date(1_400_000_000_000)); // 2014
+
+///
+console.log("--- working with dates ---");
+const future = new Date(2044, 5, 8, 20, 10);
+console.log(future);
+console.log(typeof future);
+console.log(future.getFullYear());
+console.log(future.getYear());
+console.log(future.getMonth()); // 0 based
+console.log(future.getDate());
+console.log(future.getDay());
+console.log(typeof future.getDay());
+console.log(future.getHours());
+console.log(future.getMinutes());
+console.log(future.getSeconds());
+console.log(future.toISOString());
+console.log(future.getTime()); // timestamp
+
+console.log(new Date(future.getTime()));
+
+console.log(Date.now()); // current timestamp
+console.log(typeof Date.now()); // current timestamp
+
+future.setFullYear(1999);
+console.log(future);
+
+console.log("--- operations with dates ---");
+const backToFuture = new Date(2044, 5, 8, 20, 0);
+console.log(backToFuture);
+console.log(Number(backToFuture));
+console.log(+backToFuture);
+
+const calcDaysPassed = (date1, date2) =>
+  Math.abs(date2 - date1) / (1000 * 24 * 60 * 60);
+
+console.log(new Date(2024, 5, 8));
+console.log(new Date(2024, 1, 14));
+console.log(calcDaysPassed(new Date(2024, 5, 8), new Date(2024, 1, 14)));
