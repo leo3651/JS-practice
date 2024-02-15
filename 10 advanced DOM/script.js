@@ -4,7 +4,6 @@
 /////////////////////////////////////////////////
 // BANKIST PAGE
 
-// modal window
 const modal = document.querySelector(".modal");
 const overlay = document.querySelector(".overlay");
 const btnCloseModal = document.querySelector(".btn--close-modal");
@@ -12,6 +11,7 @@ const btnsOpenModal = document.querySelectorAll(".btn--show-modal");
 const btnLearnMore = document.querySelector(".btn--scroll-to");
 const sectionOne = document.getElementById("section--1");
 
+// modal window
 const openModal = function (event) {
   event.preventDefault();
   modal.classList.remove("hidden");
@@ -39,11 +39,32 @@ btnLearnMore.addEventListener("click", () => {
   sectionOne.scrollIntoView({ behavior: "smooth" });
 });
 
+// nav__link scroll
+document.querySelector(".nav__links").addEventListener("click", function (e) {
+  e.preventDefault();
+  if (e.target.classList.contains("nav__link")) {
+    const id = e.target.getAttribute("href");
+    console.log(id);
+    document.querySelector(id).scrollIntoView({ behavior: "smooth" });
+  }
+});
+
+/* document.querySelectorAll(".nav__link").forEach((link) =>
+  link.addEventListener("click", function (e) {
+    e.preventDefault();
+    console.log(this);
+    const id = this.getAttribute("href");
+    console.log(id);
+    document.querySelector(id).scrollIntoView({ behavior: "smooth" });
+  })
+); */
+
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // LECTURES
 
 // selecting elements
+console.log("--- ELEMENTS ---");
 console.log(document);
 console.log(document.documentElement);
 console.log(document.head);
@@ -61,6 +82,7 @@ console.log(allBtns);
 console.log(document.getElementsByClassName("btn")); // returns HTMLCollection
 
 // creating and inserting elements
+console.log("--- creating and inserting el ---");
 const message = document.createElement("div");
 message.classList.add("cookie-message");
 // message.textContent = "We use cookies for improved functionality and analytics"
@@ -86,6 +108,7 @@ document.querySelector(".btn--close-cookie").addEventListener("click", () => {
 });
 
 // styles
+console.log("--- styles ---");
 message.style.backgroundColor = "#37383d";
 message.style.width = "120%";
 
@@ -103,6 +126,7 @@ console.log(message.style.height);
 document.documentElement.style.setProperty("--color-primary", "orangered");
 
 // attributes
+console.log("--- attributes ---");
 const logo = document.querySelector(".nav__logo");
 console.log(logo);
 console.log(logo.alt);
@@ -133,6 +157,7 @@ console.log(btnLink.getAttribute("href"));
 console.log(logo.dataset.versionNumber);
 
 // classes
+console.log("--- classes");
 logo.classList.add("class", "class2");
 logo.classList.contains("class");
 logo.classList.remove("class");
@@ -143,6 +168,7 @@ console.log(logo.className);
 logo.classList.remove("class");
 
 // scrolling
+console.log("--- SCROLLING ---");
 const btnScrollTo = document.querySelector(".btn--scroll-to");
 const section1 = document.getElementById("section--1");
 
@@ -174,6 +200,7 @@ btnScrollTo.addEventListener("click", function (event) {
 });
 
 // events
+console.log("--- EVENTS ---");
 const h1 = document.querySelector("h1");
 
 const alertH1 = function (e) {
@@ -191,6 +218,7 @@ setTimeout(() => h1.removeEventListener("mouseenter", alertH1), 3000);
 // };
 
 // event propagation
+console.log("--- event propagation ---");
 const randomInt = (min, max) =>
   Math.floor(Math.random() * (max - min) + 1) + min;
 const randomColor = () =>
@@ -228,3 +256,41 @@ document.querySelector(".nav").addEventListener(
   },
   true // it listens an event on a way down -> first in console
 );
+
+// DOM traversing
+console.log("--- DOM TRAVERSING ---");
+const headingOne = document.querySelector("h1");
+console.log(headingOne);
+
+// going downwards: child
+console.log("--- downwards ---");
+console.log(headingOne.querySelectorAll(".highlight"));
+console.log(headingOne.childNodes);
+console.log(headingOne.children);
+
+headingOne.firstElementChild.style.color = "white";
+headingOne.lastElementChild.style.color = "orangered";
+console.log(headingOne.firstElementChild);
+
+// going upwards: parents
+console.log("--- upwards ---");
+console.log(headingOne.parentNode);
+console.log(headingOne.parentElement);
+
+headingOne.closest(".header").style.background = "var(--gradient-primary)";
+
+headingOne.closest("h1").style.background = "var(--gradient-secondary)";
+
+// going sideways: siblings
+console.log("--- siblings ---");
+console.log(headingOne.previousElementSibling);
+console.log(headingOne.nextElementSibling);
+
+console.log(headingOne.previousSibling);
+console.log(headingOne.nextSibling);
+
+console.log(headingOne.parentElement.children);
+
+[...headingOne.parentElement.children].forEach((el) => {
+  if (el !== headingOne) el.style.transform = "scale(0.9)";
+});
