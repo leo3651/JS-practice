@@ -92,8 +92,73 @@ console.log(message.style.height);
 
 document.documentElement.style.setProperty("--color-primary", "orangered");
 
-// atributes
+// attributes
 const logo = document.querySelector(".nav__logo");
 console.log(logo);
 console.log(logo.alt);
 console.log(logo.src);
+
+console.log(logo.designer); // non-standard property
+console.log(logo.getAttribute("designer"));
+
+console.log(logo.className);
+
+logo.alt = "Beautiful minimalist logo";
+console.log(logo.alt);
+
+logo.setAttribute("company", "bankist");
+
+console.log(logo.src);
+console.log(logo.getAttribute("src"));
+
+const link = document.querySelector(".twitter-link");
+console.log(link.href);
+console.log(link.getAttribute("href"));
+
+const btnLink = document.querySelector(".nav__link--btn");
+console.log(btnLink.href);
+console.log(btnLink.getAttribute("href"));
+
+// data attributes
+console.log(logo.dataset.versionNumber);
+
+// classes
+logo.classList.add("class", "class2");
+logo.classList.contains("class");
+logo.classList.remove("class");
+logo.classList.toggle("class");
+console.log(logo.className);
+logo.className = "nav__logo class";
+console.log(logo.className);
+logo.classList.remove("class");
+
+///
+const btnScrollTo = document.querySelector(".btn--scroll-to");
+const section1 = document.getElementById("section--1");
+
+btnScrollTo.addEventListener("click", function (event) {
+  console.log(event.target);
+  console.log(this);
+
+  const s1coord = section1.getBoundingClientRect();
+  console.log("Section 1: ", s1coord);
+  console.log("Btn learn more: ", btnScrollTo.getBoundingClientRect());
+
+  console.log("Current scroll X/Y: ", window.scrollX, window.scrollY);
+
+  console.log(
+    "Viewport width/height: ",
+    document.documentElement.clientWidth,
+    document.documentElement.clientHeight
+  );
+
+  // window.scrollTo(s1coord.x, s1coord.y + window.scrollY);
+
+  // window.scrollTo({
+  //   left: s1coord.x,
+  //   top: s1coord.y + window.scrollY,
+  //   behavior: "smooth",
+  // });
+
+  section1.scrollIntoView({ behavior: "smooth" });
+});
