@@ -1,12 +1,16 @@
 "use strict";
 
-///////////////////////////////////////
-// Modal window
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+// BANKIST PAGE
 
+// modal window
 const modal = document.querySelector(".modal");
 const overlay = document.querySelector(".overlay");
 const btnCloseModal = document.querySelector(".btn--close-modal");
 const btnsOpenModal = document.querySelectorAll(".btn--show-modal");
+const btnLearnMore = document.querySelector(".btn--scroll-to");
+const sectionOne = document.getElementById("section--1");
 
 const openModal = function (event) {
   event.preventDefault();
@@ -30,7 +34,13 @@ document.addEventListener("keydown", function (e) {
   }
 });
 
-///////////////////////////////////////
+// learn more btn scroll
+btnLearnMore.addEventListener("click", () => {
+  sectionOne.scrollIntoView({ behavior: "smooth" });
+});
+
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
 // LECTURES
 
 // selecting elements
@@ -132,7 +142,7 @@ logo.className = "nav__logo class";
 console.log(logo.className);
 logo.classList.remove("class");
 
-///
+// scrolling
 const btnScrollTo = document.querySelector(".btn--scroll-to");
 const section1 = document.getElementById("section--1");
 
@@ -162,3 +172,59 @@ btnScrollTo.addEventListener("click", function (event) {
 
   section1.scrollIntoView({ behavior: "smooth" });
 });
+
+// events
+const h1 = document.querySelector("h1");
+
+const alertH1 = function (e) {
+  alert("You are reading the heading!");
+
+  h1.removeEventListener("mouseenter", alertH1);
+};
+
+h1.addEventListener("mouseenter", alertH1);
+
+setTimeout(() => h1.removeEventListener("mouseenter", alertH1), 3000);
+
+// h1.onmouseenter = function (e) {
+//   alert("You are reading the heading");
+// };
+
+// event propagation
+const randomInt = (min, max) =>
+  Math.floor(Math.random() * (max - min) + 1) + min;
+const randomColor = () =>
+  `rgb(${randomInt(0, 255)},${randomInt(0, 255)},${randomInt(0, 255)})`;
+
+console.log(randomInt(5, 7));
+console.log(randomColor());
+
+document.querySelector(".nav__link").addEventListener("click", function (e) {
+  // console.log(e);
+  // console.log(e.target);
+  // console.log(this);
+  this.style.backgroundColor = randomColor();
+  console.log("LINK: ", e.target, e.currentTarget);
+  console.log(this);
+  console.log(e.currentTarget);
+
+  e.stopPropagation(); // stop propagation
+});
+
+document.querySelector(".nav__links").addEventListener("click", function (e) {
+  this.style.backgroundColor = randomColor();
+  console.log("CONTAINER: ", e.target, e.currentTarget);
+  console.log(this);
+  console.log(this === e.currentTarget);
+});
+
+document.querySelector(".nav").addEventListener(
+  "click",
+  function (e) {
+    this.style.backgroundColor = randomColor();
+    console.log("NAV: ", e.target, e.currentTarget);
+    console.log(this);
+    console.log(this === e.currentTarget);
+  },
+  true // it listens an event on a way down -> first in console
+);
