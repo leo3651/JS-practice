@@ -10,6 +10,10 @@ const btnCloseModal = document.querySelector(".btn--close-modal");
 const btnsOpenModal = document.querySelectorAll(".btn--show-modal");
 const btnLearnMore = document.querySelector(".btn--scroll-to");
 const sectionOne = document.getElementById("section--1");
+const cont = document.querySelector(".operations__tab-container");
+const btns = document.querySelectorAll(".operations__tab");
+const contents = document.querySelectorAll(".operations__content");
+const nav = document.querySelector(".nav");
 
 // modal window
 const openModal = function (event) {
@@ -59,10 +63,74 @@ document.querySelector(".nav__links").addEventListener("click", function (e) {
   })
 ); */
 
+// tabbed component
+console.log(cont);
+console.log(btns);
+console.log(contents);
+
+cont.addEventListener("click", function (e) {
+  const clicked = e.target.closest(".operations__tab");
+  if (!clicked) return;
+
+  // remove classes
+  console.log(clicked);
+  btns.forEach((btn, i) => {
+    btn.classList.remove("operations__tab--active");
+    contents[i].classList.remove("operations__content--active");
+  });
+
+  // add clases
+  clicked.classList.add("operations__tab--active");
+  document
+    .querySelector(`.operations__content--${clicked.dataset.tab}`)
+    .classList.add("operations__content--active");
+
+  /*   if (clicked) {
+    console.log(clicked);
+    clicked.classList.add("operations__tab--active");
+  } */
+});
+
+// menu fade
+const hoverHandler = function (e, opacity) {
+  if (e.target.classList.contains("nav__link")) {
+    const link = e.target;
+    const siblings = link.closest(".nav").querySelectorAll(".nav__link");
+    console.log(siblings);
+    const logo = link.closest(".nav").querySelector("img");
+    console.log(logo);
+    siblings.forEach((sibling) => {
+      if (sibling !== link) sibling.style.opacity = this;
+    });
+    logo.style.opacity = this;
+  }
+};
+
+nav.addEventListener("mouseover", hoverHandler.bind(0.5));
+
+nav.addEventListener("mouseout", hoverHandler.bind(1));
+
+/* nav.addEventListener("mouseover", function (e) {
+  hoverHandler(e, 0.5);
+});
+
+nav.addEventListener("mouseout", function (e) {
+  hoverHandler(e, 1);
+}); */
+
+// sticky nav
+const s1Cords = sectionOne.getBoundingClientRect();
+window.addEventListener("scroll", function () {
+  console.log("Y: ", window.scrollY);
+  console.log(s1Cords.y);
+  if (scrollY > s1Cords.y) nav.classList.add("sticky");
+  else nav.classList.remove("sticky");
+});
+
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // LECTURES
-
+/* 
 // selecting elements
 console.log("--- ELEMENTS ---");
 console.log(document);
@@ -294,3 +362,4 @@ console.log(headingOne.parentElement.children);
 [...headingOne.parentElement.children].forEach((el) => {
   if (el !== headingOne) el.style.transform = "scale(0.9)";
 });
+ */
