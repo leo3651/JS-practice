@@ -177,7 +177,7 @@ const sectionObserver = new IntersectionObserver(sectionReveal, {
 
 section.forEach((sec) => {
   sectionObserver.observe(sec);
-  sec.classList.add("section--hidden");
+  // sec.classList.add("section--hidden");
 });
 
 // lazy loading images
@@ -203,6 +203,59 @@ const imgObserver = new IntersectionObserver(imgLoad, {
 });
 
 imgTargets.forEach((img) => imgObserver.observe(img));
+
+// slider
+const slides = document.querySelectorAll(".slide");
+const slider = document.querySelector(".slider");
+const dotContainer = document.querySelector(".dots");
+const btnRight = document.querySelector(".slider__btn--right");
+const btnLeft = document.querySelector(".slider__btn--left");
+console.log(slider);
+// slider.style.transform = "scale(0.5) translateX(-1000px)";
+// slider.style.overflow = "visible";
+
+let currentSlide = 0;
+const slideMax = slides.length - 1;
+
+const createDots = function () {
+  slides.forEach((_, i) => {});
+};
+
+const goToSlide = function (currentSlide) {
+  slides.forEach(
+    (slide, i) =>
+      (slide.style.transform = `translateX(${(i - currentSlide) * 100}%)`)
+  );
+};
+
+goToSlide(0);
+
+const nextSlide = function () {
+  if (currentSlide === slideMax) {
+    currentSlide = 0;
+  } else {
+    currentSlide++;
+  }
+  goToSlide(currentSlide);
+};
+
+const prevSlide = function () {
+  if (currentSlide === 0) {
+    currentSlide = slideMax;
+  } else {
+    currentSlide--;
+  }
+  goToSlide(currentSlide);
+};
+
+btnRight.addEventListener("click", nextSlide);
+btnLeft.addEventListener("click", prevSlide);
+
+document.addEventListener("keydown", function (e) {
+  console.log(e);
+  if (e.key === "ArrowRight") nextSlide();
+  if (e.key === "ArrowLeft") prevSlide();
+});
 
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
