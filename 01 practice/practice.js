@@ -1,3 +1,6 @@
+///////////////////////////////////
+/////// VALUES AND VARIABLES
+///////////////////////////////////
 let country = "Croatia";
 let population = 4000000;
 let continent = "Europe";
@@ -6,6 +9,9 @@ console.log(
   `Country: ${country} with population of ${population} at the continent: ${continent}`
 );
 
+///////////////////////////////////
+/////// DATA TYPES
+///////////////////////////////////
 const isIsland = false;
 let language;
 
@@ -16,6 +22,9 @@ console.log(typeof language);
 
 language = "croatian";
 
+///////////////////////////////////
+/////// BASIC OPERATORS
+///////////////////////////////////
 let halfOfPopulation = population / 2;
 population++;
 console.log(population);
@@ -24,6 +33,9 @@ console.log(population > 33000000);
 let description = `${country} is in ${continent} and its ${population} speaks ${language}`;
 console.log(description);
 
+///////////////////////////////////
+/////// IF / ELSE STATEMENT
+///////////////////////////////////
 if (population > 33000000) {
   console.log(`${country} population is above average`);
 } else {
@@ -31,12 +43,18 @@ if (population > 33000000) {
   console.log(`${country} population is ${belowAverage} below average`);
 }
 
+///////////////////////////////////
+/////// TYPE CONVERSION AND COERCION
+///////////////////////////////////
 console.log("9" - "5");
 console.log("19" - "13" + "17");
 console.log("19" - "13" + 17);
 console.log("123" > 57);
 console.log(5 + 6 + "4" + 9 - 4 - 2);
 
+///////////////////////////////////
+/////// EQUALITY OPERATORS
+///////////////////////////////////
 let numNeighbours = Number(
   prompt("How many neighbour countries does your county have? ")
 );
@@ -49,6 +67,9 @@ if (numNeighbours === 1) {
   console.log("No borders");
 }
 
+///////////////////////////////////
+/////// LOGICAL OPERATORS
+///////////////////////////////////
 if (
   !isIsland &&
   population < 50000000 &&
@@ -59,6 +80,9 @@ if (
   console.log(`${country} does not meet your criteria`);
 }
 
+///////////////////////////////////
+/////// THE SWITCH STATEMENT
+///////////////////////////////////
 let language2 = "arabic";
 switch (language2) {
   case "chinese":
@@ -81,6 +105,9 @@ switch (language2) {
     console.log("great language too");
 }
 
+///////////////////////////////////
+/////// THE CONDITIONAL (TERNARY) OPERATOR
+///////////////////////////////////
 population > 33000000
   ? console.log(`${country} is above average`)
   : console.log(`${country} is below average`);

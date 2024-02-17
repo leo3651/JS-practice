@@ -1,3 +1,6 @@
+///////////////////////////////////
+/////// VALUES AND VARIABLES
+///////////////////////////////////
 let js = "amazing";
 console.log(40 + 8 + 23 - 10);
 
@@ -12,6 +15,9 @@ let PI = 3.14159;
 let myFirstJob = "programmer";
 let myCurrentJob = "teacher";
 
+///////////////////////////////////
+/////// DATA TYPES
+///////////////////////////////////
 let javaScriptIsFun = true;
 console.log(javaScriptIsFun);
 console.log(typeof javaScriptIsFun);
@@ -27,6 +33,9 @@ year = 1991;
 console.log(typeof year);
 console.log(typeof null);
 
+///////////////////////////////////
+/////// LET, CONST, VAR
+///////////////////////////////////
 let age = 30;
 age = 32;
 
@@ -34,6 +43,9 @@ const birthYear = 1991;
 var job2 = "programmer";
 job2 = "teacher";
 
+///////////////////////////////////
+/////// MATH OPERATORS
+///////////////////////////////////
 const now = 2037;
 const jonasAge = now - 1991;
 const sarahAge = now - 2018;
@@ -44,6 +56,9 @@ const firstName2 = "jonas";
 const lastName = "smit";
 console.log(firstName2 + " " + lastName);
 
+///////////////////////////////////
+/////// ASSIGNMENT OPERATORS
+///////////////////////////////////
 let x = 10 + 5;
 x += 10;
 x *= 4;
@@ -52,6 +67,9 @@ x--;
 x--;
 console.log(x);
 
+///////////////////////////////////
+/////// COMPARISON OPERATORS
+///////////////////////////////////
 console.log(jonasAge < sarahAge);
 console.log(sarahAge >= 18);
 
@@ -60,6 +78,9 @@ console.log(isFullAge);
 
 console.log(now - 1991 > now - 2018);
 
+///////////////////////////////////
+/////// OPERATOR PRECEDENCE
+///////////////////////////////////
 const future = 2037;
 const ageJonas = future - 1991;
 const ageSarah = future - 2018;
@@ -72,6 +93,9 @@ console.log(z, y);
 const averageAge = (ageJonas + ageSarah) / 2;
 console.log(averageAge);
 
+///////////////////////////////////
+/////// STRINGS AND TEMPLATE LITERALS
+///////////////////////////////////
 const firstName3 = "jonas";
 const year2 = 2037;
 const birthYear2 = 1991;
@@ -84,6 +108,10 @@ console.log(`i'm leo`);
 console.log("string with\nmultiple\nlines");
 console.log(`multiline 
 string`);
+
+///////////////////////////////////
+/////// IF / ELSE STATEMENTS
+///////////////////////////////////
 const age2 = 15;
 const isOldEnough = age2 >= 18;
 
@@ -103,13 +131,24 @@ if (birthYear3 <= 2000) {
 }
 console.log(century);
 
+///////////////////////////////////
+/////// TYPE CONVERSION AND COERCION
+///////////////////////////////////
+// type conversion
 const inputYear = "1991";
 console.log(Number(inputYear) + 18);
 console.log(inputYear + 18);
 
 console.log(String(23), 23);
 
+// type coercion
 console.log("i'm " + 23 + " years old");
+console.log("23" - "10" - 3);
+console.log("23" / "2");
+
+///////////////////////////////////
+/////// TRUTHY AND FALSY VALUES
+///////////////////////////////////
 console.log(Boolean(0));
 console.log(Boolean(undefined));
 console.log(Boolean("jonas"));
@@ -131,6 +170,9 @@ if (height) {
   console.log("not defined");
 }
 
+///////////////////////////////////
+/////// EQUALITY OPERATORS: == vs. ===
+///////////////////////////////////
 const age3 = "18";
 if (age3 === 18) console.log("you became an adult (strict)");
 
@@ -149,6 +191,9 @@ if (favourite === 23) {
   console.log("not cool");
 }
 
+///////////////////////////////////
+/////// PRACTICE
+///////////////////////////////////
 const massMark = 78;
 const heightMark = 1.69;
 const massJohn = 92;
@@ -164,6 +209,9 @@ if (BMIMark > BMIJohn) {
   console.log(`John's BMI ${BMIJohn} is higher than Mark's ${BMIMark}`);
 }
 
+///////////////////////////////////
+/////// LOGICAL OPERATORS
+///////////////////////////////////
 const hasDriverLicence = true;
 const hasGoodVision = true;
 
@@ -186,6 +234,9 @@ if (hasDriverLicence && hasDriverLicence && !isTired) {
   console.log("someone else drive");
 }
 
+///////////////////////////////////
+/////// PRACTICE
+///////////////////////////////////
 let scoreDolphins = (96 + 108 + 89) / 3;
 let scoreKoalas = (88 + 91 + 110) / 3;
 
@@ -197,6 +248,9 @@ if (scoreKoalas > scoreDolphins) {
   console.log("Both win the trophy");
 }
 
+///////////////////////////////////
+/////// THE SWITCH STATEMENT
+///////////////////////////////////
 const day = "saturday";
 
 switch (day) {
@@ -233,6 +287,9 @@ if (day === "monday") {
   console.log("not valid day");
 }
 
+///////////////////////////////////
+/////// THE CONDITIONAL (TERNARY) OPERATOR
+///////////////////////////////////
 const bill = 275;
 
 let tip = bill >= 50 && bill <= 300 ? 0.15 * bill : 0.2 * bill;

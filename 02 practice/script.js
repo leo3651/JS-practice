@@ -1,8 +1,8 @@
 "use strict";
 
-////////////////////////
-///////STRICT MODE
-////////////////////////
+///////////////////////////////////
+/////// STRICT MODE
+///////////////////////////////////
 let hasDriversLicense = false;
 const passTest = true;
 
@@ -13,9 +13,9 @@ if (hasDriversLicense) console.log("I can drive");
 //const private = 534;
 //const if = 44;
 
-////////////////////////
-///////FUNCTIONS
-////////////////////////
+///////////////////////////////////
+/////// FUNCTIONS
+///////////////////////////////////
 function logger() {
   console.log("My name is Leo");
 }
@@ -38,6 +38,9 @@ console.log(appleJuice);
 const appleOrangeJuice = fruitProcessor(3, 5);
 console.log(appleOrangeJuice);
 
+///////////////////////////////////
+/////// FUNCTION DECLARATION vs. FUNCTION EXPRESSION
+///////////////////////////////////
 // function declaration
 const age = calcAge1(1991);
 function calcAge1(birthYear) {
@@ -60,7 +63,9 @@ const calcAge3 = function (birthYear) {
   return 2037 - birthYear;
 };
 
-// arrow function
+///////////////////////////////////
+/////// ARROW FUNCTION
+///////////////////////////////////
 const calcAge4 = (birthYear) => 2037 - birthYear;
 const age4 = calcAge4(1991);
 console.log(calcAge3(1991), age4);
@@ -74,7 +79,9 @@ const yearsUntilRetirement = (birthYear, firstName) => {
 console.log(yearsUntilRetirement(1999, "Leo"));
 console.log(yearsUntilRetirement(1995, "Mia"));
 
-// function calling other functions
+///////////////////////////////////
+/////// FUNC CALLING OTHER FUNC
+///////////////////////////////////
 const cutPieces = function (fruit) {
   return fruit * 4;
 };
@@ -88,7 +95,7 @@ function fruitPiecesProcessor(apples, oranges) {
 
 console.log(fruitPiecesProcessor(4, 2));
 
-///
+// reviewing functions
 const calculateAge = function (birthYear) {
   return 2024 - birthYear;
 };
@@ -106,7 +113,9 @@ const yearsUntilRetirement2 = function (firstName, birthYear) {
 console.log(yearsUntilRetirement2("Leo", 1999));
 console.log(yearsUntilRetirement2("Leo", 1920));
 
-///
+///////////////////////////////////
+/////// PRACTICE
+///////////////////////////////////
 const calcAverage = (score1, score2, score3) => (score1 + score2 + score3) / 3;
 
 const scoreDolphins = calcAverage(44, 23, 71);
@@ -124,9 +133,9 @@ function checkWinner(avgDolphins, avgKoalas) {
 
 checkWinner(scoreDolphins, scoreKoalas);
 
-////////////////////////
-///////ARRAYS
-////////////////////////
+///////////////////////////////////
+/////// ARRAYS
+///////////////////////////////////
 const friends = ["Michael", "Steven", "Peter"];
 console.log(friends);
 
@@ -147,10 +156,10 @@ const leo = [firstName, "Kovacevic", 2024 - 1999, "programmer", friends];
 console.log(leo);
 console.log(leo.length);
 
+///
 const ageCalculator = function (birthYear) {
   return 2024 - birthYear;
 };
-
 const yearsArray = [1990, 1967, 2002, 2010, 2018];
 
 const calculatedAge1 = ageCalculator(yearsArray[0]);
@@ -195,7 +204,9 @@ console.log(friends.includes(23));
 
 if (friends.includes("Leo")) console.log("You have a friend named Leo");
 
-///
+///////////////////////////////////
+/////// PRACTICE
+///////////////////////////////////
 const tips = [];
 const totals = [];
 const bills = [125, 555, 44];
@@ -220,9 +231,9 @@ calcTip(bills);
 calcTotals(bills, tips);
 console.log(bills, tips, totals);
 
-////////////////////////
-///////OBJECTS
-////////////////////////
+///////////////////////////////////
+/////// OBJECTS
+///////////////////////////////////
 const objectLeo = {
   firstName: "Leo",
   lastName: "Kov",
@@ -232,6 +243,7 @@ const objectLeo = {
 };
 console.log(objectLeo);
 
+//  dot vs. bracket notation
 console.log(objectLeo.lastName);
 console.log(objectLeo["lastName"]);
 
@@ -260,7 +272,7 @@ console.log(
   `${objectLeo.firstName} has ${objectLeo.friends.length} friends and his best friend is ${objectLeo.friends[0]}`
 );
 
-///
+// object methods
 const objLeo = {
   // properties
   firstName: "Leo",
@@ -325,7 +337,9 @@ console.log(objLeo.age);
 objLeo.getSummary();
 objLeo.getSummary2();
 
-///
+///////////////////////////////////
+/////// PRACTICE
+///////////////////////////////////
 const mark = {
   fullName: "Mark Miller",
   mass: 78,
@@ -357,9 +371,9 @@ console.log(
   }`
 );
 
-////////////////////////
-///////LOOPS
-////////////////////////
+///////////////////////////////////
+/////// LOOPS
+///////////////////////////////////
 // console.log("Lifting weights repetition 1")
 // console.log("Lifting weights repetition 2")
 // console.log("Lifting weights repetition 3")
@@ -370,6 +384,7 @@ for (let rep = 0; rep < 10; rep++) {
   console.log("Lifting weights repetition " + Number(rep + 1));
 }
 
+// looping arrays, breaking and continuing
 const leosArray = [
   "Leo",
   "Kov",
@@ -401,13 +416,14 @@ for (let i = 0, n = years.length; i < n; i++) {
 
 console.log(agesArr);
 
-// continue and break
+// continue
 console.log("--- ONLY STRINGS ---");
 for (let i = 0, n = leosArray.length; i < n; i++) {
   if (typeof leosArray[i] !== "string") continue;
   console.log(leosArray[i], typeof leosArray[i]);
 }
 
+// break
 console.log("--- BREAK WITH NUMBER ---");
 for (let i = 0, n = leosArray.length; i < n; i++) {
   if (typeof leosArray[i] === "number") break;
@@ -437,7 +453,7 @@ for (let exercise = 0; exercise < 3; exercise++) {
   }
 }
 
-///
+// the while loop
 console.log("-- FOR LOOP ---");
 for (let rep = 0; rep < 10; rep++) {
   console.log("Lifting weights repetition " + Number(rep + 1));
@@ -460,7 +476,9 @@ while (dice !== 6) {
   if (dice === 6) console.log("Loop is gonna end...");
 }
 
-///
+///////////////////////////////////
+/////// PRACTICE
+///////////////////////////////////
 const bills2 = [22, 295, 176, 440, 37, 105, 10, 1100, 86, 52];
 const tips2 = [];
 const totals2 = [];

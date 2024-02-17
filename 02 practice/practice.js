@@ -1,6 +1,8 @@
 "use strict";
 
-// functions
+///////////////////////////////////
+/////// FUNCTIONS
+///////////////////////////////////
 const describeCountry = function (country, population, capitalCity) {
   return `${country} has popultaion of ${population} people and it's capital city is ${capitalCity}`;
 };
@@ -72,7 +74,9 @@ console.log(chinaPercent);
 console.log(germanyPercent);
 console.log(croPercent);
 
-// arrays
+///////////////////////////////////
+/////// ARRAYS
+///////////////////////////////////
 const populations = [4, 60, 1441, 80];
 console.log(populations.length === 4);
 const percentages = [];
@@ -103,7 +107,9 @@ neighbours.includes("Germany")
 neighbours[neighbours.indexOf("Italy")] = "Italija";
 console.log(neighbours);
 
-// objects
+///////////////////////////////////
+/////// OBJECTS
+///////////////////////////////////
 const myCountry = {
   country: "Croatia",
   capital: "Zagreb",
@@ -135,7 +141,9 @@ myCountry.describe();
 myCountry.checkIsland();
 console.log(myCountry.isIsland);
 
-// loops
+///////////////////////////////////
+/////// LOOPS
+///////////////////////////////////
 for (let i = 0; i < 50; i++) {
   console.log("Voter number " + (i + 1) + " is currently voting");
 }
@@ -171,7 +179,9 @@ while (i != populations3.length) {
 }
 console.log(percentages3);
 
-/// find amplitude
+///////////////////////////////////
+/////// PRACTICE
+///////////////////////////////////
 const temperatures1 = [3, -2, -6, -1, "error", 9, 13, 17, 15, 14, 9, 5];
 const temperatures2 = [-10, 20, "error"];
 
@@ -229,8 +239,9 @@ function printForecast(temperatures) {
 printForecast(t);
 printForecast(t2);
 
-// hoistnig and tdz
-
+///////////////////////////////////
+/////// HOISTING AND TDZ
+///////////////////////////////////
 // variables
 console.log(me); // undefined
 // console.log(job); // reference error
@@ -279,7 +290,7 @@ function deleteShoppingChart() {
   console.log("Delete all products!");
 }
 
-///
+// var available on window object
 var x = 1;
 let y = 2;
 const z = 3;
@@ -288,7 +299,9 @@ console.log(x === window.x);
 console.log(x === window.y);
 console.log(x === window.z);
 
-// this keyword
+///////////////////////////////////
+/////// THIS KEYWORD
+///////////////////////////////////
 console.log(this); // window object
 
 const thisFunction = function (birthYear) {
@@ -325,7 +338,9 @@ matildaObject.calcAge();
 const f = matildaObject.calcAge;
 // f(); // this -> undefined
 
-///
+///////////////////////////////////
+/////// REGULAR FUNCTIONS vs. ARROW FUNCTIONS
+///////////////////////////////////
 var firstNameVar = "Matilda";
 const thisObjectLeo2 = {
   firstName: "Leo",
@@ -372,8 +387,9 @@ const arrowFunc = (a, b) => {
 
 arrowFunc(2, 5);
 
-// primitives VS objects
-
+///////////////////////////////////
+/////// OBJECTS vs. PRIMITIVES
+///////////////////////////////////
 // primitive types
 let lastName = "Marulic";
 let oldLastName = lastName;

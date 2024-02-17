@@ -120,7 +120,6 @@ const hoverHandler = function (e, opacity) {
 };
 
 nav.addEventListener("mouseover", hoverHandler.bind(0.5));
-
 nav.addEventListener("mouseout", hoverHandler.bind(1));
 
 /* nav.addEventListener("mouseover", function (e) {
@@ -186,7 +185,7 @@ const sectionObserver = new IntersectionObserver(sectionReveal, {
 
 section.forEach((sec) => {
   sectionObserver.observe(sec);
-  // sec.classList.add("section--hidden");
+  sec.classList.add("section--hidden");
 });
 
 // lazy loading images
@@ -290,7 +289,7 @@ dotContainer.addEventListener("click", function (e) {
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // LECTURES
-/* 
+
 // selecting elements
 console.log("--- ELEMENTS ---");
 console.log(document);
@@ -522,4 +521,20 @@ console.log(headingOne.parentElement.children);
 [...headingOne.parentElement.children].forEach((el) => {
   if (el !== headingOne) el.style.transform = "scale(0.9)";
 });
- */
+
+// lifecycle DOM events
+window.addEventListener("load", function (e) {
+  console.log("page fully loaded");
+  console.log(e);
+});
+
+document.addEventListener("DOMContentLoaded", function (e) {
+  console.log(e);
+  console.log("HTML parsed and DOM tree built");
+});
+
+window.addEventListener("beforeunload", function (e) {
+  e.preventDefault();
+  console.log(e);
+  e.returnValue = "";
+});
