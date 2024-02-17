@@ -1,9 +1,9 @@
 "use strict";
 
 ///////////////////////////////////
-/////// OBJECT ORIENTED PROGRAMMING
+/////// CONSTRUCTOR FUNCTION
 ///////////////////////////////////
-// constructor function
+console.log("--- CONSTRUCTOR FUNCTION ---");
 const Person = function (firstName, birthYear) {
   // instance properties
   this.firstName = firstName;
@@ -34,7 +34,10 @@ const jay = "Jay";
 console.log(jonas instanceof Person);
 console.log(jay instanceof Person);
 
-// prototypes
+///////////////////////////////////
+/////// PROTOTYPES
+///////////////////////////////////
+console.log("--- PROTOTYPES ---");
 console.log(Person.prototype);
 console.log(Person);
 
@@ -76,8 +79,10 @@ console.log(Person.prototype);
 console.log(leo.__proto__.__proto__);
 console.log(leo.__proto__.__proto__.__proto__);
 
-// prototypal inheritance on built in objects
-console.log("--- built in objects ---");
+///////////////////////////////////
+/////// PROTOTYPAL INHERITANCE ON BUILT IN OBJECTS
+///////////////////////////////////
+console.log("--- BUILT IN OBJ ---");
 const arr = [2, 3, 4, 4, 3, 2, 5, 6, 6]; // new Array === []
 console.log(arr);
 console.log(arr.__proto__);
@@ -97,3 +102,80 @@ console.log(h1);
 console.dir(h1);
 
 console.dir((x) => x + 1);
+
+///////////////////////////////////
+/////// PRACTICE
+///////////////////////////////////
+console.log("--- PRACTICE ---");
+const Car = function (make, speed) {
+  this.make = make;
+  this.speed = speed;
+};
+
+Car.prototype.accelerate = function () {
+  const newSpeed = Number.parseInt(this.speed) + 10 + " km/h";
+  this.speed = newSpeed;
+  console.log(`${this.make}: ${this.speed}`);
+};
+
+Car.prototype.brake = function () {
+  const newSpeed = Number.parseInt(this.speed) - 5 + " km/h";
+  this.speed = newSpeed;
+  console.log(`${this.make}: ${this.speed}`);
+};
+
+const bmw = new Car("BMW", "125 km/h");
+console.log(bmw);
+
+bmw.accelerate();
+bmw.brake();
+bmw.accelerate();
+bmw.accelerate();
+
+const mercedes = new Car("Mercedes", "95 km/h");
+console.log(mercedes);
+
+mercedes.accelerate();
+mercedes.accelerate();
+mercedes.accelerate();
+mercedes.brake();
+
+///////////////////////////////////
+/////// CLASSES
+///////////////////////////////////
+console.log("--- CLASSES ---");
+// class expression
+const PersonClass = class {};
+
+// class declaration
+class PersonCl {
+  constructor(firstName, birthYear) {
+    this.firstName = firstName;
+    this.birthYear = birthYear;
+  }
+
+  // methods will be added to .prototype property
+  calcAge() {
+    console.log(2024 - this.birthYear);
+  }
+
+  greet() {
+    console.log(`Hello ${this.firstName}`);
+  }
+}
+
+const jessica = new PersonCl("Jessica", 2004);
+console.log(jessica);
+
+jessica.calcAge();
+
+console.log(jessica.__proto__ === PersonCl.prototype);
+
+// PersonCl.prototype.greet = function () {
+//   console.log(`Hello ${this.firstName}`);
+// };
+jessica.greet();
+
+// 1. classes are NOT hoisted
+// 2. classes are first-class citizes
+// 3. classes are executed in strict mode
