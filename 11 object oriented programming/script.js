@@ -34,6 +34,14 @@ const jay = "Jay";
 console.log(jonas instanceof Person);
 console.log(jay instanceof Person);
 
+// static methods
+Person.hey = function () {
+  console.log("Hello there 🎃");
+  console.log(this);
+};
+Person.hey();
+// leo.hey(); // not inherited
+
 ///////////////////////////////////
 /////// PROTOTYPES
 ///////////////////////////////////
@@ -179,3 +187,82 @@ jessica.greet();
 // 1. classes are NOT hoisted
 // 2. classes are first-class citizes
 // 3. classes are executed in strict mode
+
+///////////////////////////////////
+/////// SETTERS AND GETTERS
+///////////////////////////////////
+console.log("--- SETTERS AND GETTERS ---");
+// on objects
+const account = {
+  owner: "Leo",
+  movements: [200, 300, 400, 300],
+
+  // latest() {
+  //   return this.movements.slice(-1).pop();
+  // },
+
+  get latest() {
+    return this.movements.slice(-1).pop();
+  },
+
+  set latest(mov) {
+    this.movements.push(mov);
+  },
+};
+console.log(account);
+
+// console.log(account.latest());
+console.log(account.latest);
+
+account.latest = 50;
+console.log(account.movements);
+
+// on classes
+class PersonAccount {
+  constructor(fullName, birthYear) {
+    this.fullName = fullName;
+    this.birthYear = birthYear;
+  }
+
+  // instance methods
+  calcAge() {
+    console.log(2024 - this.birthYear);
+  }
+
+  get age() {
+    return console.log(2024 - this.birthYear);
+  }
+
+  // set a property that already exists
+  set fullName(name) {
+    if (name.includes(" ")) this._fullName = name;
+    else alert(`${name} is not a full name`);
+  }
+
+  get fullName() {
+    return this._fullName;
+  }
+
+  // static method on classes
+  static hey() {
+    console.log("Hello there 🧨");
+    console.log(this);
+  }
+}
+
+const leoAccount = new PersonAccount("Leo Kov", 1999);
+console.log(leoAccount);
+
+leoAccount.calcAge();
+leoAccount.age;
+
+console.log(leoAccount);
+
+const walter = new PersonAccount("Walter White", 1965);
+console.log(walter);
+console.log(walter.fullName);
+console.log(walter._fullName);
+walter.age;
+
+PersonAccount.hey();
+// walter.hey(); // not inherited
