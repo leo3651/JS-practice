@@ -149,8 +149,9 @@ mercedes.accelerate();
 mercedes.brake();
 
 ///
-const Ev = function (make, speed) {
+const Ev = function (make, speed, charge) {
   Car.call(this, make, speed);
+  this.charge = charge;
 };
 
 Ev.prototype = Object.create(Car.prototype);
@@ -166,7 +167,7 @@ Ev.prototype.accelerate = function () {
 };
 console.log(Ev.prototype);
 
-const tesla = new Ev("Tesla", 120);
+const tesla = new Ev("Tesla", 120, 23);
 tesla.chargeBattery(80);
 console.log(tesla);
 
@@ -181,7 +182,7 @@ tesla.chargeBattery(100);
 console.log(tesla);
 tesla.brake();
 tesla.accelerate();
-/*
+
 ///////////////////////////////////
 /////// CLASSES
 ///////////////////////////////////
@@ -414,4 +415,56 @@ console.log(hulk instanceof Object);
 Student.prototype.constructor = Student;
 console.log(Student.prototype.constructor);
 console.dir(Student.prototype.constructor);
-*/
+
+///////////////////////////////////
+/////// INHERITANCE BETWEEN "CLASSES": ES6 CLASSES
+///////////////////////////////////
+class PersonClass2 {
+  constructor(firstName, birthYear) {
+    this.firstName = firstName;
+    this.birthYear = birthYear;
+  }
+
+  calcAge() {
+    console.log(2024 - this.birthYear);
+  }
+
+  greet() {
+    console.log("Hello " + this.firstName);
+  }
+
+  get age() {
+    return console.log(2024 - this.birthYear);
+  }
+
+  static hey() {
+    console.log("Hello there human!");
+  }
+}
+
+const tony = new PersonClass2("Tony", 1990);
+console.log(tony);
+
+class StudentClass extends PersonClass2 {
+  constructor(firstName, birthYear, course) {
+    super(firstName, birthYear); // always first -> creates this keyword
+    this.course = course;
+  }
+
+  introduce() {
+    console.log(`My name is ${this.firstName} and I study ${this.course}`);
+  }
+
+  calcAge() {
+    console.log(
+      `I'm ${
+        2024 - this.birthYear
+      } years old and I feel like I was 18 years old just yesterday`
+    );
+  }
+}
+
+const denis = new StudentClass("Denis", 1994, "Computer Science");
+denis.introduce();
+denis.greet();
+denis.calcAge();

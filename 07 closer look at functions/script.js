@@ -2,7 +2,9 @@
 
 const books = [];
 
-// default parameters
+///////////////////////////////////
+/////// DEFAULT PARAMETERS
+///////////////////////////////////
 console.log("--- DEFAULT PARAMETERS ---");
 const createBooking = function (
   flightNum,
@@ -29,7 +31,9 @@ createBooking("LP222", 7);
 
 createBooking("LP222", undefined, 1000);
 
-// value vs reference
+///////////////////////////////////
+/////// PASSING ARGUMENTS: VALUE vs. REFERENCE
+///////////////////////////////////
 console.log("--- VALUE VS REFERENCE ---");
 const flight = "LT432";
 const leo = {
@@ -62,7 +66,9 @@ newPassport(leo);
 checkIn(flight, leo);
 console.log(leo);
 
-// callback functions
+///////////////////////////////////
+/////// FUNCTIONS ACCEPTING CALLBACK FUNCTIONS
+///////////////////////////////////
 console.log("--- HIGHER ORDER FUNC ---");
 const oneWord = function (string) {
   return string.replaceAll(" ", "").toLowerCase();
@@ -92,7 +98,9 @@ document.body.addEventListener("click", emoji);
 
 ["Leo", "Jon", "Bob"].forEach(emoji);
 
-// function returning function
+///////////////////////////////////
+/////// FUNCTIONS RETURNING FUNCTIONS
+///////////////////////////////////
 console.log("--- FUNCTION RETURNING FUNCTION ---");
 
 const greet = function (greeting) {
@@ -118,7 +126,9 @@ greet2Hey("Bob");
 greet2("Hello")("Leo");
 greet2("Hello")("Bob");
 
-// call and apply methods
+///////////////////////////////////
+/////// THE CALL AND APPLY METHODS
+///////////////////////////////////
 const lufthansa = {
   airline: "Lufthansa",
   iataCode: "LH",
@@ -168,7 +178,9 @@ console.log(swiss);
 book.call(eurowings, ...flightInfo);
 console.log(eurowings);
 
-// bind method
+///////////////////////////////////
+/////// BIND METHOD
+///////////////////////////////////
 const bookEW = book.bind(eurowings);
 const bookSW = book.bind(swiss);
 const bookLH = book.bind(lufthansa);
@@ -227,7 +239,9 @@ const addTax3Rate30 = addTax3(0.3);
 console.log(addTax3Rate25(1000));
 console.log(addTax3Rate30(1000));
 
-///
+///////////////////////////////////
+/////// PRACTICE
+///////////////////////////////////
 console.log("--- POLL ---");
 const poll = {
   question: "What is your favourite programming language?",
@@ -270,7 +284,9 @@ poll.displayResults.call(testData2);
 poll.displayResults.call(testData, "string");
 poll.displayResults.call(testData2, "string");
 
-// immediately invoked function expression
+///////////////////////////////////
+/////// IMMEDIATELY INVOKED FUNCTION EXPRESSIONS (IIFE)
+///////////////////////////////////
 console.log("--- WRONG WAY ---");
 const runOnce = function () {
   console.log("This will only run once and never again");
@@ -299,7 +315,9 @@ console.log("--- CORRECT WAY ---");
 // console.log(isPrivate); // can't access
 console.log(notPrivate);
 
-// closure
+///////////////////////////////////
+/////// CLOSURES
+///////////////////////////////////
 const secureBooking = function () {
   let passengers = 0;
   return function () {
@@ -361,6 +379,7 @@ const boardPassengers = function (numPassengers, wait) {
 const perGroup = 2000; // closure has priority
 boardPassengers(999, 5);
 
+///
 (function () {
   const header = document.querySelector("h1");
   header.style.color = "red";
