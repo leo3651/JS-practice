@@ -243,7 +243,7 @@ class PersonAccount {
     return this._fullName;
   }
 
-  // static method on classes
+  // static method
   static hey() {
     console.log("Hello there 🧨");
     console.log(this);
@@ -266,3 +266,71 @@ walter.age;
 
 PersonAccount.hey();
 // walter.hey(); // not inherited
+
+///////////////////////////////////
+/////// OBJECT.CREATE
+///////////////////////////////////
+console.log("--- OBJECTS.CREATE ---");
+const PersonProto = {
+  calcAge() {
+    console.log(2024 - this.birthYear);
+  },
+
+  init(firstName, birthYear) {
+    this.firstName = firstName;
+    this.birthYear = birthYear;
+  },
+};
+
+const steven = Object.create(PersonProto);
+console.log(steven);
+steven.name = "Steven";
+steven.birthYear = 2002;
+steven.calcAge();
+
+console.log(steven.__proto__ === PersonProto);
+
+const peter = Object.create(PersonProto);
+peter.init("Peter", 1800);
+peter.calcAge();
+console.log(peter);
+
+///////////////////////////////////
+/////// PRACTICE
+///////////////////////////////////
+console.log("--- PRACTICE ---");
+class CarCl {
+  constructor(make, speed) {
+    this.make = make;
+    this.speed = speed;
+  }
+
+  accelerate() {
+    console.log(`${this.make}: ${(this.speed += 10)} km/h`);
+  }
+
+  brake() {
+    console.log(`${this.make}: ${(this.speed -= 5)} km/h`);
+  }
+
+  get speedUS() {
+    return `${this.speed / 1.6} mp/h`;
+  }
+
+  set speedUS(mph) {
+    return (this.speed = mph * 1.6);
+  }
+}
+
+const ford = new CarCl("Ford", 120);
+console.log(ford);
+console.log(ford.speedUS);
+ford.accelerate();
+ford.accelerate();
+console.log(ford);
+
+ford.speedUS = 80;
+console.log(ford);
+ford.brake();
+ford.brake();
+console.log(ford);

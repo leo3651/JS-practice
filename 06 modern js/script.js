@@ -24,26 +24,32 @@ const restaurant = {
   starterMenu: ["Focaccia", "Bruschetta", "Garlic Bread", "Caprese Salad"],
   mainMenu: ["Pizza", "Pasta", "Risotto"],
   openingHours, // ES6 enhanced objects literals
+
   order(starterMenuIndex, mainMenuIndex) {
     return [this.starterMenu[starterMenuIndex], this.mainMenu[mainMenuIndex]];
   },
+
   orderDelivery({ time = "20:00", adress, starterIndex = 1, mainIndex = 0 }) {
     console.log(
       `Order recived! ${this.starterMenu[starterIndex]} and ${this.mainMenu[mainIndex]} will be delivered to ${adress} at ${time}`
     );
   },
+
   orderPasta: function (ing1, ing2, ing3) {
     console.log(
       `Here is your delicious pasta with ${ing1}, ${ing2} and ${ing3}`
     );
   },
+
   orderPizza: function (mainIng, ...others) {
     console.log(mainIng);
     console.log(others);
   },
 };
 
-// destructuring objects
+///////////////////////////////////
+/////// DESTRUCTURING OBJECTS
+///////////////////////////////////
 const { name, categories, openingHours: oh } = restaurant;
 console.log(name);
 console.log(oh);
@@ -90,7 +96,9 @@ restaurant.orderDelivery({
   starterIndex: 2,
 });
 
-// destructuring arrays
+///////////////////////////////////
+/////// DESTRUCTURING ARRAYS
+///////////////////////////////////
 const arr = [44, 55, 66];
 const g = arr[0];
 const d = arr[1];
@@ -109,6 +117,7 @@ console.log(firstCategorie, secondCategorie);
 let [firstCategorie2, , thirdCategorie] = restaurant.categories;
 console.log(firstCategorie2, thirdCategorie);
 
+// switching variables
 // const temp = firstCategorie2;
 // firstCategorie2 = thirdCategorie;
 // thirdCategorie = temp;
@@ -117,7 +126,7 @@ console.log(firstCategorie2, thirdCategorie);
 [firstCategorie2, thirdCategorie] = [thirdCategorie, firstCategorie2];
 console.log(firstCategorie2, thirdCategorie);
 
-///
+// receive 2 return values from a function
 console.log(restaurant.order(2, 0));
 const [fromStarterMenu, fromMainMenu] = restaurant.order(2, 0);
 console.log(fromStarterMenu, fromMainMenu);
@@ -136,7 +145,9 @@ console.log(l, e, o);
 const [p = 1, q = 1, r = 1] = [2, 3];
 console.log(p, q, r);
 
-// spread operator
+///////////////////////////////////
+/////// SPREAD OPERATOR (...)
+///////////////////////////////////
 const array = [7, 8, 9];
 const badNewArray = [4, 5, 6, array[0], array[1], array[2]];
 console.log(badNewArray);
@@ -189,6 +200,10 @@ restaurantCopy.name = "Leo's restaurant";
 console.log(restaurant.name);
 console.log(restaurantCopy.name);
 
+///////////////////////////////////
+/////// REST PATTERN AND PARAMETERS
+///////////////////////////////////
+// 1) destructuring
 // SPREAD -> on RIGHT SIDE of =
 const array1 = [1, 2, ...[3, 4]];
 
@@ -209,11 +224,11 @@ console.log(pizza);
 console.log(risotto);
 console.log(starterMeals);
 
-///
+// objects
 const { sat, ...weekdays } = restaurant.openingHours;
 console.log(sat, weekdays);
 
-///
+// 2) functionss
 const add = function (...numbers) {
   console.log(numbers);
   let sum = 0;
@@ -229,13 +244,15 @@ add(3, 4, 2, 4, 5, 4, 3, 2);
 
 console.log(add(2, 3));
 console.log(add(2, 4, 5, 4, 3));
-console.log(add(3, 4, 2, 4, 5, 4, 3, 2));
+console.log(add(...[3, 4, 2, 4, 5, 4, 3, 2]));
 
 ///
 restaurant.orderPizza("cheese", "onion", "spinach");
 restaurant.orderPizza("cheese");
 
-// short circuting
+///////////////////////////////////
+/////// SHORT CIRCUITING (&&, ||)
+///////////////////////////////////
 console.log("--- OR ---");
 console.log(3 || "Leo");
 console.log("" || "Leo");
@@ -266,7 +283,9 @@ if (restaurant.orderPizza) restaurant.orderPizza("cheese", "onion");
 
 restaurant.orderPizza && restaurant.orderPizza("cheese", "onion");
 
-///
+///////////////////////////////////
+/////// LOGICAL ASSIGNMENT OPERATORS
+///////////////////////////////////
 const res1 = {
   name: "Rustica",
   numGuests: 20,
@@ -302,7 +321,9 @@ res2.owner &&= "<ANONYMOUS>";
 console.log("Res 2 owner: ", res2.owner);
 console.log("Res 1 owner: ", res1.owner);
 
-///
+///////////////////////////////////
+/////// PRACTICE
+///////////////////////////////////
 console.log("--- FOR PRACTICE ---");
 const game = {
   team1: "Bayern Munich",
@@ -439,7 +460,9 @@ for (const [key, value] of gameEvents) {
   console.log(`[${key <= 45 ? "FIRST" : "SECOND"} HALF] ${key}: ${value}`);
 }
 
-// loops
+///////////////////////////////////
+/////// FOR OF LOOP
+///////////////////////////////////
 console.log("--- FOR OF LOOP ---");
 const entireMenu = [...restaurant.starterMenu, ...restaurant.mainMenu];
 
@@ -450,7 +473,9 @@ for (const [index, item] of entireMenu.entries())
 
 // console.log([...entireMenu.entries()]);
 
-// optional chaining
+///////////////////////////////////
+/////// OPTIONAL CHAINING
+///////////////////////////////////
 console.log("--- OPTIONAL CHAINING ---");
 if (restaurant.openingHours && restaurant.openingHours.mon)
   console.log(restaurant.openingHours.mon.open);
@@ -478,7 +503,10 @@ console.log(users[0]?.["name"] ?? "User does not exist");
 
 console.log(users[0]?.["number"] ?? "User does not exist");
 
-// looping objects
+///////////////////////////////////
+/////// LOOPING OBJECTS
+///////////////////////////////////
+// property names
 const properties = Object.keys(openingHours);
 console.log(properties);
 
@@ -494,10 +522,11 @@ console.log(openStr);
 const openStrCorrectSentence = `${openStr.slice(1, -1)}.`;
 console.log(openStrCorrectSentence);
 
-///
+// property values
 const values = Object.values(openingHours);
 console.log(values);
 
+// entire object
 const entries = Object.entries(openingHours);
 console.log(entries);
 
@@ -505,7 +534,9 @@ for (const [key, { open, close }] of entries) {
   console.log(`On ${key} we opet at ${open} and colse at ${close}`);
 }
 
-// sets
+///////////////////////////////////
+/////// SETS
+///////////////////////////////////
 console.log("--- SETS ---");
 const ordersSet = new Set([
   "Pasta",
@@ -546,7 +577,9 @@ console.log(
 );
 console.log(new Set("Leo Kovacevic").size);
 
-// maps
+///////////////////////////////////
+/////// MAPS: FUNDAMENTALS
+///////////////////////////////////
 console.log("--- MAPS ---");
 const rest = new Map();
 rest.set("name", "Pizzeria");
@@ -590,7 +623,7 @@ console.log(rest.size);
 // rest.clear();
 // console.log(rest);
 
-///
+// maps iteration
 const question = new Map([
   ["question", "What is the best programming language in the world"],
   [1, "C"],
@@ -625,7 +658,9 @@ console.log([...question.entries()]);
 console.log([...question.keys()]);
 console.log([...question.values()]);
 
-// working with strings
+///////////////////////////////////
+/////// WORKING WITH STRINGS - PART 1
+///////////////////////////////////
 const airline = "TAP Air Portugal";
 const plane = "A320";
 
@@ -669,6 +704,9 @@ console.log(typeof new String("Leo").slice(-1)); // method returns primitive: st
 console.log(airline.toLowerCase());
 console.log(airline.toUpperCase());
 
+///////////////////////////////////
+/////// WORKING WITH STRINGS - PART 2
+///////////////////////////////////
 // fix capitalization
 const passenger = "lEonaRDo";
 const passengerLower = passenger.toLocaleLowerCase();
@@ -735,6 +773,9 @@ checkBaggage("I have a laptop, some Food and a Pocket kniFe.");
 checkBaggage("I have my clothes and my proffesional camera");
 checkBaggage("I have some snacks and a gun for self defense");
 
+///////////////////////////////////
+/////// WORKING WITH STRING - PART 3
+///////////////////////////////////
 // split and join
 console.log("a+very+nice+strin".split("+"));
 console.log("Leo Kovacevic".split(" "));
