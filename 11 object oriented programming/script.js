@@ -468,3 +468,75 @@ const denis = new StudentClass("Denis", 1994, "Computer Science");
 denis.introduce();
 denis.greet();
 denis.calcAge();
+
+///////////////////////////////////
+/////// INHERITANCE BETWEEN "CLASSES": OBJECT.CREATE
+///////////////////////////////////
+const PersonPrototype = {
+  calcAge() {
+    console.log(2024 - this.birthYear);
+  },
+
+  init(firstName, birthYear) {
+    this.firstName = firstName;
+    this.birthYear = birthYear;
+  },
+};
+
+const mark = Object.create(PersonPrototype);
+console.log(mark);
+mark.init("Mark", 1999);
+
+const StudentPrototype = Object.create(PersonPrototype);
+
+StudentPrototype.init = function (firstName, birthYear, course) {
+  PersonPrototype.init.call(this, firstName, birthYear);
+  this.course = course;
+};
+
+StudentPrototype.introduce = function () {
+  console.log(`Hello I'm ${this.firstName} and I study ${this.course}`);
+};
+console.log(StudentPrototype);
+
+const jane = Object.create(StudentPrototype);
+jane.init("Jane", 1999, "CS");
+console.log(jane);
+jane.introduce();
+jane.calcAge();
+
+///////////////////////////////////
+/////// CLASS EXAMPLE
+///////////////////////////////////
+class Acc {
+  constructor(owner, currency, pin) {
+    this.owner = owner;
+    this.currency = currency;
+    this.pin = pin;
+    this.movements = [];
+    this.locale = navigator.language;
+
+    console.log(`Thanks for creating account, ${this.owner}`);
+  }
+
+  deposit(value) {
+    this.movements.push(value);
+  }
+
+  withdrawal(value) {
+    this.deposit(-value);
+  }
+
+  approveLoan(value) {
+    return true;
+  }
+
+  requestLoad(value) {
+    if (this.approveLoan(value)) this.deposit(value);
+  }
+}
+
+const acc1 = new Acc("Leo", "EUR", 1111);
+const acc2 = new Acc("Mario", "EUR", 2222);
+console.log(acc1);
+console.log(acc2);
