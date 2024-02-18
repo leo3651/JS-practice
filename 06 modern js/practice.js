@@ -232,7 +232,9 @@ const ratings = [
 
 const ratingStars = [63405, 1808];
 
-// destructuring arrays
+///////////////////////////////////
+/////// DESTRUCTURING ARRAYS
+///////////////////////////////////
 const [firstBook, secondBook] = books;
 const [, , thirdBook] = books;
 console.log(firstBook, secondBook);
@@ -246,7 +248,9 @@ console.log(rating, ratingsCount);
 const [fiveStarRatings, oneStarRatings, threeStarRatings = 0] = ratingStars;
 console.log(fiveStarRatings, oneStarRatings, threeStarRatings);
 
-// destructuring objects
+///////////////////////////////////
+/////// DESTRUCTURING OBJECTS
+///////////////////////////////////
 const { title, author, ISBN } = books[0];
 console.log(title, author, ISBN);
 
@@ -289,7 +293,9 @@ printBookInfo({
   author: "Robert Sedgewick",
 });
 
-// spread operator
+///////////////////////////////////
+/////// SPREAD OPERATOR
+///////////////////////////////////
 const bookAuthors = [...books[0].author, ...books[1].author];
 console.log(bookAuthors);
 
@@ -300,7 +306,9 @@ const spellWord = function (string) {
 
 spellWord("JavaScript");
 
-// rest pattern
+///////////////////////////////////
+/////// REST PATTERN AND PARAMETERS
+///////////////////////////////////
 const [mainWord, ...allOthers] = books[0].keywords;
 console.log(mainWord);
 console.log(allOthers);
@@ -318,7 +326,9 @@ const printBookAuthorsCount = function (title, ...authors) {
 printBookAuthorsCount("Algorithms", "Robert Sedgewick", "Kevin Wayne");
 printBookAuthorsCount("Leo's book");
 
-// short circuting
+///////////////////////////////////
+/////// SHORT CIRCUITING
+///////////////////////////////////
 const hasExamplesInJava = function (book) {
   return book.programmingLanguage === "Java" || "No data available";
 };
@@ -331,11 +341,17 @@ for (let i = 0, n = books.length; i < n; i++) {
     console.log(`${books[i].title} privides online content`);
 }
 
+///////////////////////////////////
+/////// THE NULLISH COALESCING OPERATOR
+///////////////////////////////////
 for (let i = 0, n = books.length; i < n; i++) {
   books[i].onlineContent ??
     console.log(`${books[i].title} provides no data about online content`);
 }
 
+///////////////////////////////////
+/////// LOGICAL ASSIGNMENTS OPERATORS
+///////////////////////////////////
 for (let i = 0, n = books.length; i < n; i++) {
   books[i].edition ||= 1;
   console.log(books[i].edition);
@@ -346,7 +362,9 @@ for (let i = 0, n = books.length; i < n; i++) {
   console.log(books[i].highlighted);
 }
 
-// for-of loop
+///////////////////////////////////
+/////// FOR OF LOOP
+///////////////////////////////////
 let sum = 0;
 for (const [index, book] of books.entries()) {
   sum += book.pages;
@@ -369,7 +387,9 @@ for (const [index, author] of allAuthors.entries()) {
   console.log(`${index + 1}: ${author}`);
 }
 
-// object literals
+///////////////////////////////////
+/////// ENHANCED OBJECT LITERALS
+///////////////////////////////////
 const bookData = [
   ["title", "Computer Networking: A Top-Down Approach"],
   ["author", ["James F. Kurose", "Keith W. Ross"]],
@@ -394,14 +414,18 @@ const newBook2 = {
 
 console.log(newBook2);
 
-// optional chaining
+///////////////////////////////////
+/////// OPTIONAL CHAINING
+///////////////////////////////////
 const getFirstKeyword = function (book) {
   return book.keywords?.[0] ?? "Does not exists";
 };
 
 console.log(getFirstKeyword(books[0]));
 
-// looping objects
+///////////////////////////////////
+/////// LOOPING OBJECTS: KEYS, VALUES, ENTRIES
+///////////////////////////////////
 const entries2 = [];
 
 for (const key of Object.keys(books[0].thirdParty.goodreads)) {
@@ -433,7 +457,9 @@ console.log(entries2);
 console.log(entries3);
 console.log(entries4);
 
-// sets
+///////////////////////////////////
+/////// SETS
+///////////////////////////////////
 const allKeywords = [];
 for (const book of books) {
   allKeywords.push(...book.keywords);
@@ -457,7 +483,9 @@ uniqueKeywords.clear();
 console.log(uniqueKeywords);
 console.log(uniqueKeywordsArr);
 
-// maps
+///////////////////////////////////
+/////// MAPS
+///////////////////////////////////
 const bookMap = new Map([
   ["title", "Clean Code"],
   ["author", "Robert C. Martin"],
@@ -472,6 +500,9 @@ console.log(bookMap.size);
 
 bookMap.has("author") && console.log("The author of book is known");
 
+///////////////////////////////////
+/////// MAPS ITERATION
+///////////////////////////////////
 const firstBookMap = new Map(Object.entries(books[0]));
 console.log(firstBookMap);
 
@@ -479,7 +510,9 @@ for (const [key, value] of firstBookMap) {
   if (typeof value === "number") console.log(key);
 }
 
-// strings
+///////////////////////////////////
+/////// WORKING WITH STRINGS - PART 1
+///////////////////////////////////
 console.log("--- dot ---");
 console.log(books[0].ISBN["6"]);
 console.log(books[0].ISBN["4"]);
@@ -507,7 +540,9 @@ const isContributor = function (string) {
 console.log(isContributor("Julie Sussman (Contributor)"));
 console.log(isContributor("Robert Sedgewick"));
 
-///
+///////////////////////////////////
+/////// WORKING WITH STRINGS - PART 2
+///////////////////////////////////
 const normalizeAuthorName = function (author) {
   let authorTrimmed = author.toLowerCase();
   if (authorTrimmed.includes("(contributor)")) {
@@ -562,8 +597,9 @@ for (const book of books) {
   logBookTheme(book.title);
 }
 
-///
-
+///////////////////////////////////
+/////// WORKING WITH STRINGS - PART 3
+///////////////////////////////////
 const bookCategories =
   "science;computing;computer science;algorithms;business;operating systems;networking;electronics";
 
@@ -649,6 +685,9 @@ btn.addEventListener("click", function () {
   }
 });
 
+///////////////////////////////////
+/////// MORE STRINGS
+///////////////////////////////////
 const flights =
   "_Delayed_Departure;fao93766109;txl2133758440;11:25+_Arrival;bru0943384722;fao93766109;11:45+_Delayed_Arrival;hel7439299980;fao93766109;12:05+_Departure;fao93766109;lis2323639855;12:30";
 

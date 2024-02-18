@@ -148,6 +148,40 @@ mercedes.accelerate();
 mercedes.accelerate();
 mercedes.brake();
 
+///
+const Ev = function (make, speed) {
+  Car.call(this, make, speed);
+};
+
+Ev.prototype = Object.create(Car.prototype);
+Ev.prototype.chargeBattery = function (chargeTo) {
+  this.charge = chargeTo;
+};
+Ev.prototype.accelerate = function () {
+  this.speed = Number.parseInt(this.speed);
+  console.log(
+    `${this.make} going at ${(this.speed += 20)} km/h, with a charge of ${--this
+      .charge}% `
+  );
+};
+console.log(Ev.prototype);
+
+const tesla = new Ev("Tesla", 120);
+tesla.chargeBattery(80);
+console.log(tesla);
+
+tesla.accelerate();
+tesla.accelerate();
+console.log(tesla);
+tesla.brake();
+tesla.brake();
+tesla.accelerate();
+
+tesla.chargeBattery(100);
+console.log(tesla);
+tesla.brake();
+tesla.accelerate();
+/*
 ///////////////////////////////////
 /////// CLASSES
 ///////////////////////////////////
@@ -334,3 +368,50 @@ console.log(ford);
 ford.brake();
 ford.brake();
 console.log(ford);
+
+///////////////////////////////////
+/////// INHERITANCE BETWEEN "CLASSES": CONSTRUCTOR FUNCTIONS
+///////////////////////////////////
+const PersonConF = function (name, birthYear) {
+  this.name = name;
+  this.birthYear = birthYear;
+};
+
+PersonConF.prototype.calcAge = function () {
+  console.log(2024 - this.birthYear);
+};
+
+const Student = function (firstName, birthYear, course) {
+  Person.call(this, firstName, birthYear);
+  // this.firstName = firstName;
+  // this.birthYear = birthYear;
+  this.course = course;
+};
+
+// linking prototypes
+Student.prototype = Object.create(PersonConF.prototype);
+// Student.prototype = PersonConF.prototype; // WRONG
+
+Student.prototype.introduce = function () {
+  console.log(`My name is ${this.firstName} and I study ${this.course}.`);
+};
+
+const hulk = new Student("Hulk", 1980, "Computer Science");
+
+console.log(hulk);
+hulk.introduce();
+hulk.calcAge();
+
+console.log(hulk);
+console.log(hulk.__proto__);
+console.log(hulk.__proto__.__proto__);
+console.log(hulk.__proto__.__proto__.__proto__);
+
+console.log(hulk instanceof Student);
+console.log(hulk instanceof PersonConF);
+console.log(hulk instanceof Object);
+
+Student.prototype.constructor = Student;
+console.log(Student.prototype.constructor);
+console.dir(Student.prototype.constructor);
+*/
