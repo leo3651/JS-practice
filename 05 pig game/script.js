@@ -68,6 +68,7 @@ newGameBtn.addEventListener("click", function () {
   init();
 });
 
+// switch player
 function switchPlayer() {
   currentScore = 0;
   document.getElementById(`current--${activePlayer}`).textContent =
@@ -77,6 +78,7 @@ function switchPlayer() {
   player1Element.classList.toggle("player--active");
 }
 
+// initialize
 function init() {
   scores = [0, 0];
   currentScore = 0;

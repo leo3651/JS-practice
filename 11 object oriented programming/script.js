@@ -346,6 +346,7 @@ class CarCl {
 
   brake() {
     console.log(`${this.make}: ${(this.speed -= 5)} km/h`);
+    return this;
   }
 
   get speedUS() {
@@ -369,6 +370,46 @@ console.log(ford);
 ford.brake();
 ford.brake();
 console.log(ford);
+
+///
+class EvCl extends CarCl {
+  #charge;
+
+  constructor(make, speed, charge) {
+    super(make, speed);
+    this.#charge = charge;
+  }
+
+  accelerate() {
+    console.log(
+      `${this.make} going at ${(this.speed += 10)} km/h, charge at ${--this
+        .#charge}`
+    );
+    return this;
+  }
+
+  chargeBattery(chargeTo) {
+    this.#charge = chargeTo;
+    return this;
+  }
+}
+
+const rivian = new EvCl("Rivian", 120, 23);
+console.log(rivian);
+rivian
+  .accelerate()
+  .brake()
+  .accelerate()
+  .brake()
+  .accelerate()
+  .accelerate()
+  .chargeBattery(90)
+  .accelerate()
+  .brake();
+console.log(rivian);
+// console.log(rivian.#charge); // private field
+
+console.log(rivian.speedUS);
 
 ///////////////////////////////////
 /////// INHERITANCE BETWEEN "CLASSES": CONSTRUCTOR FUNCTIONS
@@ -554,9 +595,9 @@ class Acc {
   }
 
   // convention for private method
-  /*   _approveLoan(value) {
-    return true;
-  } */
+  //    _approveLoan(value) {
+  //   return true;
+  // }
 
   requestLoan(value) {
     if (this.#approveLoan(value)) {

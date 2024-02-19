@@ -4,7 +4,7 @@
 /////////////////////////////////////////////////
 // BANKIST APP
 
-// Data
+// data
 const account1 = {
   owner: "Jonas Schmedtmann",
   movements: [200, 450, -400, 3000, -650, -130, 70, 1300],
@@ -35,7 +35,7 @@ const account4 = {
 
 const accounts = [account1, account2, account3, account4];
 
-// Elements
+// elements
 const labelWelcome = document.querySelector(".welcome");
 const labelDate = document.querySelector(".date");
 const labelBalance = document.querySelector(".balance__value");
@@ -61,6 +61,9 @@ const inputLoanAmount = document.querySelector(".form__input--loan-amount");
 const inputCloseUsername = document.querySelector(".form__input--user");
 const inputClosePin = document.querySelector(".form__input--pin");
 
+// functionality
+
+// display movements
 const displayMovements = function (movements, sort = false) {
   const sortedMovements = sort
     ? movements.slice().sort((a, b) => a - b)
@@ -84,6 +87,7 @@ const displayMovements = function (movements, sort = false) {
 };
 // displayMovements(account1.movements);
 
+// display balance
 const calcAndDisplayBalance = function (account) {
   account.balance = account.movements.reduce((acc, value) => {
     return (acc += value);
@@ -93,6 +97,7 @@ const calcAndDisplayBalance = function (account) {
 };
 // calcAndDisplayBalance(account1.movements);
 
+// display summary
 const calcDisplaySummary = function (account) {
   const incomes = account.movements
     .filter((movement) => movement > 0)
@@ -122,6 +127,7 @@ const calcDisplaySummary = function (account) {
 };
 // calcDisplaySummary(account1.movements);
 
+// create usernames for accounts
 const createUsername = function (accounts) {
   accounts.forEach((account) => {
     console.log(account);
@@ -137,6 +143,7 @@ const createUsername = function (accounts) {
 createUsername(accounts);
 console.log(accounts);
 
+// updade UI
 const updadeUI = function (account) {
   displayMovements(account.movements);
   calcDisplaySummary(account);
@@ -266,7 +273,13 @@ btnSort.addEventListener("click", function (event) {
 
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
-// LECTURES
+/////////////////// LECTURES ////////////////////
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+
+///////////////////////////////////
+/////// SIMPLE ARRAY METHODS
+///////////////////////////////////
 let arr = ["a", "b", "c", "d", "e"];
 
 // slice
@@ -301,11 +314,14 @@ console.log(letters);
 console.log(letters.join(", "));
 arr.includes("a") && console.log("It includes a");
 
-// at
+///////////////////////////////////
+/////// THE NEW AT METHOD
+///////////////////////////////////
 const array = [2, 9, 33];
 console.log(array[0]);
 console.log(array.at(0));
 
+// getting last array element
 console.log(array[array.length - 1]);
 console.log(array.slice(-1)[0]);
 console.log(array.at(-1));
@@ -316,7 +332,9 @@ console.log("Leo".at(-1));
 
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
-// for each
+///////////////////////////////////
+/////// LOOPING ARRAYS: FOR EACH
+///////////////////////////////////
 console.log("--- FOR OF ---");
 for (const [i, movement] of movements.entries()) {
   if (movement < 0) {
@@ -335,8 +353,11 @@ movements.forEach(function (movement, index, array) {
   }
 });
 
-///
+///////////////////////////////////
+/////// FOR EACH WITH MAPS AND SETS
+///////////////////////////////////
 console.log("--- FOR EACH WITH MAPS AND SETS ---");
+// map
 const currencies = new Map([
   ["USD", "United States dollar"],
   ["EUR", "Euro"],
@@ -347,13 +368,16 @@ currencies.forEach((value, key, map) => {
   console.log(`${key}: ${value}`);
 });
 
+// set
 const currenciesUnique = new Set(["EUR", "USD", "GBP", "EUR", "USD", "GBP"]);
 console.log(currenciesUnique);
 currenciesUnique.forEach(function (value, _, set) {
   console.log(`${value}: ${value}`);
 });
 
-///
+///////////////////////////////////
+/////// PRACTICE
+///////////////////////////////////
 console.log("--- FOR PRACTICE ---");
 const data1Julia = [3, 5, 2, 12, 7];
 const data2Julia = [9, 16, 6, 8, 3];
@@ -467,7 +491,9 @@ avg2 = calcAverageHumanAge([16, 6, 10, 5, 6, 1, 4]);
 console.log(avg1);
 console.log(avg2);
 
-// map mathod
+///////////////////////////////////
+/////// THE MAP METHOD
+///////////////////////////////////
 console.log("--- MAP METHOD ---");
 const eurToUsd = 1.1;
 const movements2 = [200, -200, 340, -300, -20, 50, 400, -460];
@@ -496,7 +522,9 @@ const movementsDescription = movements2.map((movement, index, array) => {
 
 console.log(movementsDescription);
 
-// filter method
+///////////////////////////////////
+/////// THE FILTER METHOD
+///////////////////////////////////
 console.log("--- FILTER METHOD ---");
 
 const deposits = movements2.filter((movement) => {
@@ -525,7 +553,9 @@ for (const movement of movements2) {
 }
 console.log(withdrawalsForOf);
 
-// reduce method
+///////////////////////////////////
+/////// THE REDUCE METHOD
+///////////////////////////////////
 console.log("--- REDUCE METHOD ---");
 console.log(movements2);
 
@@ -549,7 +579,9 @@ const maximum = movements2.reduce((acc, value) => {
 }, movements2[0]);
 console.log(maximum);
 
-///
+///////////////////////////////////
+/////// CHAINING METHODS
+///////////////////////////////////
 const movements3 = [200, 450, -400, 3000, -650, -130, 70, 1300];
 const eurToUsd2 = 1.1;
 const totalDepositUSD = movements3
@@ -561,7 +593,9 @@ const totalDepositUSD = movements3
   .reduce((acc, movement) => acc + movement, 0);
 console.log(totalDepositUSD);
 
-// find
+///////////////////////////////////
+/////// THE FIND METHOD
+///////////////////////////////////
 console.log("--- FIND ---");
 const firstWithdrawal = movements2.find((mov) => mov < 0);
 
@@ -578,6 +612,9 @@ for (const acc of accounts) {
 }
 console.log(account$);
 
+///////////////////////////////////
+/////// SOME AND EVERY
+///////////////////////////////////
 // some
 console.log("--- SOME ---");
 console.log(movements3);
@@ -601,6 +638,9 @@ console.log(account4.movements.every(deposit));
 console.log(account4.movements.some(deposit));
 console.log(account4.movements.filter(deposit));
 
+///////////////////////////////////
+/////// FLAT AND FLATMAP
+///////////////////////////////////
 // flat
 console.log("--- FLAT ---");
 console.log("--- nested ---");
@@ -634,7 +674,10 @@ sumAllMovements = accounts
   .reduce((acc, value) => acc + value);
 console.log(sumAllMovements);
 
-// sorting
+///////////////////////////////////
+/////// SORTING ARRAYS
+///////////////////////////////////
+// strings
 console.log("--- SORTING ---");
 console.log("--- sort strings ---");
 const owners = ["Leo", "Jonas", "Jessica", "Adam"];
@@ -643,6 +686,7 @@ const sorted = owners.sort();
 console.log(sorted);
 console.log(owners); // it mutates the original array
 
+// numbers
 console.log("--- sort numbers ---");
 console.log(movements3);
 console.log(movements3.sort()); // sorting based on strings by default
@@ -667,7 +711,9 @@ console.log(
   movements3.sort((a, b) => b - a) // desc
 );
 
-// creating and filling arrays
+///////////////////////////////////
+/////// CREATE AND FILL ARRAYS
+///////////////////////////////////
 console.log("--- CREATE FILL ARRAYS");
 console.log([1, 2, 3, 4, 5, 6, 7, 8]);
 console.log(new Array(1, 2, 3, 4, 5, 6, 7, 8));
@@ -692,6 +738,7 @@ console.log(y);
 const z = Array.from({ length: 7 }, (_, i) => i + 1);
 console.log(z);
 
+///
 const random100Dice = Array.from(
   { length: 100 },
   () => Math.trunc(Math.random() * 6) + 1
@@ -715,7 +762,9 @@ labelBalance.addEventListener("click", function () {
   console.log(movementsUI2);
 });
 
-///
+///////////////////////////////////
+/////// PRACTICE
+///////////////////////////////////
 console.log("--- PRACTICING ---");
 const bankDepositsSum = accounts
   .map((acc) => acc.movements)
