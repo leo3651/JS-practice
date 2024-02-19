@@ -506,33 +506,74 @@ jane.introduce();
 jane.calcAge();
 
 ///////////////////////////////////
-/////// CLASS EXAMPLE
+/////// ENCAPSULATION: PRIVATE CLASS FIELDS AND METHODS
 ///////////////////////////////////
+
+// 1) public fields
+// 2) private fields
+// 3) public methods
+// 4) private methods
+
 class Acc {
+  // 1) public fields (on instances NOT prototype)
+  locale = navigator.language;
+
+  // 2) private fields
+  #movements = [];
+  #pin;
+
+  ///
+  static randomNumber = Math.random();
+
   constructor(owner, currency, pin) {
     this.owner = owner;
     this.currency = currency;
-    this.pin = pin;
-    this.movements = [];
-    this.locale = navigator.language;
+    this.#pin = pin;
+    // this._pin = pin; // convention for private property
+    // this._movements = []; // convention for private property
+    // this.locale = navigator.language;
 
     console.log(`Thanks for creating account, ${this.owner}`);
   }
 
+  // 3) public methods
+
+  // public interface
+  getMovements() {
+    return this.#movements;
+  }
+
   deposit(value) {
-    this.movements.push(value);
+    this.#movements.push(value);
+    return this;
   }
 
   withdrawal(value) {
     this.deposit(-value);
+    return this;
   }
 
-  approveLoan(value) {
+  // convention for private method
+  /*   _approveLoan(value) {
+    return true;
+  } */
+
+  requestLoan(value) {
+    if (this.#approveLoan(value)) {
+      this.deposit(value);
+      console.log("Loan approved");
+    }
+    return this;
+  }
+
+  // 4) private methods
+  #approveLoan(value) {
     return true;
   }
 
-  requestLoad(value) {
-    if (this.approveLoan(value)) this.deposit(value);
+  // static
+  static hey() {
+    console.log("Hello there");
   }
 }
 
@@ -540,3 +581,33 @@ const acc1 = new Acc("Leo", "EUR", 1111);
 const acc2 = new Acc("Mario", "EUR", 2222);
 console.log(acc1);
 console.log(acc2);
+
+// acc1._movements.push(200); // better create methods that interacts with these properties
+// acc1._movements.push(-400);
+
+acc1.deposit(200);
+acc1.withdrawal(400);
+
+acc1.requestLoan(444);
+// acc1._approveLoan();
+
+console.log(acc1);
+// console.log(acc1.pin);
+
+console.log(acc1.getMovements());
+
+// console.log(acc1.#movements); // can't access
+// console.log(acc1.#pin); // can't access
+// console.log(acc1.#approveLoan()); // can't access
+Acc.hey();
+console.log(Acc.prototype);
+// acc1.hey();
+
+// chaining
+acc2.deposit(200).deposit(500).withdrawal(700).requestLoan(25000).deposit(24);
+console.log(acc2.getMovements());
+
+console.log(Acc.randomNumber);
+console.log(acc2.randomNumber);
+
+console.dir(Acc);
