@@ -11,12 +11,52 @@ const inputDuration = document.querySelector(".form__input--duration");
 const inputCadence = document.querySelector(".form__input--cadence");
 const inputElevation = document.querySelector(".form__input--elevation");
 
+class Workout {
+  id = (new Date().getTime() + "").slice(-10);
+  date = new Date();
+  constructor(distance, duration, coords) {
+    this.distance = distance;
+    this.duration = duration;
+    this.coords = coords;
+  }
+}
+
+class Running extends Workout {
+  constructor(distance, duration, coords, cadence) {
+    super(distance, duration, coords);
+    this.cadence = cadence;
+    this.calcPace();
+  }
+  calcPace() {
+    this.pace = this.duration / this.distance; // min/km
+    return this.pace;
+  }
+}
+
+class Cycling extends Workout {
+  constructor(distance, duration, coords, elevationGain) {
+    super(distance, duration, coords);
+    this.elevationGain = elevationGain;
+    this.calcSpeed();
+  }
+
+  calcSpeed() {
+    this.speed = this.distance / (this.duration / 60); // km/h
+    return this.speed;
+  }
+}
+
+const run = new Running(123, 333, [37, 25], 15);
+const cycle = new Cycling(123, 333, [37, 25], 15);
+
 class App {
   #map;
   #mapEvent;
 
   constructor() {
     this.#getPosition();
+    form.addEventListener("submit", this.#newWorkout.bind(this));
+    inputType.addEventListener("change", this.#toggleElevationField);
   }
 
   #getPosition() {
@@ -52,53 +92,49 @@ class App {
       .bindPopup("A pretty CSS popup.<br> Easily customizable.")
       .openPopup();
 
-    this.#map.on("click", function (mapE) {
-      form.classList.remove("hidden");
-      inputDistance.focus();
-      this.#mapEvent = mapE;
-    });
+    this.#map.on("click", this.#showForm.bind(this));
   }
 
-  #showForm() {}
+  #showForm(mapE) {
+    form.classList.remove("hidden");
+    inputDistance.focus();
+    this.#mapEvent = mapE;
+  }
 
-  #toggleElevationField() {}
+  #toggleElevationField() {
+    inputCadence.closest(".form__row").classList.toggle("form__row--hidden");
+    inputElevation.closest(".form__row").classList.toggle("form__row--hidden");
+  }
 
-  #newWorkout() {}
+  #newWorkout(e) {
+    e.preventDefault();
+    console.log("sumbited");
+
+    inputDistance.value =
+      inputDuration.value =
+      inputCadence.value =
+      inputElevation.value =
+        "";
+
+    console.log(this.#mapEvent);
+    const { lat: latitude, lng: longitude } = this.#mapEvent.latlng;
+    console.log(latitude, longitude);
+    const coords = [latitude, longitude];
+
+    L.marker(coords)
+      .addTo(this.#map)
+      .bindPopup(
+        L.popup({
+          maxWidth: 250,
+          minWidth: 100,
+          autoClose: false,
+          closeOnClick: false,
+          className: "running-popup",
+        })
+      )
+      .setPopupContent("Workout")
+      .openPopup();
+  }
 }
 
 const app = new App();
-
-form.addEventListener("submit", function (e) {
-  e.preventDefault();
-  console.log("sumbited");
-
-  inputDistance.value =
-    inputDuration.value =
-    inputCadence.value =
-    inputElevation.value =
-      "";
-
-  console.log(mapEvent);
-  const { lat: latitude, lng: longitude } = mapEvent.latlng;
-  console.log(latitude, longitude);
-  const coords = [latitude, longitude];
-
-  L.marker(coords)
-    .addTo(map)
-    .bindPopup(
-      L.popup({
-        maxWidth: 250,
-        minWidth: 100,
-        autoClose: false,
-        closeOnClick: false,
-        className: "running-popup",
-      })
-    )
-    .setPopupContent("Workout")
-    .openPopup();
-});
-
-inputType.addEventListener("change", function () {
-  inputCadence.closest(".form__row").classList.toggle("form__row--hidden");
-  inputElevation.closest(".form__row").classList.toggle("form__row--hidden");
-});
