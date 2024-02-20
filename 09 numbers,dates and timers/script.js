@@ -4,7 +4,7 @@
 /////////////////////////////////////////////////
 // BANKIST APP
 
-// Data
+// data
 const account1 = {
   owner: "Jonas Schmedtmann",
   movements: [200, 455.23, -306.5, 25000, -642.21, -133.9, 79.97, 1300],
@@ -47,7 +47,7 @@ const account2 = {
 
 const accounts = [account1, account2];
 
-// Elements
+// elements
 const labelWelcome = document.querySelector(".welcome");
 const labelDate = document.querySelector(".date");
 const labelBalance = document.querySelector(".balance__value");
@@ -73,7 +73,7 @@ const inputLoanAmount = document.querySelector(".form__input--loan-amount");
 const inputCloseUsername = document.querySelector(".form__input--user");
 const inputClosePin = document.querySelector(".form__input--pin");
 
-// logout timet
+// logout time
 const startLogOut = function () {
   let time = 600;
   const tick = () => {
@@ -371,9 +371,13 @@ btnSort.addEventListener("click", function (event) {
 
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
-// LECTURES
+/////////////////// LECTURES ////////////////////
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
 
-// Number and Math
+///////////////////////////////////
+/////// CONVERTING AND CHECKING NUMBERS
+///////////////////////////////////
 console.log("--- NUMBERS ---");
 console.log(32 === 32.0);
 
@@ -382,10 +386,11 @@ console.log(32 === 32.0);
 console.log(0.1 + 0.2);
 console.log(0.1 + 0.2 === 0.3); // similar problem as in base 10, 10/3
 
+// conversion
 console.log(Number("23")); // string to number
 console.log(+"23"); // string to number
 
-///
+// parsing
 console.log("--- parsing ---");
 console.log(Number.parseInt("30px", 10)); //must start with number
 console.log(Number.parseInt("r53", 10)); //NaN
@@ -395,15 +400,15 @@ console.log(Number.parseFloat("  2.5rem   ")); // for decimals
 
 console.log(parseFloat("2.5rem")); // old way
 
-///
+// check if value is NaN
 console.log("--- isNaN ---");
 console.log(Number.isNaN(20));
 console.log(Number.isNaN("20"));
 console.log(Number.isNaN(+"20c"));
 console.log(Number.isNaN(23 / 0));
 
-console.log("--- isFinite ---");
 // checking if a value is a number
+console.log("--- isFinite ---");
 console.log(Number.isFinite(20));
 console.log(Number.isFinite("20"));
 console.log(Number.isFinite(+"20c"));
@@ -414,7 +419,9 @@ console.log(Number.isInteger(23));
 console.log(Number.isInteger(23.0));
 console.log(Number.isInteger(23 / 0));
 
-///
+///////////////////////////////////
+/////// MATH AND ROUNDING
+///////////////////////////////////
 console.log("--- Math ---");
 console.log(Math.sqrt(25));
 console.log(25 ** (1 / 2));
@@ -433,7 +440,7 @@ const randomInt = (min, max) =>
   Math.floor(Math.random() * (max - min) + 1) + min;
 console.log(randomInt(4, 6));
 
-///
+// rounding integers
 console.log("--- rounding integers ---");
 console.log("-- trunc --");
 console.log(Math.trunc(23.3)); // removes decimal part
@@ -454,14 +461,16 @@ console.log("-- trunc vs floor --");
 console.log(Math.trunc(-5.4));
 console.log(Math.floor(-5.4));
 
-///
+// rounding decimals
 console.log("--- rounding decimals ---");
 console.log((2.7).toFixed(0)); // returns a string
 console.log((2.7).toFixed(3));
 console.log((2.745).toFixed(2));
 console.log(+(2.744).toFixed(2));
 
-///
+///////////////////////////////////
+/////// REMAINDER OPERATOR
+///////////////////////////////////
 console.log("--- remainder ---");
 
 console.log(5 % 2);
@@ -487,8 +496,11 @@ labelBalance.addEventListener("click", () => {
   });
 });
 
-///
+///////////////////////////////////
+/////// NUMERIC SEPARATORS
+///////////////////////////////////
 console.log("--- numeric separators ---");
+// 287,460,000,000
 const diameter = 287_460_000_000;
 console.log(diameter);
 
@@ -506,7 +518,9 @@ console.log(PI);
 console.log(Number("230_000")); // NaN
 console.log(Number.parseFloat("230_000")); // wrong
 
-///
+///////////////////////////////////
+/////// BIG INT
+///////////////////////////////////
 console.log("--- big int ---");
 console.log(2 ** 53 - 1);
 console.log(Number.MAX_SAFE_INTEGER);
@@ -520,6 +534,7 @@ console.log(2 ** 53 + 5);
 console.log(23432432423432432322332423432n);
 console.log(BigInt(23432432423432432322332423432n));
 
+// operations
 console.log(100000n + 100000n);
 console.log(1000002323423423423432423n * 100000234324234n);
 
@@ -528,6 +543,7 @@ const n = 2;
 // console.log(n * huge); // cant't mix
 console.log(huge * BigInt(n));
 
+// exceptions
 console.log(20n > 15);
 console.log(20n === 20); // different types
 console.log(typeof 20n, typeof 20);
@@ -536,11 +552,15 @@ console.log(20n == 20);
 console.log(huge * BigInt(n) + " is REALLY big!!!");
 // console.log(Math.sqrt(huge)); // doesn't work
 
+// division
 console.log(10 / 3);
 console.log(10n / 3n);
 console.log(11n / 3n);
 
-// dates
+///////////////////////////////////
+/////// CREATING DATES
+///////////////////////////////////
+// create a date
 console.log("--- DATES ---");
 const now = new Date();
 console.log(now);
@@ -555,7 +575,7 @@ console.log(new Date(0));
 console.log(new Date(3 * 24 * 60 * 60 * 1000)); //3 days after
 console.log(new Date(1_400_000_000_000)); // 2014
 
-///
+// working with dates
 console.log("--- working with dates ---");
 const future = new Date(2044, 5, 8, 20, 10);
 console.log(future);
@@ -580,7 +600,9 @@ console.log(typeof Date.now()); // current timestamp
 future.setFullYear(1999);
 console.log(future);
 
-///
+///////////////////////////////////
+/////// OPERATIONS WITH DATES
+///////////////////////////////////
 console.log("--- operations with dates ---");
 const backToFuture = new Date(2044, 5, 8, 20, 0);
 console.log(backToFuture);
@@ -594,7 +616,9 @@ console.log(new Date(2024, 5, 8));
 console.log(new Date(2024, 1, 14));
 console.log(calcDaysPassed(new Date(2024, 5, 8), new Date(2024, 1, 14)));
 
-///
+///////////////////////////////////
+/////// INTERNATIONALIZING NUMBERS (INTL)
+///////////////////////////////////
 console.log("--- internationalizing ---");
 const number = 43289423.34;
 
@@ -638,7 +662,9 @@ console.log(
   new Intl.NumberFormat(navigator.language, options2).format(number)
 );
 
-// timers
+///////////////////////////////////
+/////// TIMERS
+///////////////////////////////////
 console.log("--- TIMERS ---");
 
 // setTimeout
@@ -655,7 +681,6 @@ if (ingredients.includes("spinach")) clearTimeout(pizzaTimer);
 
 // setInterval
 console.log("--- setInterval ---");
-/* 
 setInterval(() => {
   const rightNow = new Date();
   const day = rightNow.getDate();
@@ -666,4 +691,3 @@ setInterval(() => {
   const seconds = `${rightNow.getSeconds()}`.padStart(2, "0");
   console.log(`${day}/${month}/${year} ${hours}:${minutes}:${seconds}`);
 }, 1000);
- */
