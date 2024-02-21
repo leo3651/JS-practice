@@ -83,7 +83,13 @@ class App {
   #mapZoomLevel = 13;
 
   constructor() {
+    // get user's position
     this.#getPosition();
+
+    // get data from locale storage
+    this.#getLocaleStorage();
+
+    // event listeners
     form.addEventListener("submit", this.#newWorkout.bind(this));
     inputType.addEventListener("change", this.#toggleElevationField);
     containerWorkouts.addEventListener("click", this.#moveToPopup.bind(this));
@@ -123,6 +129,8 @@ class App {
     //   .openPopup();
 
     this.#map.on("click", this.#showForm.bind(this));
+
+    this.#workouts.forEach((workout) => this.#renderWorkoutMarker(workout));
   }
 
   #showForm(mapE) {
@@ -205,10 +213,12 @@ class App {
     this.#renderWorkoutMarker(workout);
     this.#renderWorkout(workout);
     this.#hideForm();
+    this.#setLocaleStorage();
   }
 
   #renderWorkoutMarker(workout) {
     console.log(this);
+    console.log(workout);
     L.marker(workout.coords)
       .addTo(this.#map)
       .bindPopup(
@@ -300,8 +310,28 @@ class App {
       pan: { duration: 1 },
     });
 
-    workout.setClicks();
+    // workout.setClicks();
     console.log(workout);
+  }
+
+  #setLocaleStorage() {
+    localStorage.setItem("workout", JSON.stringify(this.#workouts));
+  }
+
+  #getLocaleStorage() {
+    const data = JSON.parse(localStorage.getItem("workout"));
+    if (!data) return;
+    console.log(data);
+    this.#workouts = data;
+    this.#workouts.forEach((workout) => {
+      console.log(workout);
+      this.#renderWorkout(workout);
+    });
+  }
+
+  reset() {
+    localStorage.clear("workout");
+    location.reload();
   }
 }
 
