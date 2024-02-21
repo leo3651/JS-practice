@@ -7,9 +7,11 @@ const btn = document.querySelector(".btn-country");
 const countriesContainer = document.querySelector(".countries");
 
 // render data from country
-const renderData = function (data) {
+const renderData = function (data, className = "") {
+  console.log(data.name.nativeName);
+  const [nativeName] = Object.keys(data.name.nativeName);
   const html = `    
-  <article class="country">
+  <article class="country ${className}">
       <img class="country__img" src="${data.flags.svg}" />
       <div class="country__data">
         <h3 class="country__name">${data.name.common}</h3>
@@ -18,7 +20,7 @@ const renderData = function (data) {
           <span>👫</span>${(+data.population / 1000000).toFixed(1)} people
         </p>
         <p class="country__row">
-          <span>🗣️</span>${data.languages.hrv}
+          <span>🗣️</span>${data.languages?.[nativeName]}
         </p>
         <p class="country__row">
           <span>💰</span>${data.currencies.EUR.name}
@@ -37,7 +39,7 @@ const getCountryData = function (country) {
   request.send();
 
   request.addEventListener("load", function () {
-    console.log(this.responseText);
+    // console.log(this.responseText);
     const [data] = JSON.parse(this.responseText);
 
     // render country
@@ -46,9 +48,8 @@ const getCountryData = function (country) {
   });
 };
 
-getCountryData("croatia");
-getCountryData("portugal");
-getCountryData("germany");
+// getCountryData("croatia");
+// getCountryData("portugal");
 
 ///////////////////////////////////
 /////// SEQUENCE AJAX CALLS
@@ -59,7 +60,7 @@ const getCountryAndNeighbour = function (country) {
   request.send();
 
   request.addEventListener("load", function () {
-    console.log(this.responseText);
+    // console.log(this.responseText);
     const [data] = JSON.parse(this.responseText);
     console.log(data);
 
@@ -69,7 +70,33 @@ const getCountryAndNeighbour = function (country) {
     // get neighbour country
     const neighbour = data.borders?.[0];
     console.log(neighbour);
+    if (!neighbour) return;
+
+    const request2 = new XMLHttpRequest();
+    request2.open("GET", `https://restcountries.com/v3.1/alpha/${neighbour}`);
+    request2.send();
+
+    console.log(request2);
+    request2.addEventListener("load", function () {
+      const [data] = JSON.parse(this.responseText);
+      console.log(data);
+      renderData(data, "neighbour");
+    });
   });
 };
 
-getCountryAndNeighbour("japan");
+getCountryAndNeighbour("germany");
+
+// callback hell
+setTimeout(() => {
+  console.log("1 second passed");
+  setTimeout(() => {
+    console.log("2 seconds passed");
+    setTimeout(() => {
+      console.log("3 seconds passed");
+      setTimeout(() => {
+        console.log("4 seconds passed");
+      }, 1000);
+    }, 1000);
+  }, 1000);
+}, 1000);
