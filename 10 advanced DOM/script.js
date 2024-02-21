@@ -288,8 +288,13 @@ dotContainer.addEventListener("click", function (e) {
 
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
-// LECTURES
+/////////////////// LECTURES ////////////////////
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
 
+///////////////////////////////////
+/////// SELECTING, CREATING AND DELETING ELEMENTS
+///////////////////////////////////
 // selecting elements
 console.log("--- ELEMENTS ---");
 console.log(document);
@@ -334,6 +339,9 @@ document.querySelector(".btn--close-cookie").addEventListener("click", () => {
   // message.parentElement.removeChild(message);
 });
 
+///////////////////////////////////
+/////// STYLES, ATTRIBUTES AND CLASSES
+///////////////////////////////////
 // styles
 console.log("--- styles ---");
 message.style.backgroundColor = "#37383d";
@@ -359,6 +367,7 @@ console.log(logo);
 console.log(logo.alt);
 console.log(logo.src);
 
+// non-standard
 console.log(logo.designer); // non-standard property
 console.log(logo.getAttribute("designer"));
 
@@ -394,7 +403,9 @@ logo.className = "nav__logo class";
 console.log(logo.className);
 logo.classList.remove("class");
 
-// scrolling
+///////////////////////////////////
+/////// SCROLLING
+///////////////////////////////////
 console.log("--- SCROLLING ---");
 const btnScrollTo = document.querySelector(".btn--scroll-to");
 const section1 = document.getElementById("section--1");
@@ -426,7 +437,9 @@ btnScrollTo.addEventListener("click", function (event) {
   section1.scrollIntoView({ behavior: "smooth" });
 });
 
-// events
+///////////////////////////////////
+/////// TYPES OF EVENTS AND EVENT HANDLERS
+///////////////////////////////////
 console.log("--- EVENTS ---");
 const h1 = document.querySelector("h1");
 
@@ -444,7 +457,9 @@ setTimeout(() => h1.removeEventListener("mouseenter", alertH1), 3000);
 //   alert("You are reading the heading");
 // };
 
-// event propagation
+///////////////////////////////////
+/////// EVENT PROPAGATION
+///////////////////////////////////
 console.log("--- event propagation ---");
 const randomInt = (min, max) =>
   Math.floor(Math.random() * (max - min) + 1) + min;
@@ -484,7 +499,9 @@ document.querySelector(".nav").addEventListener(
   true // it listens an event on a way down -> first in console
 );
 
-// DOM traversing
+///////////////////////////////////
+/////// DOM TRAVERSING
+///////////////////////////////////
 console.log("--- DOM TRAVERSING ---");
 const headingOne = document.querySelector("h1");
 console.log(headingOne);
@@ -522,7 +539,9 @@ console.log(headingOne.parentElement.children);
   if (el !== headingOne) el.style.transform = "scale(0.9)";
 });
 
-// lifecycle DOM events
+///////////////////////////////////
+/////// LIFECYCLE OF DOM EVENTS
+///////////////////////////////////
 window.addEventListener("load", function (e) {
   console.log("page fully loaded");
   console.log(e);
