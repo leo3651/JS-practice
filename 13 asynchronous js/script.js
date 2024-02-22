@@ -222,7 +222,7 @@ btn.addEventListener("click", function () {
   getNeighbourCountry("portugal");
 });
 
-getNeighbourCountry("australia");
+// getNeighbourCountry("australia");
 
 ///////////////////////////////////
 /////// PRACTICE
@@ -231,18 +231,48 @@ const whereIAm = function (lat, lng) {
   fetch(
     `https://www.mapquestapi.com/geocoding/v1/reverse?key=NnoWy1r9RTOPCit9PL4qcbFArdfRlI7i&location=${lat},${lng}&includeRoadMetadata=true&includeNearestIntersection=true`
   )
-    .then((data) => data.json())
+    .then((results) => {
+      console.log("Results: ", results);
+      return results.json();
+    })
+
     .then((data) => {
+      if (data.info.statuscode === 400) {
+        throw new Error(`${data.info.messages[0]}`);
+      }
       console.log(
         `You are in ${data.results[0]?.locations[0]?.adminArea5}, ${data.results[0]?.locations[0]?.adminArea1}`
       );
       console.log("Data: ", data);
     })
-    .catch((err) =>
-      console.log(`Something went wrong ${err.message}, ${err.status}`)
-    );
+
+    .catch((err) => {
+      countriesContainer.insertAdjacentText(
+        "afterend",
+        `Something went wrong. ${err.message}`
+      );
+      console.log(`Something went wrong. ${err.message}`);
+    });
 };
 
 whereIAm(52.508, 13.381);
 whereIAm(19.037, 72.873);
 whereIAm(-33.933, 18.474);
+whereIAm("df,ldf,", "weq");
+
+///////////////////////////////////
+/////// THE EVENT LOOP
+///////////////////////////////////
+console.log("Start");
+setTimeout(() => console.log("0 second timer"), 0);
+Promise.resolve("Resolved promise 1").then((res) => console.log(res));
+// microtasks queue has priority over callback queue -> timer gets later executed than it should
+Promise.resolve("Resolved promise 2").then((res) => {
+  console.log(res);
+  for (let i = 0; i < 1000000000; i++) {}
+});
+console.log("Finish test");
+
+///////////////////////////////////
+/////// BUILDING A PROMISE
+///////////////////////////////////
