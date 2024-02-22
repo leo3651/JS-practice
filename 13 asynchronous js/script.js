@@ -147,9 +147,27 @@ const renderError = function (message) {
   countriesContainer.style.opacity = 1;
 };
 
-const getNeighbourCountry = function (country) {
+const getJson = function (url, errorMsg = "Something went wrong") {
+  return fetch(url).then((res) => {
+    if (!res.ok) {
+      throw new Error(`${errorMsg} ${res.status}`);
+    }
+
+    return res.json();
+  });
+};
+
+/* const getNeighbourCountry = function (country) {
   fetch(`https://restcountries.com/v3.1/name/${country}`)
-    .then((result) => result.json())
+    .then((result) => {
+      console.log("Result: ", result);
+
+      if (!result.ok) {
+        throw new Error(`Country not found ${result.status}`);
+      }
+
+      return result.json();
+    })
     .then((data) => {
       renderData(data[0]);
       const neighbour = data[0].borders?.[0];
@@ -158,12 +176,42 @@ const getNeighbourCountry = function (country) {
 
       return fetch(`https://restcountries.com/v3.1/alpha/${neighbour}`);
     })
-    .then((result) => result.json())
+    .then((result) => {
+      if (!result.ok) {
+        throw new Error(`Something went wrong ${result.status}`);
+      }
+
+      return result.json();
+    })
     .then((data) => renderData(data[0], "neighbour"))
     .catch((err) => {
       console.error(`Error : ${err}`);
       renderError(`Something went wrong ${err.message}. `);
     })
+    .finally(() => {
+      countriesContainer.style.opacity = 1;
+    });
+}; */
+
+const getNeighbourCountry = function (country) {
+  getJson(`https://restcountries.com/v3.1/name/${country}`, "Country not found")
+    .then((data) => {
+      renderData(data[0]);
+
+      const neighbour = data[0].borders?.[0];
+
+      return getJson(
+        `https://restcountries.com/v3.1/alpha/${neighbour}`,
+        "Neighbour not found"
+      );
+    })
+
+    .then((data) => renderData(data[0], "neighbour"))
+    .catch((err) => {
+      console.error(`Error : ${err}`);
+      renderError(`Something went wrong ${err.message}. `);
+    })
+
     .finally(() => {
       countriesContainer.style.opacity = 1;
     });
@@ -174,4 +222,27 @@ btn.addEventListener("click", function () {
   getNeighbourCountry("portugal");
 });
 
-getNeighbourCountry("fdfsfdsf");
+getNeighbourCountry("australia");
+
+///////////////////////////////////
+/////// PRACTICE
+///////////////////////////////////
+const whereIAm = function (lat, lng) {
+  fetch(
+    `https://www.mapquestapi.com/geocoding/v1/reverse?key=NnoWy1r9RTOPCit9PL4qcbFArdfRlI7i&location=${lat},${lng}&includeRoadMetadata=true&includeNearestIntersection=true`
+  )
+    .then((data) => data.json())
+    .then((data) => {
+      console.log(
+        `You are in ${data.results[0]?.locations[0]?.adminArea5}, ${data.results[0]?.locations[0]?.adminArea1}`
+      );
+      console.log("Data: ", data);
+    })
+    .catch((err) =>
+      console.log(`Something went wrong ${err.message}, ${err.status}`)
+    );
+};
+
+whereIAm(52.508, 13.381);
+whereIAm(19.037, 72.873);
+whereIAm(-33.933, 18.474);
