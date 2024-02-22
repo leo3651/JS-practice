@@ -269,10 +269,60 @@ Promise.resolve("Resolved promise 1").then((res) => console.log(res));
 // microtasks queue has priority over callback queue -> timer gets later executed than it should
 Promise.resolve("Resolved promise 2").then((res) => {
   console.log(res);
-  for (let i = 0; i < 1000000000; i++) {}
+  for (let i = 0; i < 1000; i++) {}
 });
 console.log("Finish test");
+
+const somePromise = new Promise(function (res, rej) {
+  console.log("After test finish");
+
+  setTimeout(() => console.log("try to figure order"), 0);
+});
+
+console.log("middle");
 
 ///////////////////////////////////
 /////// BUILDING A PROMISE
 ///////////////////////////////////
+const lotteryPromise = new Promise(function (resolve, reject) {
+  console.log("Lottery is happening");
+
+  setTimeout(() => {
+    if (Math.random() >= 0.5) {
+      resolve("You win the money 💰");
+    } else {
+      reject(new Error("You lost the money"));
+    }
+  }, 2000);
+});
+
+console.log("after lottery is happening in code");
+
+lotteryPromise.then((res) => console.log(res)).catch((err) => console.log(err));
+
+// promisifying setTimeout
+const wait = function (seconds) {
+  return new Promise(function (resolve) {
+    setTimeout(() => {
+      resolve(`Waited ${seconds} ${seconds > 1 ? "seconds" : "second"}`);
+    }, seconds * 1000);
+  });
+};
+
+wait(1)
+  .then((res) => {
+    console.log(res);
+    return wait(2);
+  })
+  .then((res) => {
+    console.log(res);
+    return wait(3);
+  })
+  .then((res) => {
+    console.log(res);
+    return wait(4);
+  })
+  .then((res) => console.log(res));
+
+Promise.resolve("abc").then((x) => console.log(x));
+Promise.reject("abc").catch((x) => console.log(x));
