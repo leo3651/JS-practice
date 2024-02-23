@@ -6,11 +6,12 @@
 console.log("--- AJAX ---");
 const btn = document.querySelector(".btn-country");
 const countriesContainer = document.querySelector(".countries");
-/*
+
 // render data from country
 const renderData = function (data, className = "") {
   console.log(data.name.nativeName);
   const [nativeName] = Object.keys(data.name.nativeName);
+
   const html = `    
   <article class="country ${className}">
       <img class="country__img" src="${data.flags.svg}" />
@@ -30,9 +31,9 @@ const renderData = function (data, className = "") {
     </article>`;
 
   countriesContainer.insertAdjacentHTML("afterbegin", html);
-  // countriesContainer.style.opacity = 1;
+  countriesContainer.style.opacity = 1;
 };
-
+/*
 // get data from country
 const getCountryData = function (country) {
   const request = new XMLHttpRequest();
@@ -157,42 +158,43 @@ const getJson = function (url, errorMsg = "Something went wrong") {
   });
 };
 
-/* const getNeighbourCountry = function (country) {
-  fetch(`https://restcountries.com/v3.1/name/${country}`)
-    .then((result) => {
-      console.log("Result: ", result);
+//  const getNeighbourCountry2 = function (country) {
+//   fetch(`https://restcountries.com/v3.1/name/${country}`)
+//     .then((result) => {
+//       console.log("Result: ", result);
 
-      if (!result.ok) {
-        throw new Error(`Country not found ${result.status}`);
-      }
+//       if (!result.ok) {
+//         throw new Error(`Country not found ${result.status}`);
+//       }
 
-      return result.json();
-    })
-    .then((data) => {
-      renderData(data[0]);
-      const neighbour = data[0].borders?.[0];
+//       return result.json();
+//     })
+//     .then((data) => {
+//       renderData(data[0]);
+//       const neighbour = data[0].borders?.[0];
 
-      if (!neighbour) return;
+//       if (!neighbour) return;
 
-      return fetch(`https://restcountries.com/v3.1/alpha/${neighbour}`);
-    })
-    .then((result) => {
-      if (!result.ok) {
-        throw new Error(`Something went wrong ${result.status}`);
-      }
+//       return fetch(`https://restcountries.com/v3.1/alpha/${neighbour}`);
+//     })
+//     .then((result) => {
+//       if (!result.ok) {
+//         throw new Error(`Something went wrong ${result.status}`);
+//       }
 
-      return result.json();
-    })
-    .then((data) => renderData(data[0], "neighbour"))
-    .catch((err) => {
-      console.error(`Error : ${err}`);
-      renderError(`Something went wrong ${err.message}. `);
-    })
-    .finally(() => {
-      countriesContainer.style.opacity = 1;
-    });
-}; 
+//       return result.json();
+//     })
+//     .then((data) => renderData(data[0], "neighbour"))
+//     .catch((err) => {
+//       console.error(`Error : ${err}`);
+//       renderError(`Something went wrong ${err.message}. `);
+//     })
+//     .finally(() => {
+//       countriesContainer.style.opacity = 1;
+//     });
+// };
 
+// clean code of previous function
 const getNeighbourCountry = function (country) {
   getJson(`https://restcountries.com/v3.1/name/${country}`, "Country not found")
     .then((data) => {
@@ -272,14 +274,6 @@ Promise.resolve("Resolved promise 2").then((res) => {
   for (let i = 0; i < 1000; i++) {}
 });
 console.log("Finish test");
-
-const somePromise = new Promise(function (res, rej) {
-  console.log("After test finish");
-
-  setTimeout(() => console.log("try to figure order"), 0);
-});
-
-console.log("middle");
 
 ///////////////////////////////////
 /////// BUILDING A PROMISE
@@ -385,7 +379,7 @@ const whereIAm2 = function () {
 };
 
 btn.addEventListener("click", whereIAm2);
-*/
+
 ///////////////////////////////////
 /////// PRACTICE
 ///////////////////////////////////
@@ -448,6 +442,72 @@ createImg("./img/img-1.jpg")
   })
   .catch((err) => console.error(err));
 
-// createImg("./img/img-2.jpg");
-// createImg("./img/img-3.jpg");
-console.log("end");
+console.log("end"); */
+
+///////////////////////////////////
+/////// CONSUMING PROMISES WITH ASYNC/AWAIT
+///////////////////////////////////
+const getCurrentLocation = function () {
+  return new Promise(function (resolve, reject) {
+    navigator.geolocation.getCurrentPosition(
+      (position) => resolve(position),
+      (err) => reject(new Error("Couldn't get location" + err))
+    );
+  });
+};
+
+const whereAmI = async function (country) {
+  try {
+    const response = await fetch(
+      `https://restcountries.com/v3.1/name/${country}`
+    );
+
+    if (!response.ok) throw new Error(`Wrong country name ${response.status}`);
+
+    console.log(response);
+
+    const data = await response.json();
+    console.log(data[0]);
+
+    renderData(data[0]);
+
+    // // syntactic sugar for:
+    // fetch(`https://restcountries.com/v3.1/name/${country}`)
+    //   .then((res) => {
+    //     console.log(res);
+    //     return res.json();
+    //   })
+    //   .then((data) => {
+    //     console.log(data[0]);
+    //     renderData(data[0]);
+    //   });
+
+    const location = await getCurrentLocation();
+    const { latitude: lat, longitude: lng } = location.coords;
+    console.log(location, lat, lng);
+
+    const geoRes = await fetch(
+      `https://www.mapquestapi.com/geocoding/v1/reverse?key=NnoWy1r9RTOPCit9PL4qcbFArdfRlI7i&location=${lat},${lng}&includeRoadMetadata=true&includeNearestIntersection=true`
+    );
+
+    if (!geoRes.ok)
+      throw new Error(`Reverse geocoding problem ${response.status}`);
+
+    console.log(geoRes);
+
+    const geoResData = await geoRes.json();
+    console.log(geoResData);
+
+    console.log(
+      `You are in ${geoResData.results[0]?.locations[0]?.adminArea5}, ${geoResData.results[0]?.locations[0]?.adminArea1}`
+    );
+  } catch (error) {
+    console.error(error);
+    console.log(error);
+    console.log(error.message);
+  }
+};
+
+whereAmI("croatiawweew");
+whereAmI("croatia");
+console.log("first");
