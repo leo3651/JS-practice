@@ -442,7 +442,7 @@ createImg("./img/img-1.jpg")
   })
   .catch((err) => console.error(err));
 
-console.log("end"); */
+console.log("end");
 
 ///////////////////////////////////
 /////// CONSUMING PROMISES WITH ASYNC/AWAIT
@@ -464,10 +464,10 @@ const whereAmI = async function (country) {
 
     if (!response.ok) throw new Error(`Wrong country name ${response.status}`);
 
-    console.log(response);
+    console.log(this, response);
 
     const data = await response.json();
-    console.log(data[0]);
+    console.log(this, data[0]);
 
     renderData(data[0]);
 
@@ -484,7 +484,7 @@ const whereAmI = async function (country) {
 
     const location = await getCurrentLocation();
     const { latitude: lat, longitude: lng } = location.coords;
-    console.log(location, lat, lng);
+    console.log(this, location, lat, lng);
 
     const geoRes = await fetch(
       `https://www.mapquestapi.com/geocoding/v1/reverse?key=NnoWy1r9RTOPCit9PL4qcbFArdfRlI7i&location=${lat},${lng}&includeRoadMetadata=true&includeNearestIntersection=true`
@@ -493,21 +493,57 @@ const whereAmI = async function (country) {
     if (!geoRes.ok)
       throw new Error(`Reverse geocoding problem ${response.status}`);
 
-    console.log(geoRes);
+    console.log(this, geoRes);
 
     const geoResData = await geoRes.json();
-    console.log(geoResData);
+    console.log(this, geoResData);
 
-    console.log(
-      `You are in ${geoResData.results[0]?.locations[0]?.adminArea5}, ${geoResData.results[0]?.locations[0]?.adminArea1}`
-    );
+    const iAmAt = `You are in ${geoResData.results[0]?.locations[0]?.adminArea5}, ${geoResData.results[0]?.locations[0]?.adminArea1}`;
+    console.log(this, iAmAt);
+
+    return iAmAt;
   } catch (error) {
     console.error(error);
     console.log(error);
     console.log(error.message);
+
+    // reject promise returned from async function
+    throw error;
   }
 };
 
+console.log("1: Will get location");
 whereAmI("croatiawweew");
-whereAmI("croatia");
-console.log("first");
+whereAmI.call("FIrst function", "croatia");
+
+// const city = whereAmI("croatia");
+// console.log(city);
+
+// return value from async function
+whereAmI("croatia")
+  .then((city) => console.log(`3: ${city}`))
+  .catch((err) => console.log(`3: ${err.message}`))
+  .finally(() => console.log("3:"));
+
+console.log("2: Finished getting location");
+
+(async function () {
+  try {
+    const city = await whereAmI("croatia");
+    console.log("IIFE");
+    console.log(city);
+  } catch (err) {
+    console.log(`3: ${err.message}`);
+  }
+  console.log("3: ");
+})();
+*/
+///////////////////////////////////
+/////// RUNNING PROMISES IN PARALLEL
+///////////////////////////////////
+const get3Countries = async function (c1, c2, c3) {
+  try {
+  } catch (err) {
+    console.error(err);
+  }
+};
