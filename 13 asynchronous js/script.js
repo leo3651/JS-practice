@@ -326,7 +326,7 @@ wait(1)
 
 Promise.resolve("abc").then((x) => console.log(x));
 Promise.reject("abc").catch((x) => console.log(x));
-*/
+
 ///////////////////////////////////
 /////// PROMISIFYING THE GEOLOCATION API
 ///////////////////////////////////
@@ -385,3 +385,69 @@ const whereIAm2 = function () {
 };
 
 btn.addEventListener("click", whereIAm2);
+*/
+///////////////////////////////////
+/////// PRACTICE
+///////////////////////////////////
+const wait2 = function (seconds) {
+  return new Promise(function (resolve) {
+    setTimeout(() => {
+      resolve(`Waited ${seconds} ${seconds > 1 ? "seconds" : "second"}`);
+    }, seconds * 1000);
+  });
+};
+
+const createImg = function (imgPath) {
+  return new Promise(function (resolve, reject) {
+    console.log("In promise");
+
+    const imgEl = document.createElement("img");
+    imgEl.src = imgPath;
+
+    imgEl.addEventListener("load", function () {
+      console.log("fulfilled");
+      document.querySelector(".images").append(imgEl);
+      console.log(imgEl);
+      resolve(imgEl);
+    });
+
+    imgEl.addEventListener("error", function () {
+      reject(new Error("Image not found"));
+    });
+
+    console.log("In promise end");
+  });
+};
+
+console.log("middle");
+
+let currentImage;
+createImg("./img/img-1.jpg")
+  .then((img) => {
+    currentImage = img;
+    console.log("first then: Image 1 loaded");
+    return wait2(2);
+  })
+  .then((res) => {
+    console.log("second then: ", res);
+    currentImage.style.display = "none";
+    return wait2(2);
+  })
+  .then((res) => {
+    console.log("third then: ", res);
+    return createImg("./img/img-2.jpg");
+  })
+  .then((img) => {
+    console.log("fourth then: Image 2 loaded");
+    currentImage = img;
+    return wait2(2);
+  })
+  .then((res) => {
+    console.log("fifth then: ", res);
+    currentImage.style.display = "none";
+  })
+  .catch((err) => console.error(err));
+
+// createImg("./img/img-2.jpg");
+// createImg("./img/img-3.jpg");
+console.log("end");
