@@ -6,7 +6,7 @@
 console.log("--- AJAX ---");
 const btn = document.querySelector(".btn-country");
 const countriesContainer = document.querySelector(".countries");
-
+/*
 // render data from country
 const renderData = function (data, className = "") {
   console.log(data.name.nativeName);
@@ -191,7 +191,7 @@ const getJson = function (url, errorMsg = "Something went wrong") {
     .finally(() => {
       countriesContainer.style.opacity = 1;
     });
-}; */
+}; 
 
 const getNeighbourCountry = function (country) {
   getJson(`https://restcountries.com/v3.1/name/${country}`, "Country not found")
@@ -326,3 +326,62 @@ wait(1)
 
 Promise.resolve("abc").then((x) => console.log(x));
 Promise.reject("abc").catch((x) => console.log(x));
+*/
+///////////////////////////////////
+/////// PROMISIFYING THE GEOLOCATION API
+///////////////////////////////////
+navigator.geolocation.getCurrentPosition(
+  (position) => console.log(position),
+  (err) => console.log(err)
+);
+console.log("Getting position");
+
+const getPosition = function () {
+  return new Promise(function (resolve, reject) {
+    // navigator.geolocation.getCurrentPosition(
+    //   (position) => resolve(position),
+    //   (err) => reject(err)
+    // );
+
+    // ⬆ or ⬇
+
+    navigator.geolocation.getCurrentPosition(resolve, reject);
+  });
+};
+
+getPosition().then((position) => console.log(position));
+
+const whereIAm2 = function () {
+  getPosition()
+    .then((pos) => {
+      const { latitude: lat, longitude: lng } = pos.coords;
+
+      return fetch(
+        `https://www.mapquestapi.com/geocoding/v1/reverse?key=NnoWy1r9RTOPCit9PL4qcbFArdfRlI7i&location=${lat},${lng}&includeRoadMetadata=true&includeNearestIntersection=true`
+      );
+    })
+    .then((results) => {
+      console.log("Results: ", results);
+      return results.json();
+    })
+
+    .then((data) => {
+      if (data.info.statuscode === 400) {
+        throw new Error(`${data.info.messages[0]}`);
+      }
+      console.log(
+        `You are in ${data.results[0]?.locations[0]?.adminArea5}, ${data.results[0]?.locations[0]?.adminArea1}`
+      );
+      console.log("Data: ", data);
+    })
+
+    .catch((err) => {
+      countriesContainer.insertAdjacentText(
+        "afterend",
+        `Something went wrong. ${err.message}`
+      );
+      console.log(`Something went wrong. ${err.message}`);
+    });
+};
+
+btn.addEventListener("click", whereIAm2);
