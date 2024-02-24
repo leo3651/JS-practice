@@ -537,13 +537,69 @@ console.log("2: Finished getting location");
   }
   console.log("3: ");
 })();
-*/
+
 ///////////////////////////////////
 /////// RUNNING PROMISES IN PARALLEL
 ///////////////////////////////////
+const getJSON2 = function (url, err = "Something went wrong") {
+  return fetch(url).then((response) => {
+    if (!response.ok) throw new Error(`${err} ${response.status}`);
+
+    return response.json();
+  });
+};
+
 const get3Countries = async function (c1, c2, c3) {
   try {
+    // one after another
+    const [data1] = await getJSON2(`https://restcountries.com/v3.1/name/${c1}`);
+    const [data2] = await getJSON2(`https://restcountries.com/v3.1/name/${c2}`);
+    const [data3] = await getJSON2(`https://restcountries.com/v3.1/name/${c3}`);
+
+    const data = [data1.capital[0], data2.capital[0], data3.capital[0]];
+    console.log(data);
+
+    // in parallel
+    const parallelPromises = await Promise.all([
+      getJSON2(`https://restcountries.com/v3.1/name/${c1}`),
+      getJSON2(`https://restcountries.com/v3.1/name/${c2}`),
+      getJSON2(`https://restcountries.com/v3.1/name/${c3}`),
+    ]);
+    console.log(parallelPromises.map((data) => data[0].capital[0]));
   } catch (err) {
     console.error(err);
   }
 };
+
+get3Countries("croatia", "portugal", "germany");
+// get3Countries("serbia", "sweden", "romania");
+// get3Countries("canada", "norway", "montenegro");
+*/
+///////////////////////////////////
+/////// OTHER PROMISE COMBINATORS: RACE, ALL_SETTLED, ANY
+///////////////////////////////////
+const handleFetch = function (url) {
+  return fetch(url)
+    .then((result) => {
+      if (!result.ok) throw new Error(result.status);
+      return result.json();
+    })
+    .catch((err) => {
+      throw err;
+    });
+};
+
+(async function () {
+  try {
+    const fastest = await Promise.race([
+      handleFetch(`https://restcountries.com/v3.1/name/italy`),
+
+      handleFetch(`https://restcountries.com/v3.1/name/mexico`),
+
+      handleFetch(`https://restcountries.com/v3.1/name/$egypt`),
+    ]);
+    console.log(fastest[0].capital[0]);
+  } catch (err) {
+    console.error(`Something went wrong ${err}`);
+  }
+})();
