@@ -1,5 +1,5 @@
 "use strict";
-
+/*
 ///////////////////////////////////
 /////// AJAX CALl: XML_HTTP_REQUEST
 ///////////////////////////////////
@@ -33,7 +33,7 @@ const renderData = function (data, className = "") {
   countriesContainer.insertAdjacentHTML("afterbegin", html);
   countriesContainer.style.opacity = 1;
 };
-/*
+
 // get data from country
 const getCountryData = function (country) {
   const request = new XMLHttpRequest();
@@ -574,7 +574,7 @@ const get3Countries = async function (c1, c2, c3) {
 get3Countries("croatia", "portugal", "germany");
 // get3Countries("serbia", "sweden", "romania");
 // get3Countries("canada", "norway", "montenegro");
-*/
+
 ///////////////////////////////////
 /////// OTHER PROMISE COMBINATORS: RACE, ALL_SETTLED, ANY
 ///////////////////////////////////
@@ -656,3 +656,71 @@ Promise.any([
 ])
   .then((res) => console.log(res))
   .catch((err) => console.log(err));
+*/
+///////////////////////////////////
+/////// PRACTICE
+///////////////////////////////////
+document.querySelector(".countries").style.opacity = 1;
+
+const createImage = function (imgPath) {
+  return new Promise(function (resolve, reject) {
+    const img = document.createElement("img");
+    img.src = imgPath;
+    img.setAttribute("src", imgPath);
+
+    img.addEventListener("load", function () {
+      document.querySelector(".images").append(img);
+      resolve(img);
+    });
+
+    img.addEventListener("error", function () {
+      reject(new Error("Error loading the image"));
+    });
+  });
+};
+
+const timerPromise = function (seconds) {
+  return new Promise(function (resolve, reject) {
+    setTimeout(() => {
+      resolve();
+    }, seconds * 1000);
+  });
+};
+
+const loadNPause = async function () {
+  try {
+    const img = await createImage("./img/img-1.jpg");
+    console.log("Image 1 loaded");
+    await timerPromise(2);
+    img.style.display = "none";
+
+    const img2 = await createImage("./img/img-2.jpg");
+    console.log("Image 2 loaded");
+    await timerPromise(2);
+    img2.style.display = "none";
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+// loadNPause();
+
+///
+const loadAll = function (imgArr) {
+  try {
+    const imgs = imgArr.map(async (img) => await createImage(img));
+    console.log(imgs);
+
+    Promise.all(imgs).then((res) => {
+      console.log(res);
+      res.forEach((img) => img.classList.add("parallel"));
+      console.log("Classes added");
+    });
+
+    console.log("End ");
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+loadAll(["./img/img-1.jpg", "./img/img-2.jpg", "./img/img-3.jpg"]);
