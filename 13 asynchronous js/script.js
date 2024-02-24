@@ -589,6 +589,7 @@ const handleFetch = function (url) {
     });
 };
 
+// Promise.race() -> short circuits the results
 (async function () {
   try {
     const fastest = await Promise.race([
@@ -596,10 +597,62 @@ const handleFetch = function (url) {
 
       handleFetch(`https://restcountries.com/v3.1/name/mexico`),
 
-      handleFetch(`https://restcountries.com/v3.1/name/$egypt`),
+      handleFetch(`https://restcountries.com/v3.1/name/egypt`),
     ]);
     console.log(fastest[0].capital[0]);
   } catch (err) {
     console.error(`Something went wrong ${err}`);
   }
 })();
+
+///
+const timeout = function (sec) {
+  return new Promise(function (_, reject) {
+    setTimeout(() => reject(new Error("Took too long")), sec * 1000);
+  });
+};
+
+(async function () {
+  try {
+    const data = await Promise.race([
+      handleFetch(`https://restcountries.com/v3.1/name/egypt`),
+      timeout(3),
+    ]);
+    console.log(data[0].capital[0]);
+  } catch (err) {
+    console.log(err);
+  }
+})();
+
+Promise.race([
+  handleFetch(`https://restcountries.com/v3.1/name/egypt`),
+  timeout(3),
+])
+  .then((data) => console.log(data[0].capital[0]))
+  .catch((err) => console.log(err));
+
+// Promise.allSettled -> returns all the results of all promises
+Promise.allSettled([
+  Promise.resolve("Success"),
+  Promise.reject("ERROR"),
+  Promise.resolve("Success"),
+])
+  .then((res) => console.log(res))
+  .catch((err) => console.log(err));
+
+Promise.all([
+  Promise.resolve("Success"),
+  Promise.reject("ERROR"),
+  Promise.resolve("Success"),
+])
+  .then((res) => console.log(res))
+  .catch((err) => console.log(err));
+
+// Promise.any() -> returns first fulfilled promise
+Promise.any([
+  Promise.resolve("Success"),
+  Promise.reject("ERROR"),
+  Promise.resolve("Success"),
+])
+  .then((res) => console.log(res))
+  .catch((err) => console.log(err));
