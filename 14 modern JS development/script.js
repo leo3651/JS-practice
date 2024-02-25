@@ -78,7 +78,9 @@ const shoppingCart2 = (function () {
 
   const addToCart = function (product, quantity) {
     cart.push({ product, quantity });
-    console.log(`${quantity} ${product} added to the cart`);
+    console.log(
+      `${quantity} ${product} added to the cart (shopping cost ${shoppingCost}$)`
+    );
   };
 
   const order = function (product, quantity) {
@@ -98,3 +100,38 @@ shoppingCart2.addToCart("bananas", 10);
 console.log(shoppingCart2);
 
 console.log(shoppingCart2.shoppingCost);
+
+// common JS modules for node.js
+
+// export
+// export.addToCart = function (product, quantity) {
+//   cart.push({ product, quantity });
+//   console.log(`${quantity} ${product} added to the cart`);
+// };
+
+// import
+// const { addToCart } = require("./shoppingCart.js");
+
+///////////////////////////////////
+/////// NPM
+///////////////////////////////////
+import cloneDeep from "./node_modules/lodash-es/cloneDeep.js";
+
+const state = {
+  cart: [
+    { product: "bread", quantity: 5 },
+    { product: "pizza", quantity: 4 },
+  ],
+  user: { loggedIn: true },
+};
+
+const stateClone = Object.assign({}, state);
+console.log(stateClone);
+
+state.user.loggedIn = false;
+console.log(stateClone, state); // shallow copy
+state.user.loggedIn = true;
+
+const stateDeepClone = cloneDeep(state);
+state.user.loggedIn = false;
+console.log(stateDeepClone, state); // deep clone
