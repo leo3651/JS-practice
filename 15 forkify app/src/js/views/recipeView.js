@@ -1,6 +1,5 @@
 import icons from "url:../../img/icons.svg";
 import { Fraction } from "fractional";
-console.log(Fraction);
 
 class RecipeView {
   #parentElement = document.querySelector(".recipe");
@@ -90,7 +89,7 @@ class RecipeView {
       <h2 class="heading--2">Recipe ingredients</h2>
       <ul class="recipe__ingredient-list">
       
-      ${this.#data.ingredients.reduce(this.#generateMarkupIngredient, "")}
+      ${this.#data.ingredients?.reduce(this.#generateMarkupIngredient, "")}
       </ul>
     </div>
 
@@ -131,6 +130,12 @@ class RecipeView {
         </div>
       </li>`;
     return acc;
+  }
+
+  addHandlerRender(callback) {
+    ["hashchange", "load"].forEach((event) =>
+      window.addEventListener(event, callback)
+    );
   }
 }
 
