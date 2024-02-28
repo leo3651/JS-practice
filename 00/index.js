@@ -11,20 +11,56 @@ const getClosestNumbers = function (number, options = defaultArray) {
 
   options.sort((a, b) => a - b);
 
-  for (let i = 1, n = options.length; i < n; i++) {
-    if (number >= options[i] && number <= options[i + 1]) {
-      if (number - options[i] > options[i + 1] - number)
-        closest.push(options[i + 1]);
+  const binarySearch = function (target, arr) {
+    let start = 0;
+    let end = arr.length - 1;
 
-      if (number - options[i] < options[i + 1] - number)
-        closest.push(options[i]);
+    while (start <= end) {
+      let mid = Math.floor((start + end) / 2);
 
-      if (number - options[i] === options[i + 1] - number) {
-        closest.push(options[i]);
-        closest.push(options[i + 1]);
+      if (arr[mid] === target) {
+        closest.push(arr[mid]);
+        return mid;
+      }
+
+      if (arr[mid] <= target && arr[mid + 1] >= target) {
+        const nextMin = arr[mid + 1] - target;
+        const previousMin = target - arr[mid];
+
+        if (nextMin > previousMin) closest.push(arr[mid]);
+        if (nextMin < previousMin) closest.push(arr[mid + 1]);
+        if (previousMin === nextMin) {
+          closest.push(arr[mid]);
+          closest.push(arr[mid + 1]);
+        }
+        return mid;
+      }
+
+      if (target < arr[mid]) {
+        end = mid - 1;
+      } else {
+        start = mid + 1;
       }
     }
-  }
+    return -1;
+  };
+  binarySearch(number, options);
+
+  // for (let i = 0, n = options.length - 1; i < n; i++) {
+  //   if (number >= options[i] && number <= options[i + 1]) {
+  //     const nextMin = options[i + 1] - number;
+  //     const previousMin = number - options[i];
+
+  //     if (nextMin > previousMin) closest.push(options[i]);
+  //     if (nextMin < previousMin) closest.push(options[i + 1]);
+  //     if (previousMin === nextMin) {
+  //       closest.push(options[i]);
+  //       closest.push(options[i + 1]);
+  //     }
+
+  //     break;
+  //   }
+  // }
 
   return closest;
 };
@@ -32,6 +68,7 @@ const getClosestNumbers = function (number, options = defaultArray) {
 console.log(getClosestNumbers(90));
 console.log(getClosestNumbers(100));
 console.log(getClosestNumbers(321, [-12, 12, -22, 33, 333, -333]));
+console.log(getClosestNumbers(-333, [-12, 12, -22, 33, 333, -333]));
 
 ///
 arrayA = ["a", "b", "c", "dd", 234, 22, "rc"];
