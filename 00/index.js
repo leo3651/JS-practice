@@ -1,7 +1,39 @@
 ///////////////////////////////////
 /////// PRACTICE
 ///////////////////////////////////
+const defaultArray = [
+  -908, -852, -474, -355, -102, -100, -55, -25, -18, -7, -6, -5, 0, 1, 7, 8, 99,
+  101, 122, 147, 5025, 5334, 7410,
+];
 
+const getClosestNumbers = function (number, options = defaultArray) {
+  let closest = [];
+
+  options.sort((a, b) => a - b);
+
+  for (let i = 1, n = options.length; i < n; i++) {
+    if (number >= options[i] && number <= options[i + 1]) {
+      if (number - options[i] > options[i + 1] - number)
+        closest.push(options[i + 1]);
+
+      if (number - options[i] < options[i + 1] - number)
+        closest.push(options[i]);
+
+      if (number - options[i] === options[i + 1] - number) {
+        closest.push(options[i]);
+        closest.push(options[i + 1]);
+      }
+    }
+  }
+
+  return closest;
+};
+
+console.log(getClosestNumbers(90));
+console.log(getClosestNumbers(100));
+console.log(getClosestNumbers(321, [-12, 12, -22, 33, 333, -333]));
+
+///
 arrayA = ["a", "b", "c", "dd", 234, 22, "rc"];
 arrayB = ["a", "b2", "c", "dad", "rc", 24, 222];
 arrayC = [222, "a", "be", "rc", "dd", 234, 22, "pp"];
@@ -37,10 +69,12 @@ const find = function (a1, a2, a3) {
       }
     }
   }
+  commonElements = commonElements.filter((element) => element !== "ForDelete");
 
-  commonElements = commonElements.filter(
-    (element, index) => element !== "ForDelete"
-  );
+  console.log("In common: ", commonElements);
+  console.log("arrayA unique: ", a1UniqueElements);
+  console.log("arrayB unique: ", a2UniqueElements);
+  console.log("arrayC unique: ", a3UniqueElements);
 };
 
 find(arrayA, arrayB, arrayC);
