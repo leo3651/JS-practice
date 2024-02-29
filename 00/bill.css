@@ -40,6 +40,11 @@ main {
   flex-direction: column;
 }
 
+.table-1,
+.table-2 {
+  width: 100%;
+}
+
 td {
   padding: 0.7rem 0.8rem;
   border-left: 2px solid darkblue;
@@ -48,9 +53,11 @@ td {
 td:first-child {
   text-align: left;
 }
+
 td:last-child {
   text-align: right;
 }
+
 td:first-child,
 td:last-child {
   font-weight: 800;

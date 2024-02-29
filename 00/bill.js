@@ -22,6 +22,7 @@ class Bill {
 
     this.calcQuantity();
     this.#generateFirstTable();
+    this.#generateSecondTable();
   }
 
   #generateFirstTable() {
@@ -58,7 +59,7 @@ class Bill {
       </table>
     `;
 
-    this.renderHtml(html);
+    this.renderHtml(html, ".table-1");
   }
 
   #generateSecondTable() {
@@ -87,6 +88,7 @@ class Bill {
           </tr>
         </tbody>
       </table>`;
+    this.renderHtml(html, ".table-2");
   }
 
   calcQuantity() {
@@ -97,8 +99,8 @@ class Bill {
     this.#totalPrice = this.quantity * this.price;
   }
 
-  renderHtml(html) {
-    document.querySelector(".root").insertAdjacentHTML("afterbegin", html);
+  renderHtml(html, element) {
+    document.querySelector(element).insertAdjacentHTML("afterbegin", html);
   }
 
   formatDate(date) {
