@@ -31,8 +31,28 @@
     </div> -->
     <div class="filters">
       <div class="filter filter--date">
-        <input class="input-text" type="text" placeholder="Starting date" />
-        <input class="input-text" type="text" placeholder="Ending date" />
+        <input
+          class="input-text input-start-date"
+          type="text"
+          placeholder="Starting date"
+        />
+        <input
+          class="input-text input-end-date"
+          type="text"
+          placeholder="Ending date"
+        />
+      </div>
+
+      <div class="filter filter--capacity">
+        <label for="capacity">Capacity</label>
+        <input
+          id="capacity"
+          class="input-number"
+          type="number"
+          min="0"
+          max="12"
+          placeholder="0-12"
+        />
       </div>
 
       <div class="filter filter--air-conditioning">

@@ -124,8 +124,15 @@ p {
 }
 
 .input-text {
+  width: 50%;
+}
+.input-number {
+  width: 70%;
+}
+
+.input-text,
+.input-number {
   padding: 0.5rem;
   border: none;
   border-radius: 3px;
-  width: 50%;
 }
