@@ -1,0 +1,63 @@
+html {
+  font-size: 62.5%;
+  box-sizing: border-box;
+}
+
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-size: 1.6rem;
+  line-height: 1.5;
+  font-family: sans-serif;
+  background-image: linear-gradient(to right bottom, lightblue, darkblue);
+  height: 100vh;
+}
+
+.container {
+  max-width: 100rem;
+  margin: 0 auto;
+  padding: 5rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: min-content 1fr;
+  column-gap: 2rem;
+}
+
+img {
+  border-radius: 0.5rem;
+}
+
+h2 {
+  margin-bottom: 1.5rem;
+}
+
+p {
+  margin-bottom: 1rem;
+}
+
+.card {
+  margin-bottom: 3rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 0 1rem rgba(0, 0, 0, 0.4);
+  background-color: #f7f7f7;
+}
+
+.check-hotel-btn:link,
+.check-hotel-btn:visited {
+  display: inline-block;
+  border: none;
+  text-decoration: none;
+  color: #fff;
+  padding: 1.5rem 2rem;
+  border-radius: 100rem;
+  background-color: lightblue;
+  color: darkblue;
+  font-weight: 600;
+}
