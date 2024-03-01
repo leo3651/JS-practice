@@ -15,7 +15,7 @@ const getData = async function () {
 const renderData = async function () {
   const data = await getData();
   console.log(data);
-  let html;
+  let html = "";
   data.forEach((element) => {
     html += `
     <div class="card grid">
@@ -40,6 +40,14 @@ const renderData = async function () {
   document
     .querySelector(".card-container")
     .insertAdjacentHTML("afterbegin", html);
+
+  const btns = document.querySelectorAll(".check-hotel-btn");
+  console.log(btns);
+  btns.forEach((btn) =>
+    btn.addEventListener("click", function (e) {
+      e.preventDefault();
+    })
+  );
 };
 
 renderData();
