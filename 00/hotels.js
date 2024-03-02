@@ -8,6 +8,7 @@ const pool = document.getElementById("pool");
 const wifi = document.getElementById("wifi");
 const tv = document.getElementById("TV");
 const filterBtn = document.querySelector(".filter-btn");
+let cardNumber;
 
 const getData = async function () {
   try {
@@ -96,7 +97,7 @@ const renderData = async function (
   let html = "";
   data.forEach((element) => {
     html += `
-    <div class="card grid">
+    <div class="card grid" data-id="${element.id}">
       <figure class="img-box">
         <img src="${element.image}" alt="Photo" />
       </figure>
@@ -108,7 +109,7 @@ const renderData = async function (
           aspernatur cum, enim odio consectetur fugiat sed obcaecati. Odio
           recusandae sed voluptates.
         </p>
-        <a class="check-hotel-btn" href="#">Check hotel</a>
+        <a class="check-hotel-btn" href="./hotel.html#${element.id}">Check hotel</a>
       </div>
     </div>
     `;
@@ -122,7 +123,8 @@ const renderData = async function (
   const btns = document.querySelectorAll(".check-hotel-btn");
   btns.forEach((btn) =>
     btn.addEventListener("click", function (e) {
-      e.preventDefault();
+      const cardEl = e.target.closest(".card");
+      cardNumber = cardEl.dataset.id;
     })
   );
 };
@@ -142,3 +144,5 @@ filterBtn.addEventListener("click", function () {
     tv.checked
   );
 });
+
+export default cardNumber;
