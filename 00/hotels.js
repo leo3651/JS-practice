@@ -8,18 +8,6 @@ const pool = document.getElementById("pool");
 const wifi = document.getElementById("wifi");
 const tv = document.getElementById("TV");
 const filterBtn = document.querySelector(".filter-btn");
-console.log(
-  inputStartDate,
-  inputEndDate,
-  capacity,
-  airConditioning,
-  parkingSpace,
-  pets,
-  pool,
-  wifi,
-  tv,
-  filterBtn
-);
 
 const getData = async function () {
   try {
@@ -35,6 +23,35 @@ const getData = async function () {
   }
 };
 
+const filterDates = function (startDate, endDate, data) {
+  return data.filter((hotel) => {
+    for (let i = 0, n = hotel.availableDates.length; i < n; i++) {
+      if (
+        new Date(hotel.availableDates[i].intervalStart).getTime() <=
+          new Date(startDate).getTime() &&
+        new Date(hotel.availableDates[i].intervalEnd).getTime() >=
+          new Date(endDate).getTime()
+      ) {
+        return hotel;
+      }
+    }
+  });
+};
+
+const filterCapacity = function (capacity, data) {
+  return data.filter((hotel) => {
+    if (hotel.capacity === Number(capacity)) {
+      return hotel;
+    }
+  });
+};
+
+const filterAmenity = function (amenity, data) {
+  return data.filter((hotel) => {
+    if (hotel.amenities[amenity]) return hotel;
+  });
+};
+
 const renderData = async function (
   startDate = "",
   endDate = "",
@@ -48,28 +65,33 @@ const renderData = async function (
 ) {
   let data = await getData();
   console.log(data);
+  data.forEach((hotel) => console.log(hotel));
+
   if (startDate || endDate) {
     if (!new Date(startDate).getTime() || !new Date(endDate).getTime()) {
-      console.log(startDate, endDate);
       alert("Invalid dates");
-      console.log(new Date(startDate).getTime());
       return;
     }
-    data = data.filter((hotel) => {
-      for (let i = 0, n = hotel.availableDates.length; i < n; i++) {
-        if (
-          new Date(hotel.availableDates[i].intervalStart).getTime() <
-            new Date(startDate).getTime() &&
-          new Date(hotel.availableDates[i].intervalEnd).getTime() >
-            new Date(endDate).getTime()
-        ) {
-          console.log("in");
-          return hotel;
-        }
-      }
-    });
+    data = filterDates(startDate, endDate, data);
   }
-  console.log("Leo");
+
+  if (capacity) {
+    if (Number(capacity)) {
+      data = filterCapacity(capacity, data);
+    }
+  }
+
+  if (airConditioning) data = filterAmenity("airConditioning", data);
+
+  if (parkingSpace) data = filterAmenity("parkingSpace", data);
+
+  if (pets) data = filterAmenity("pets", data);
+
+  if (pool) data = filterAmenity("pool", data);
+
+  if (wifi) data = filterAmenity("wifi", data);
+
+  if (tv) data = filterAmenity("tv", data);
 
   let html = "";
   data.forEach((element) => {
@@ -98,7 +120,6 @@ const renderData = async function (
     .insertAdjacentHTML("afterbegin", html);
 
   const btns = document.querySelectorAll(".check-hotel-btn");
-  console.log(btns);
   btns.forEach((btn) =>
     btn.addEventListener("click", function (e) {
       e.preventDefault();
