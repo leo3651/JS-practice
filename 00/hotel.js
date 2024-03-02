@@ -1,3 +1,7 @@
+const showMore = document.querySelector(".show-more");
+const showLess = document.querySelector(".show-less");
+const amanities = document.querySelector(".amanities");
+
 const getData = async function () {
   try {
     const response = await fetch("https://api.adriatic.hr/test/accommodation");
@@ -56,3 +60,16 @@ const renderData = async function () {
 };
 
 // renderData();
+
+showLess.addEventListener("click", function () {
+  setTimeout(() => {
+    amanities.classList.add("hidden");
+  }, 400);
+  amanities.classList.remove("animation");
+});
+
+showMore.addEventListener("click", function () {
+  amanities.classList.remove("hidden");
+  amanities.scrollIntoView({ behavior: "smooth" });
+  amanities.classList.add("animation");
+});

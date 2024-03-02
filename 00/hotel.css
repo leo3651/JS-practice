@@ -15,7 +15,6 @@ body {
   line-height: 1.5;
   font-family: sans-serif;
   background-image: linear-gradient(to right bottom, lightblue, darkblue);
-  min-height: 100vh;
 }
 
 .container {
@@ -97,4 +96,16 @@ h1 {
 
 .amanities {
   margin: 0 2rem;
+  transition: all 0.4s;
+  transform: translateY(-100%);
+  opacity: 0;
+}
+
+.hidden {
+  display: none;
+}
+
+.animation {
+  transform: translateY(0);
+  opacity: 1;
 }
