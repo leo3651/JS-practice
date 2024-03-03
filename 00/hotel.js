@@ -7,7 +7,7 @@ const startDateCheckPrice = document.querySelector(".start-date-check-price");
 const endDateCheckPrice = document.querySelector(".end-date-check-price");
 const price = document.querySelector(".price");
 
-let scrollPosition;
+let scrollPosition, hotel, min, max;
 
 const getData = async function () {
   try {
@@ -23,14 +23,25 @@ const getData = async function () {
   }
 };
 
+const findMinMaxPrice = function () {
+  let min = hotel.pricelistInEuros[0].pricePerNight;
+  let max = hotel.pricelistInEuros[0].pricePerNight;
+  for (let i = 1, n = hotel.pricelistInEuros.length; i < n; i++) {
+    const temp = hotel.pricelistInEuros[i].pricePerNight;
+    if (temp > max) max = temp;
+    if (temp < min) min = temp;
+  }
+  return [min, max];
+};
+
+const findHotel = (hotel) => hotel.id === Number(window.location.hash.slice(1));
+
 const renderData = async function () {
   const data = await getData();
-  console.log(data);
 
-  const [hotel] = data.filter(
-    (hotel) => hotel.id === Number(window.location.hash.slice(1))
-  );
-  console.log(hotel);
+  [hotel] = data.filter(findHotel);
+
+  [min, max] = findMinMaxPrice();
 
   const html = `
   <div>
@@ -66,7 +77,7 @@ const renderData = async function () {
       <div class="check-price-btn-container">
         <button class="btn check-price">Check price</button>
       </div>
-      <p class="price">Price: (min-max)</p>
+      <p class="price">Price: ${min}-${max} (min-max)</p>
 
       <div class="btn-container">
         <button class="btn show-more">Show more &#x2193;</button>
@@ -120,11 +131,13 @@ showMore.addEventListener("click", function () {
 });
 
 const renderPrice = function () {
-  price.innerHTML = `<p class="price">Price: (min-max)</p>`;
+  price.style.opacity = 1;
+  price.innerHTML = `<p class="price">Price: ${min}-${max} (min-max)</p>`;
 };
-window.addEventListener("keypress", function () {
+
+window.addEventListener("input", function (e) {
   if (!startDateCheckPrice.value && !endDateCheckPrice.value) renderPrice();
   else {
-    price.style.color = "red";
+    price.style.opacity = 0;
   }
 });
