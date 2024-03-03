@@ -1,13 +1,25 @@
-const showMore = document.querySelector(".show-more");
-const showLess = document.querySelector(".show-less");
-const amanities = document.querySelector(".amanities");
-const btnContainer = document.querySelector(".btn-container");
-const checkPriceBtn = document.querySelector(".check-price");
-const startDateCheckPrice = document.querySelector(".start-date-check-price");
-const endDateCheckPrice = document.querySelector(".end-date-check-price");
-const price = document.querySelector(".price");
-
+// variables
 let scrollPosition, hotel, min, max;
+// DOM elements
+let showMore,
+  showLess,
+  amanities,
+  btnContainer,
+  checkPriceBtn,
+  startDateCheckPrice,
+  endDateCheckPrice,
+  price;
+
+const initDOMElements = function () {
+  showMore = document.querySelector(".show-more");
+  showLess = document.querySelector(".show-less");
+  amanities = document.querySelector(".amanities");
+  btnContainer = document.querySelector(".btn-container");
+  checkPriceBtn = document.querySelector(".check-price");
+  startDateCheckPrice = document.querySelector(".start-date-check-price");
+  endDateCheckPrice = document.querySelector(".end-date-check-price");
+  price = document.querySelector(".price");
+};
 
 const getData = async function () {
   try {
@@ -35,6 +47,50 @@ const findMinMaxPrice = function () {
 };
 
 const findHotel = (hotel) => hotel.id === Number(window.location.hash.slice(1));
+
+const showBtnsToggle = function () {
+  showLess.classList.toggle("hidden");
+  showMore.classList.toggle("hidden");
+};
+
+const renderPrice = function () {
+  price.style.opacity = 1;
+  price.innerHTML = `<p class="price">Price: ${min}-${max} (min-max)</p>`;
+};
+
+const events = function () {
+  showLess.addEventListener("click", function () {
+    setTimeout(() => {
+      amanities.classList.add("hidden");
+    }, 400);
+
+    window.scrollTo({
+      top: scrollPosition,
+      left: 0,
+      behavior: "smooth",
+    });
+
+    amanities.classList.remove("animation");
+    showBtnsToggle();
+  });
+
+  showMore.addEventListener("click", function () {
+    scrollPosition = window.scrollY;
+
+    amanities.classList.remove("hidden");
+    amanities.scrollIntoView({ behavior: "smooth" });
+    amanities.classList.add("animation");
+
+    showBtnsToggle();
+  });
+
+  window.addEventListener("input", function (e) {
+    if (!startDateCheckPrice.value && !endDateCheckPrice.value) renderPrice();
+    else {
+      price.style.opacity = 0;
+    }
+  });
+};
 
 const renderData = async function () {
   const data = await getData();
@@ -66,7 +122,7 @@ const renderData = async function () {
       <p>Capacity: ${hotel.capacity}</p>
       <input
         type="text"
-        class="staet-date-check-price"
+        class="start-date-check-price"
         placeholder="year-month-day"
       />
       <input
@@ -96,48 +152,9 @@ const renderData = async function () {
   `;
 
   document.querySelector("body").insertAdjacentHTML("afterbegin", html);
+
+  initDOMElements();
+  events();
 };
 
 renderData();
-
-const showBtnsToggle = function () {
-  showLess.classList.toggle("hidden");
-  showMore.classList.toggle("hidden");
-};
-
-showLess.addEventListener("click", function () {
-  setTimeout(() => {
-    amanities.classList.add("hidden");
-  }, 400);
-
-  window.scrollTo({
-    top: scrollPosition,
-    left: 0,
-    behavior: "smooth",
-  });
-
-  amanities.classList.remove("animation");
-  showBtnsToggle();
-});
-
-showMore.addEventListener("click", function () {
-  scrollPosition = window.scrollY;
-
-  amanities.classList.remove("hidden");
-  amanities.scrollIntoView({ behavior: "smooth" });
-  amanities.classList.add("animation");
-
-  showBtnsToggle();
-});
-
-const renderPrice = function () {
-  price.style.opacity = 1;
-  price.innerHTML = `<p class="price">Price: ${min}-${max} (min-max)</p>`;
-};
-
-window.addEventListener("input", function (e) {
-  if (!startDateCheckPrice.value && !endDateCheckPrice.value) renderPrice();
-  else {
-    price.style.opacity = 0;
-  }
-});
