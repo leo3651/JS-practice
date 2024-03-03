@@ -83,6 +83,7 @@ const scrollAndHideAmanities = function () {
   });
 
   amanities.classList.remove("animation");
+
   showBtnsToggle();
 };
 
@@ -147,8 +148,6 @@ const events = function () {
         hotel.pricelistInEuros[i].intervalEnd
       ).getTime();
 
-      console.log(priceInEuros, priceIntevalStart, priceIntevalEnd);
-
       if (
         chosenStartingDate >= priceIntevalStart &&
         chosenStartingDate <= priceIntevalEnd
@@ -169,6 +168,7 @@ const events = function () {
         }
       }
     }
+
     reserveBtn.classList.remove("reserve-btn");
   });
 
@@ -188,7 +188,7 @@ const events = function () {
         <p>from ${startDateCheckPrice.value} to ${endDateCheckPrice.value}</p>
         <p>for total price of ${totalPrice} euros</p>
         <p>with capacity of ${hotel.capacity} people</p>
-        <a class="btn back" href="hotels.html">&#x2190; Home page</a>
+        <a class="btn back" href="index.html">&#x2190; Home page</a>
       </div>
     `;
     document.querySelector("body").innerHTML = "";
