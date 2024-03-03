@@ -87,6 +87,10 @@ p {
   margin: 1rem 0;
 }
 
+h1 {
+  text-align: center;
+}
+
 p,
 h1 {
   color: white;
@@ -110,4 +114,14 @@ h1 {
 .animation {
   transform: translateY(0);
   opacity: 1;
+}
+
+.price {
+  display: inline-block;
+  margin-right: 2rem;
+}
+
+.reserve-btn {
+  opacity: 0;
+  visibility: hidden;
 }

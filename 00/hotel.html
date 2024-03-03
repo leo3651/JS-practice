@@ -8,9 +8,9 @@
     <title>Document</title>
   </head>
   <body class="container">
-    <!-- <div>
+    <div>
       <div class="heading">
-        <h1>Villa Antonio</h1>
+        <h1>${hotel.title}</h1>
         <figure class="img-box">
           <img src="./download.jpeg" alt="img" />
         </figure>
@@ -27,7 +27,10 @@
       </p>
 
       <div class="info">
-        <p>Capacity: 4</p>
+        <p>Capacity: ${hotel.capacity}</p>
+
+        <p>Distance from the beach:</p>
+
         <input
           type="text"
           class="start-date-check-price"
@@ -41,21 +44,25 @@
         <div class="check-price-btn-container">
           <button class="btn check-price">Check price</button>
         </div>
-        <p class="price">Price: (min-max)</p>
+        <p class="price">Price: ${min}-${max} (min-max)</p>
+        <button class="btn">Reserve</button>
 
         <div class="btn-container">
           <button class="btn show-more">Show more &#x2193;</button>
           <button class="btn show-less hidden">Show less &#x2191;</button>
         </div>
       </div>
+
       <div class="amanities hidden">
-        <p>Air conditioning: ❌</p>
-        <p>Parking space: ✅</p>
-        <p>Pets: ✅</p>
-        <p>Pool: ✅</p>
-        <p>Wi-fi: ❌</p>
-        <p>Tv: ❌</p>
+        <p>
+          Air conditioning: ${hotel.amenities.airConditioning ? "✅" : "❌"}
+        </p>
+        <p>Parking space: ${hotel.amenities.parkingSpace ? "✅" : "❌"}</p>
+        <p>Pets: ${hotel.amenities.pets ? "✅" : "❌"}</p>
+        <p>Pool: ${hotel.amenities.pool ? "✅" : "❌"}</p>
+        <p>Wi-fi: ${hotel.amenities.wifi ? "✅" : "❌"}</p>
+        <p>Tv: ${hotel.amenities.tv ? "✅" : "❌"}</p>
       </div>
-    </div> -->
+    </div>
   </body>
 </html>

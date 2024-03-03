@@ -1,5 +1,6 @@
 // variables
 let scrollPosition, hotel, min, max;
+let totalPrice = 0;
 // DOM elements
 let showMore,
   showLess,
@@ -58,30 +59,109 @@ const renderPrice = function () {
   price.innerHTML = `<p class="price">Price: ${min}-${max} (min-max)</p>`;
 };
 
-const events = function () {
-  showLess.addEventListener("click", function () {
-    setTimeout(() => {
-      amanities.classList.add("hidden");
-    }, 400);
+const scrollAndShowAmanities = function () {
+  scrollPosition = window.scrollY;
 
-    window.scrollTo({
-      top: scrollPosition,
-      left: 0,
-      behavior: "smooth",
-    });
+  amanities.classList.remove("hidden");
+  amanities.scrollIntoView({ behavior: "smooth" });
+  amanities.classList.add("animation");
 
-    amanities.classList.remove("animation");
-    showBtnsToggle();
+  showBtnsToggle();
+};
+
+const scrollAndHideAmanities = function () {
+  setTimeout(() => {
+    amanities.classList.add("hidden");
+  }, 400);
+
+  window.scrollTo({
+    top: scrollPosition,
+    left: 0,
+    behavior: "smooth",
   });
 
-  showMore.addEventListener("click", function () {
-    scrollPosition = window.scrollY;
+  amanities.classList.remove("animation");
+  showBtnsToggle();
+};
 
-    amanities.classList.remove("hidden");
-    amanities.scrollIntoView({ behavior: "smooth" });
-    amanities.classList.add("animation");
+const checkIfAvailableDate = function (start, end) {
+  for (let i = 0, n = hotel.availableDates.length; i < n; i++) {
+    const availableStart = new Date(
+      hotel.availableDates[i].intervalStart
+    ).getTime();
+    const availableEnd = new Date(
+      hotel.availableDates[i].intervalEnd
+    ).getTime();
+    console.log(availableStart, availableEnd);
 
-    showBtnsToggle();
+    if (start >= availableStart && end <= availableEnd) return true;
+  }
+  return false;
+};
+
+const checkIfValidDates = function (chosenStartingDate, chosenEndingDate) {
+  if (
+    !chosenStartingDate ||
+    !chosenEndingDate ||
+    chosenEndingDate < chosenStartingDate
+  ) {
+    alert("Invalid dates");
+    startDateCheckPrice.value = "";
+    endDateCheckPrice.value = "";
+    return;
+  }
+
+  if (!checkIfAvailableDate(chosenStartingDate, chosenEndingDate)) {
+    alert("Not available dates");
+    // startDateCheckPrice.value = "";
+    // endDateCheckPrice.value = "";
+    return;
+  }
+};
+
+const calculateDaysPassed = (date1, date2) =>
+  Math.round(Math.abs(date2 - date1) / (1000 * 24 * 60 * 60));
+
+const events = function () {
+  showLess.addEventListener("click", scrollAndHideAmanities);
+
+  showMore.addEventListener("click", scrollAndShowAmanities);
+
+  checkPriceBtn.addEventListener("click", function () {
+    totalPrice = 0;
+    let chosenStartingDate = new Date(startDateCheckPrice.value).getTime();
+    let chosenEndingDate = new Date(endDateCheckPrice.value).getTime();
+
+    checkIfValidDates(chosenStartingDate, chosenEndingDate);
+
+    for (let i = 0, n = hotel.pricelistInEuros.length; i < n; i++) {
+      const priceInEuros = hotel.pricelistInEuros[i].pricePerNight;
+      const priceIntevalStart = new Date(
+        hotel.pricelistInEuros[i].intervalStart
+      ).getTime();
+      const priceIntevalEnd = new Date(
+        hotel.pricelistInEuros[i].intervalEnd
+      ).getTime();
+
+      console.log(priceInEuros, priceIntevalStart, priceIntevalEnd);
+
+      if (chosenStartingDate >= priceIntevalStart) {
+        if (chosenEndingDate <= priceIntevalEnd) {
+          totalPrice +=
+            calculateDaysPassed(chosenStartingDate, chosenEndingDate) *
+            priceInEuros;
+          price.textContent = `Total price: ${totalPrice} Euros`;
+          price.style.opacity = 1;
+          return;
+        }
+        if (chosenEndingDate > priceIntevalEnd) {
+          totalPrice +=
+            calculateDaysPassed(chosenStartingDate, priceIntevalEnd) *
+            priceInEuros;
+          chosenStartingDate = priceIntevalEnd;
+        }
+      }
+    }
   });
 
   window.addEventListener("input", function (e) {
@@ -120,6 +200,11 @@ const renderData = async function () {
 
     <div class="info">
       <p>Capacity: ${hotel.capacity}</p>
+      ${
+        hotel.beachDistanceInMeters
+          ? `      <p>Distance from the beach: ${hotel.beachDistanceInMeters} meters</p>`
+          : ""
+      }
       <input
         type="text"
         class="start-date-check-price"
@@ -140,13 +225,14 @@ const renderData = async function () {
         <button class="btn show-less hidden">Show less &#x2191;</button>
       </div>
     </div>
+    
     <div class="amanities hidden">
-      <p>Air conditioning: ❌</p>
-      <p>Parking space: ✅</p>
-      <p>Pets: ✅</p>
-      <p>Pool: ✅</p>
-      <p>Wi-fi: ❌</p>
-      <p>Tv: ❌</p>
+      <p>Air conditioning: ${hotel.amenities.airConditioning ? "✅" : "❌"}</p>
+      <p>Parking space: ${hotel.amenities.parkingSpace ? "✅" : "❌"}</p>
+      <p>Pets: ${hotel.amenities.pets ? "✅" : "❌"}</p>
+      <p>Pool: ${hotel.amenities.pool ? "✅" : "❌"}</p>
+      <p>Wi-fi: ${hotel.amenities.wifi ? "✅" : "❌"}</p>
+      <p>Tv: ${hotel.amenities.tv ? "✅" : "❌"}</p>
     </div>
   </div>
   `;
