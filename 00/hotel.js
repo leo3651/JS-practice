@@ -1,6 +1,13 @@
 const showMore = document.querySelector(".show-more");
 const showLess = document.querySelector(".show-less");
 const amanities = document.querySelector(".amanities");
+const btnContainer = document.querySelector(".btn-container");
+const checkPriceBtn = document.querySelector(".check-price");
+const startDateCheckPrice = document.querySelector(".start-date-check-price");
+const endDateCheckPrice = document.querySelector(".end-date-check-price");
+const price = document.querySelector(".price");
+
+let scrollPosition;
 
 const getData = async function () {
   try {
@@ -27,31 +34,52 @@ const renderData = async function () {
 
   const html = `
   <div>
-    <h1>${hotel.title}</h1>
-    <img src="${hotel.image}" alt="img" />
-    <div>
-      <p>capacity: ${hotel.capacity}</p>
-      ${
-        hotel.beachDistanceInMeters
-          ? `<p>distance from the beach: ${hotel.beachDistanceInMeters} meters</p>`
-          : ""
-      }
-      <input type="text" />
-      <input type="text" />
-      <button>Check price</button>
-      <p>Price: (min-max)</p>
-      <div> 
-        <button>Show more &#x2193;</button>
-        <button>Show less &#x2191;</button>
+    <div class="heading">
+      <h1>${hotel.title}</h1>
+      <figure class="img-box">
+        <img src="${hotel.image}" alt="img" />
+      </figure>
+    </div>
+
+    <p>
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Tempora minima
+      itaque perferendis deleniti quo commodi nobis consequuntur, nemo
+      consectetur quidem incidunt iure expedita ab fuga cupiditate omnis.
+      Accusamus, suscipit deleniti. Lorem ipsum dolor sit amet, consectetur
+      adipisicing elit. Tempora minima itaque perferendis deleniti quo commodi
+      nobis consequuntur, nemo consectetur quidem incidunt iure expedita ab
+      fuga cupiditate omnis. Accusamus, suscipit deleniti.
+    </p>
+
+    <div class="info">
+      <p>Capacity: ${hotel.capacity}</p>
+      <input
+        type="text"
+        class="staet-date-check-price"
+        placeholder="year-month-day"
+      />
+      <input
+        type="text"
+        class="end-date-check-price"
+        placeholder="year-month-day"
+      />
+      <div class="check-price-btn-container">
+        <button class="btn check-price">Check price</button>
+      </div>
+      <p class="price">Price: (min-max)</p>
+
+      <div class="btn-container">
+        <button class="btn show-more">Show more &#x2193;</button>
+        <button class="btn show-less hidden">Show less &#x2191;</button>
       </div>
     </div>
-    <div>
-      <p>Air conditioning: true</p>
-      <p>Parking space: true</p>
-      <p>Pets: false</p>
-      <p>Pool: true</p>
-      <p>Wi-fi: false</p>
-      <p>Tv: true</p>
+    <div class="amanities hidden">
+      <p>Air conditioning: ❌</p>
+      <p>Parking space: ✅</p>
+      <p>Pets: ✅</p>
+      <p>Pool: ✅</p>
+      <p>Wi-fi: ❌</p>
+      <p>Tv: ❌</p>
     </div>
   </div>
   `;
@@ -59,17 +87,44 @@ const renderData = async function () {
   document.querySelector("body").insertAdjacentHTML("afterbegin", html);
 };
 
-// renderData();
+renderData();
+
+const showBtnsToggle = function () {
+  showLess.classList.toggle("hidden");
+  showMore.classList.toggle("hidden");
+};
 
 showLess.addEventListener("click", function () {
   setTimeout(() => {
     amanities.classList.add("hidden");
   }, 400);
+
+  window.scrollTo({
+    top: scrollPosition,
+    left: 0,
+    behavior: "smooth",
+  });
+
   amanities.classList.remove("animation");
+  showBtnsToggle();
 });
 
 showMore.addEventListener("click", function () {
+  scrollPosition = window.scrollY;
+
   amanities.classList.remove("hidden");
   amanities.scrollIntoView({ behavior: "smooth" });
   amanities.classList.add("animation");
+
+  showBtnsToggle();
+});
+
+const renderPrice = function () {
+  price.innerHTML = `<p class="price">Price: (min-max)</p>`;
+};
+window.addEventListener("keypress", function () {
+  if (!startDateCheckPrice.value && !endDateCheckPrice.value) renderPrice();
+  else {
+    price.style.color = "red";
+  }
 });
