@@ -8,7 +8,6 @@ const pool = document.getElementById("pool");
 const wifi = document.getElementById("wifi");
 const tv = document.getElementById("TV");
 const filterBtn = document.querySelector(".filter-btn");
-let cardNumber;
 
 const getData = async function () {
   try {
@@ -144,5 +143,3 @@ filterBtn.addEventListener("click", function () {
     tv.checked
   );
 });
-
-export default cardNumber;

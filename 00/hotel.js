@@ -9,7 +9,8 @@ let showMore,
   checkPriceBtn,
   startDateCheckPrice,
   endDateCheckPrice,
-  price;
+  price,
+  reserveBtn;
 
 const initDOMElements = function () {
   showMore = document.querySelector(".show-more");
@@ -20,6 +21,7 @@ const initDOMElements = function () {
   startDateCheckPrice = document.querySelector(".start-date-check-price");
   endDateCheckPrice = document.querySelector(".end-date-check-price");
   price = document.querySelector(".price");
+  reserveBtn = document.querySelector(".reserve");
 };
 
 const getData = async function () {
@@ -56,7 +58,7 @@ const showBtnsToggle = function () {
 
 const renderPrice = function () {
   price.style.opacity = 1;
-  price.innerHTML = `<p class="price">Price: ${min}-${max} (min-max)</p>`;
+  price.textContent = `Price: ${min}-${max} (min-max)`;
 };
 
 const scrollAndShowAmanities = function () {
@@ -108,15 +110,17 @@ const checkIfValidDates = function (chosenStartingDate, chosenEndingDate) {
     alert("Invalid dates");
     startDateCheckPrice.value = "";
     endDateCheckPrice.value = "";
-    return;
+    return false;
   }
 
   if (!checkIfAvailableDate(chosenStartingDate, chosenEndingDate)) {
     alert("Not available dates");
-    // startDateCheckPrice.value = "";
-    // endDateCheckPrice.value = "";
-    return;
+    startDateCheckPrice.value = "";
+    endDateCheckPrice.value = "";
+    return false;
   }
+
+  return true;
 };
 
 const calculateDaysPassed = (date1, date2) =>
@@ -132,7 +136,7 @@ const events = function () {
     let chosenStartingDate = new Date(startDateCheckPrice.value).getTime();
     let chosenEndingDate = new Date(endDateCheckPrice.value).getTime();
 
-    checkIfValidDates(chosenStartingDate, chosenEndingDate);
+    if (!checkIfValidDates(chosenStartingDate, chosenEndingDate)) return;
 
     for (let i = 0, n = hotel.pricelistInEuros.length; i < n; i++) {
       const priceInEuros = hotel.pricelistInEuros[i].pricePerNight;
@@ -145,14 +149,17 @@ const events = function () {
 
       console.log(priceInEuros, priceIntevalStart, priceIntevalEnd);
 
-      if (chosenStartingDate >= priceIntevalStart) {
+      if (
+        chosenStartingDate >= priceIntevalStart &&
+        chosenStartingDate <= priceIntevalEnd
+      ) {
         if (chosenEndingDate <= priceIntevalEnd) {
           totalPrice +=
             calculateDaysPassed(chosenStartingDate, chosenEndingDate) *
             priceInEuros;
           price.textContent = `Total price: ${totalPrice} Euros`;
           price.style.opacity = 1;
-          return;
+          break;
         }
         if (chosenEndingDate > priceIntevalEnd) {
           totalPrice +=
@@ -162,13 +169,31 @@ const events = function () {
         }
       }
     }
+    reserveBtn.classList.remove("reserve-btn");
   });
 
   window.addEventListener("input", function (e) {
     if (!startDateCheckPrice.value && !endDateCheckPrice.value) renderPrice();
     else {
       price.style.opacity = 0;
+      reserveBtn.classList.add("reserve-btn");
     }
+  });
+
+  reserveBtn.addEventListener("click", function () {
+    const html = `
+      <div class="center">
+        <p>You have successfully booked:</p>
+        <p>${hotel.title}</p>
+        <p>from ${startDateCheckPrice.value} to ${endDateCheckPrice.value}</p>
+        <p>for total price of ${totalPrice} euros</p>
+        <p>with capacity of ${hotel.capacity} people</p>
+        <a class="btn back" href="hotels.html">&#x2190; Home page</a>
+      </div>
+    `;
+    document.querySelector("body").innerHTML = "";
+    document.querySelector("body").scrollIntoView();
+    document.querySelector("body").insertAdjacentHTML("afterbegin", html);
   });
 };
 
@@ -219,6 +244,7 @@ const renderData = async function () {
         <button class="btn check-price">Check price</button>
       </div>
       <p class="price">Price: ${min}-${max} (min-max)</p>
+      <a class="btn reserve-btn reserve">Reserve</a>
 
       <div class="btn-container">
         <button class="btn show-more">Show more &#x2193;</button>
@@ -237,6 +263,7 @@ const renderData = async function () {
   </div>
   `;
 
+  document.querySelector("body").innerHTML = "";
   document.querySelector("body").insertAdjacentHTML("afterbegin", html);
 
   initDOMElements();
