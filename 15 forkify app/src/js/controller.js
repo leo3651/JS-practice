@@ -4,6 +4,7 @@ import icons from "url:../img/icons.svg";
 import * as model from "./model.js";
 import recipeView from "./views/recipeView.js";
 import searchView from "./views/searchView.js";
+import resultsView from "./views/resultsView.js";
 
 const recipeContainer = document.querySelector(".recipe");
 
@@ -40,6 +41,7 @@ const showRecipe = async function () {
 
 const showSearchResults = async function () {
   try {
+    resultsView.renderSpinner();
     // get search query
     const query = searchView.getQuery();
     if (!query) return;
