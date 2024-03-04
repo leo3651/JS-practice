@@ -3,6 +3,7 @@ import "regenerator-runtime/runtime";
 import icons from "url:../img/icons.svg";
 import * as model from "./model.js";
 import recipeView from "./views/recipeView.js";
+import searchView from "./views/searchView.js";
 
 const recipeContainer = document.querySelector(".recipe");
 
@@ -39,15 +40,22 @@ const showRecipe = async function () {
 
 const showSearchResults = async function () {
   try {
-    await model.loadSearchResults("pizza");
+    // get search query
+    const query = searchView.getQuery();
+    if (!query) return;
+
+    //load search results
+    await model.loadSearchResults(query);
+
+    // render results
     console.log(model.state);
   } catch (err) {
     console.log(err);
   }
 };
-showSearchResults();
 
 const init = function () {
   recipeView.addHandlerRender(showRecipe);
+  searchView.addHandlerSearch(showSearchResults);
 };
 init();
