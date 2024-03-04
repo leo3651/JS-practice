@@ -625,6 +625,7 @@ const showSearchResults = async function() {
         await _modelJs.loadSearchResults(query);
         // render results
         console.log(_modelJs.state);
+        (0, _resultsViewJsDefault.default).render(_modelJs.state.search.results);
     } catch (err) {
         console.log(err);
     }
@@ -2987,6 +2988,7 @@ var _iconsSvgDefault = parcelHelpers.interopDefault(_iconsSvg);
 class View {
     _data;
     render(state) {
+        if (!state || Array.isArray(state) && state.length === 0) return this.renderError();
         this._data = state;
         const html = this._generateMarkup();
         this._clear();
@@ -3061,23 +3063,25 @@ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _viewJs = require("./View.js");
 var _viewJsDefault = parcelHelpers.interopDefault(_viewJs);
+var _iconsSvg = require("url:../../img/icons.svg");
+var _iconsSvgDefault = parcelHelpers.interopDefault(_iconsSvg);
 class ResultsView extends (0, _viewJsDefault.default) {
     _parentElement = document.querySelector(".results");
+    _errorMessage = "No recipes found! Try another one!";
+    _message = "";
     _generateMarkup() {
-        const html = `
+        return this._data.map(this._generateMarkupPreview).join("");
+    }
+    _generateMarkupPreview(element) {
+        return `
     <li class="preview">
-      <a class="preview__link preview__link--active" href="#23456">
+      <a class="preview__link" href="#${element.id}">
         <figure class="preview__fig">
-          <img src="src/img/test-1.jpg" alt="Test" />
+          <img src="${element.image}" alt="${element.title}" />
         </figure>
         <div class="preview__data">
-          <h4 class="preview__title">Pasta with Tomato Cream ...</h4>
-          <p class="preview__publisher">The Pioneer Woman</p>
-          <div class="preview__user-generated">
-            <svg>
-              <use href="src/img/icons.svg#icon-user"></use>
-            </svg>
-          </div>
+          <h4 class="preview__title">${element.title}</h4>
+          <p class="preview__publisher">${element.publisher}</p>
         </div>
       </a>
     </li>`;
@@ -3085,6 +3089,6 @@ class ResultsView extends (0, _viewJsDefault.default) {
 }
 exports.default = new ResultsView();
 
-},{"./View.js":"5cUXS","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["f0HGD","aenu9"], "aenu9", "parcelRequire3a11")
+},{"./View.js":"5cUXS","url:../../img/icons.svg":"loVOp","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["f0HGD","aenu9"], "aenu9", "parcelRequire3a11")
 
 //# sourceMappingURL=index.e37f48ea.js.map
