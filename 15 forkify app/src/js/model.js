@@ -1,11 +1,14 @@
 import { API_URL } from "./config.js";
 import { getJSON } from "./helpers.js";
+import { RES_PER_PAGE } from "./config.js";
 
 export const state = {
   recipe: {},
   search: {
     query: "",
     results: [],
+    resultsPerPage: RES_PER_PAGE,
+    page: 1,
   },
   bookmarks: {},
 };
@@ -16,6 +19,7 @@ export const loadRecipe = async function (id) {
 
     const { recipe } = results.data;
     console.log(recipe);
+
     state.recipe = {
       id: recipe.id,
       cookingTime: recipe.cooking_time,
@@ -52,3 +56,12 @@ export const loadSearchResults = async function (query) {
   }
 };
 // loadSearchResults("pizza");
+
+export const getSearchResultsPerPage = function (page = state.search.page) {
+  state.search.page = page;
+
+  const start = (page - 1) * state.search.resultsPerPage;
+  const end = page * state.search.resultsPerPage;
+
+  return state.search.results.slice(start, end);
+};
