@@ -26,6 +26,9 @@ const showRecipe = async function () {
 
     recipeView.renderSpinner();
 
+    // update results view to mark selected search result
+    resultsView.update(model.getSearchResultsPerPage());
+
     // loading recipe
     await model.loadRecipe(id);
     console.log(model.state);

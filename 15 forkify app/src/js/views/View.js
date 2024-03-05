@@ -14,18 +14,20 @@ export default class View {
   }
 
   update(state) {
-    if (!state || (Array.isArray(state) && state.length === 0))
-      return this.renderError();
-
     this._data = state;
+
+    // creates new markup
     const newMarkup = this._generateMarkup();
 
+    // creates new DOM of new markup
     const newDOM = document.createRange().createContextualFragment(newMarkup);
     console.log(newDOM);
 
+    // creates array of nodes of new markup
     const newElements = Array.from(newDOM.querySelectorAll("*"));
     console.log(newElements);
 
+    // creates array of nodes of current markup on the page
     const currentDOM = Array.from(this._parentElement.querySelectorAll("*"));
     console.log(currentDOM);
 
@@ -41,15 +43,41 @@ export default class View {
       //   "VALUE: ",
       //   newElement.firstChild?.nodeValue
       // );
-      // console.log(newElement.firstChild?.nodeValue.trim() === "");
-      console.log(typeof newElement.nodeValue?.trim());
-      console.log(newElement.nodeValue?.trim() == null);
+      // console.log(
+      //   newElement.firstChild?.nodeValue,
+      //   newElement.firstChild?.nodeValue.trim() !== ""
+      // );
+      // console.log("NODE VALUE: ", typeof newElement.nodeValue?.trim());
+      // console.log(
+      //   "CHILD NODE VALUE: ",
+      //   typeof newElement.firstChild?.nodeValue?.trim()
+      // );
+      // console.log(newElement.nodeValue?.trim() == null);
 
+      // updates changed text
       if (
         !newElement.isEqualNode(currentElement) &&
         newElement.firstChild?.nodeValue.trim() !== ""
       ) {
+        // console.log(
+        //   "❤",
+        //   newElement.firstChild?.nodeValue,
+        //   newElement.firstChild?.nodeValue.trim() !== ""
+        // );
+
         currentElement.textContent = newElement.textContent;
+      }
+
+      // updates changed attributes
+      if (!newElement.isEqualNode(currentElement)) {
+        console.log(newElement.attributes);
+        Array.from(newElement.attributes).forEach((attribute, i, arr) => {
+          // console.log(arr);
+          // console.log(attribute);
+          // console.log(typeof attribute);
+          // console.log(attribute.name);
+          currentElement.setAttribute(attribute.name, attribute.value);
+        });
       }
     });
   }

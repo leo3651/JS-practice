@@ -605,6 +605,8 @@ const showRecipe = async function() {
         console.log(id);
         if (!id) return;
         (0, _recipeViewJsDefault.default).renderSpinner();
+        // update results view to mark selected search result
+        (0, _resultsViewJsDefault.default).update(_modelJs.getSearchResultsPerPage());
         // loading recipe
         await _modelJs.loadRecipe(id);
         console.log(_modelJs.state);
@@ -2576,7 +2578,7 @@ const updateServings = function(newServings) {
     state.recipe.servings = newServings;
 };
 
-},{"./config.js":"k5Hzs","./helpers.js":"hGI1E","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"k5Hzs":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./config.js":"k5Hzs","./helpers.js":"hGI1E"}],"k5Hzs":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "API_URL", ()=>API_URL);
@@ -3045,13 +3047,16 @@ class View {
         this._parentElement.insertAdjacentHTML("afterbegin", html);
     }
     update(state) {
-        if (!state || Array.isArray(state) && state.length === 0) return this.renderError();
         this._data = state;
+        // creates new markup
         const newMarkup = this._generateMarkup();
+        // creates new DOM of new markup
         const newDOM = document.createRange().createContextualFragment(newMarkup);
         console.log(newDOM);
+        // creates array of nodes of new markup
         const newElements = Array.from(newDOM.querySelectorAll("*"));
         console.log(newElements);
+        // creates array of nodes of current markup on the page
         const currentDOM = Array.from(this._parentElement.querySelectorAll("*"));
         console.log(currentDOM);
         newElements.forEach((newElement, i)=>{
@@ -3065,10 +3070,34 @@ class View {
             //   "VALUE: ",
             //   newElement.firstChild?.nodeValue
             // );
-            // console.log(newElement.firstChild?.nodeValue.trim() === "");
-            console.log(typeof newElement.nodeValue?.trim());
-            console.log(newElement.nodeValue?.trim() == null);
-            if (!newElement.isEqualNode(currentElement) && newElement.firstChild?.nodeValue.trim() !== "") currentElement.textContent = newElement.textContent;
+            // console.log(
+            //   newElement.firstChild?.nodeValue,
+            //   newElement.firstChild?.nodeValue.trim() !== ""
+            // );
+            // console.log("NODE VALUE: ", typeof newElement.nodeValue?.trim());
+            // console.log(
+            //   "CHILD NODE VALUE: ",
+            //   typeof newElement.firstChild?.nodeValue?.trim()
+            // );
+            // console.log(newElement.nodeValue?.trim() == null);
+            // updates changed text
+            if (!newElement.isEqualNode(currentElement) && newElement.firstChild?.nodeValue.trim() !== "") // console.log(
+            //   "❤",
+            //   newElement.firstChild?.nodeValue,
+            //   newElement.firstChild?.nodeValue.trim() !== ""
+            // );
+            currentElement.textContent = newElement.textContent;
+            // updates changed attributes
+            if (!newElement.isEqualNode(currentElement)) {
+                console.log(newElement.attributes);
+                Array.from(newElement.attributes).forEach((attribute, i, arr)=>{
+                    // console.log(arr);
+                    // console.log(attribute);
+                    // console.log(typeof attribute);
+                    // console.log(attribute.name);
+                    currentElement.setAttribute(attribute.name, attribute.value);
+                });
+            }
         });
     }
     _clear() {
@@ -3150,9 +3179,10 @@ class ResultsView extends (0, _viewJsDefault.default) {
         return this._data.map(this._generateMarkupPreview).join("");
     }
     _generateMarkupPreview(element) {
+        const id = window.location.hash.slice(1);
         return `
     <li class="preview">
-      <a class="preview__link" href="#${element.id}">
+      <a class="preview__link ${id === element.id ? "preview__link--active" : ""}" href="#${element.id}">
         <figure class="preview__fig">
           <img src="${element.image}" alt="${element.title}" />
         </figure>
