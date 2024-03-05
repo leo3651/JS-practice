@@ -646,7 +646,8 @@ const controlServings = function(newServings) {
     // update the recipe servings (in state)
     _modelJs.updateServings(newServings);
     // update the recipe view
-    (0, _recipeViewJsDefault.default).render(_modelJs.state.recipe);
+    // recipeView.render(model.state.recipe);
+    (0, _recipeViewJsDefault.default).update(_modelJs.state.recipe);
 };
 const init = function() {
     (0, _recipeViewJsDefault.default).addHandlerRender(showRecipe);
@@ -2570,7 +2571,6 @@ const getSearchResultsPerPage = function(page = state.search.page) {
 };
 const updateServings = function(newServings) {
     state.recipe.ingredients.forEach((ingredient)=>{
-        console.log(ingredient);
         ingredient.quantity = ingredient.quantity * newServings / state.recipe.servings;
     });
     state.recipe.servings = newServings;
@@ -2653,12 +2653,12 @@ class RecipeView extends (0, _viewJsDefault.default) {
         <span class="recipe__info-text">servings</span>
 
         <div class="recipe__info-buttons">
-          <button data-servings="${this._data.servings - 1}" class="btn--tiny btn--increase-servings">
+          <button data-update-to="${this._data.servings - 1}" class="btn--tiny btn--increase-servings">
             <svg>
               <use href="${0, _iconsSvgDefault.default}#icon-minus-circle"></use>
             </svg>
           </button>
-          <button data-servings="${this._data.servings + 1}" class="btn--tiny btn--increase-servings">
+          <button data-update-to="${this._data.servings + 1}" class="btn--tiny btn--increase-servings">
             <svg>
               <use href="${0, _iconsSvgDefault.default}#icon-plus-circle"></use>
             </svg>
@@ -2731,7 +2731,7 @@ class RecipeView extends (0, _viewJsDefault.default) {
             const btn = e.target.closest(".btn--tiny");
             if (!btn) return;
             console.log(btn);
-            const newNumberOfServings = +btn.dataset.servings;
+            const newNumberOfServings = +btn.dataset.updateTo;
             if (newNumberOfServings < 1) return;
             callback(newNumberOfServings);
         });
@@ -3043,6 +3043,33 @@ class View {
         const html = this._generateMarkup();
         this._clear();
         this._parentElement.insertAdjacentHTML("afterbegin", html);
+    }
+    update(state) {
+        if (!state || Array.isArray(state) && state.length === 0) return this.renderError();
+        this._data = state;
+        const newMarkup = this._generateMarkup();
+        const newDOM = document.createRange().createContextualFragment(newMarkup);
+        console.log(newDOM);
+        const newElements = Array.from(newDOM.querySelectorAll("*"));
+        console.log(newElements);
+        const currentDOM = Array.from(this._parentElement.querySelectorAll("*"));
+        console.log(currentDOM);
+        newElements.forEach((newElement, i)=>{
+            const currentElement = currentDOM[i];
+            // console.log(newElement);
+            // console.log(currentElement);
+            // console.log(currentElement, newElement.isEqualNode(currentElement));
+            // console.log(
+            //   "CHILD NODE: ",
+            //   newElement.firstChild,
+            //   "VALUE: ",
+            //   newElement.firstChild?.nodeValue
+            // );
+            // console.log(newElement.firstChild?.nodeValue.trim() === "");
+            console.log(typeof newElement.nodeValue?.trim());
+            console.log(newElement.nodeValue?.trim() == null);
+            if (!newElement.isEqualNode(currentElement) && newElement.firstChild?.nodeValue.trim() !== "") currentElement.textContent = newElement.textContent;
+        });
     }
     _clear() {
         this._parentElement.innerHTML = "";
