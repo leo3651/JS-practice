@@ -4,6 +4,21 @@ import icons from "url:../../img/icons.svg";
 class PaginationView extends View {
   _parentElement = document.querySelector(".pagination");
 
+  addHandlerClick(callback) {
+    this._parentElement.addEventListener("click", function (e) {
+      const btn = e.target.closest(".btn--inline");
+      if (!btn) return;
+
+      console.log(btn);
+      console.log(btn.dataset.goto);
+
+      const goToPage = Number(btn.dataset.goto);
+
+      console.log(callback);
+      callback(goToPage);
+    });
+  }
+
   _generateMarkup() {
     console.log(this._data);
 
@@ -16,7 +31,9 @@ class PaginationView extends View {
     if (page === 1 && numPages > 1) {
       console.log("page 1 and other pages");
       return `
-        <button class="btn--inline pagination__btn--next">
+        <button data-goto="${
+          page + 1
+        }" class="btn--inline pagination__btn--next">
           <span>Page ${page + 1}</span>
           <svg class="search__icon">
             <use href="${icons}#icon-arrow-right"></use>
@@ -28,7 +45,9 @@ class PaginationView extends View {
     if (page === numPages && numPages > 1) {
       console.log("last page");
       return `
-        <button class="btn--inline pagination__btn--prev">
+        <button data-goto="${
+          page - 1
+        }" class="btn--inline pagination__btn--prev">
           <svg class="search__icon">
             <use href="${icons}#icon-arrow-left"></use>
           </svg>
@@ -40,13 +59,13 @@ class PaginationView extends View {
     if (page < numPages) {
       console.log("some other page");
       return `
-      <button class="btn--inline pagination__btn--prev">
+      <button data-goto="${page - 1}" class="btn--inline pagination__btn--prev">
         <svg class="search__icon">
           <use href="${icons}#icon-arrow-left"></use>
         </svg>
         <span>Page ${page - 1}</span>
       </button>
-      <button class="btn--inline pagination__btn--next">
+      <button data-goto="${page + 1}" class="btn--inline pagination__btn--next">
         <span>Page ${page + 1}</span>
         <svg class="search__icon">
           <use href="${icons}#icon-arrow-right"></use>
