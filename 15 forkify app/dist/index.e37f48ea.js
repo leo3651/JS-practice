@@ -631,7 +631,7 @@ const showSearchResults = async function() {
         // render results
         console.log(_modelJs.state);
         // resultsView.render(model.state.search.results);
-        (0, _resultsViewJsDefault.default).render(_modelJs.getSearchResultsPerPage());
+        (0, _resultsViewJsDefault.default).render(_modelJs.getSearchResultsPerPage(1));
         // render pagination buttons
         (0, _paginationViewJsDefault.default).render(_modelJs.state.search);
     } catch (err) {
@@ -651,9 +651,17 @@ const controlServings = function(newServings) {
     // recipeView.render(model.state.recipe);
     (0, _recipeViewJsDefault.default).update(_modelJs.state.recipe);
 };
+const controlAddBookmark = function() {
+    if (!_modelJs.state.recipe.bookmarked) _modelJs.addBookmark(_modelJs.state.recipe);
+    else _modelJs.removeBookmark(_modelJs.state.recipe.id);
+    (0, _recipeViewJsDefault.default).update(_modelJs.state.recipe);
+    console.log(_modelJs.state.bookmarks);
+    console.log(_modelJs.state.recipe);
+};
 const init = function() {
     (0, _recipeViewJsDefault.default).addHandlerRender(showRecipe);
     (0, _recipeViewJsDefault.default).addHandlerUpdateServings(controlServings);
+    (0, _recipeViewJsDefault.default).addHandlerAddBookmark(controlAddBookmark);
     (0, _searchViewJsDefault.default).addHandlerSearch(showSearchResults);
     (0, _paginationViewJsDefault.default).addHandlerClick(controlPagination);
 };
@@ -2515,6 +2523,8 @@ parcelHelpers.export(exports, "loadRecipe", ()=>loadRecipe);
 parcelHelpers.export(exports, "loadSearchResults", ()=>loadSearchResults);
 parcelHelpers.export(exports, "getSearchResultsPerPage", ()=>getSearchResultsPerPage);
 parcelHelpers.export(exports, "updateServings", ()=>updateServings);
+parcelHelpers.export(exports, "addBookmark", ()=>addBookmark);
+parcelHelpers.export(exports, "removeBookmark", ()=>removeBookmark);
 var _configJs = require("./config.js");
 var _helpersJs = require("./helpers.js");
 const state = {
@@ -2525,7 +2535,7 @@ const state = {
         resultsPerPage: (0, _configJs.RES_PER_PAGE),
         page: 1
     },
-    bookmarks: {}
+    bookmarks: []
 };
 const loadRecipe = async function(id) {
     try {
@@ -2540,8 +2550,10 @@ const loadRecipe = async function(id) {
             publisher: recipe.publisher,
             servings: recipe.servings,
             sourceUrl: recipe.source_url,
-            title: recipe.title
+            title: recipe.title,
+            bookmarked: false
         };
+        if (state.bookmarks.some((bookmark)=>bookmark.id === state.recipe.id)) state.recipe.bookmarked = true;
         console.log(state.recipe);
     } catch (err) {
         console.error(`${err} \u{1F4A5}\u{1F4A5}\u{1F4A5}\u{1F4A5}`);
@@ -2576,6 +2588,17 @@ const updateServings = function(newServings) {
         ingredient.quantity = ingredient.quantity * newServings / state.recipe.servings;
     });
     state.recipe.servings = newServings;
+};
+const addBookmark = function(recipe) {
+    // add bookmark
+    state.bookmarks.push(recipe);
+    state.recipe.bookmarked = true;
+};
+const removeBookmark = function(id) {
+    // remove bookmark
+    const index = state.bookmarks.findIndex((bookmark)=>bookmark.id === id);
+    state.bookmarks.splice(index, 1);
+    state.recipe.bookmarked = false;
 };
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./config.js":"k5Hzs","./helpers.js":"hGI1E"}],"k5Hzs":[function(require,module,exports) {
@@ -2673,9 +2696,9 @@ class RecipeView extends (0, _viewJsDefault.default) {
           <use href="${0, _iconsSvgDefault.default}#icon-user"></use>
         </svg>
       </div>
-      <button class="btn--round">
+      <button class="btn--round btn--bookmark">
         <svg class="">
-          <use href="${0, _iconsSvgDefault.default}#icon-bookmark-fill"></use>
+          <use href="${0, _iconsSvgDefault.default}#icon-bookmark${this._data.bookmarked ? "-fill" : ""}"></use>
         </svg>
       </button>
     </div>
@@ -2736,6 +2759,13 @@ class RecipeView extends (0, _viewJsDefault.default) {
             const newNumberOfServings = +btn.dataset.updateTo;
             if (newNumberOfServings < 1) return;
             callback(newNumberOfServings);
+        });
+    }
+    addHandlerAddBookmark(callback) {
+        this._parentElement.addEventListener("click", function(e) {
+            const bookmark = e.target.closest(".btn--bookmark");
+            if (!bookmark) return;
+            callback();
         });
     }
 }
@@ -3061,32 +3091,8 @@ class View {
         console.log(currentDOM);
         newElements.forEach((newElement, i)=>{
             const currentElement = currentDOM[i];
-            // console.log(newElement);
-            // console.log(currentElement);
-            // console.log(currentElement, newElement.isEqualNode(currentElement));
-            // console.log(
-            //   "CHILD NODE: ",
-            //   newElement.firstChild,
-            //   "VALUE: ",
-            //   newElement.firstChild?.nodeValue
-            // );
-            // console.log(
-            //   newElement.firstChild?.nodeValue,
-            //   newElement.firstChild?.nodeValue.trim() !== ""
-            // );
-            // console.log("NODE VALUE: ", typeof newElement.nodeValue?.trim());
-            // console.log(
-            //   "CHILD NODE VALUE: ",
-            //   typeof newElement.firstChild?.nodeValue?.trim()
-            // );
-            // console.log(newElement.nodeValue?.trim() == null);
             // updates changed text
-            if (!newElement.isEqualNode(currentElement) && newElement.firstChild?.nodeValue.trim() !== "") // console.log(
-            //   "❤",
-            //   newElement.firstChild?.nodeValue,
-            //   newElement.firstChild?.nodeValue.trim() !== ""
-            // );
-            currentElement.textContent = newElement.textContent;
+            if (!newElement.isEqualNode(currentElement) && newElement.firstChild?.nodeValue.trim() !== "") currentElement.textContent = newElement.textContent;
             // updates changed attributes
             if (!newElement.isEqualNode(currentElement)) {
                 console.log(newElement.attributes);

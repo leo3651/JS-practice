@@ -34,39 +34,12 @@ export default class View {
     newElements.forEach((newElement, i) => {
       const currentElement = currentDOM[i];
 
-      // console.log(newElement);
-      // console.log(currentElement);
-      // console.log(currentElement, newElement.isEqualNode(currentElement));
-      // console.log(
-      //   "CHILD NODE: ",
-      //   newElement.firstChild,
-      //   "VALUE: ",
-      //   newElement.firstChild?.nodeValue
-      // );
-      // console.log(
-      //   newElement.firstChild?.nodeValue,
-      //   newElement.firstChild?.nodeValue.trim() !== ""
-      // );
-      // console.log("NODE VALUE: ", typeof newElement.nodeValue?.trim());
-      // console.log(
-      //   "CHILD NODE VALUE: ",
-      //   typeof newElement.firstChild?.nodeValue?.trim()
-      // );
-      // console.log(newElement.nodeValue?.trim() == null);
-
       // updates changed text
       if (
         !newElement.isEqualNode(currentElement) &&
         newElement.firstChild?.nodeValue.trim() !== ""
-      ) {
-        // console.log(
-        //   "❤",
-        //   newElement.firstChild?.nodeValue,
-        //   newElement.firstChild?.nodeValue.trim() !== ""
-        // );
-
+      )
         currentElement.textContent = newElement.textContent;
-      }
 
       // updates changed attributes
       if (!newElement.isEqualNode(currentElement)) {
