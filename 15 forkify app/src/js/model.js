@@ -88,7 +88,7 @@ export const addBookmark = function (recipe) {
   state.bookmarks.push(recipe);
   state.recipe.bookmarked = true;
 
-  // persistBookmarks();
+  persistBookmarks();
 };
 
 export const removeBookmark = function (id) {
@@ -98,12 +98,12 @@ export const removeBookmark = function (id) {
 
   state.recipe.bookmarked = false;
 
-  // persistBookmarks();
+  persistBookmarks();
 };
 
 const init = function () {
   const storage = localStorage.getItem("bookmarks");
   if (storage) state.bookmarks = JSON.parse(storage);
 };
-// init();
+init();
 console.log(state.bookmarks);

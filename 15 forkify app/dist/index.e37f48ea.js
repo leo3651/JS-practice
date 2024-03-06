@@ -662,9 +662,14 @@ const controlAddBookmark = function() {
     (0, _recipeViewJsDefault.default).update(_modelJs.state.recipe);
     // render bookmarks
     (0, _bookmarksViewJsDefault.default).render(_modelJs.state.bookmarks);
+};
+const controlBookmark = function() {
+    // render bookmarks
+    (0, _bookmarksViewJsDefault.default).render(_modelJs.state.bookmarks);
     console.log(_modelJs.state.bookmarks);
 };
 const init = function() {
+    (0, _bookmarksViewJsDefault.default).addHandlerBookmark(controlBookmark);
     (0, _recipeViewJsDefault.default).addHandlerRender(showRecipe);
     (0, _recipeViewJsDefault.default).addHandlerUpdateServings(controlServings);
     (0, _recipeViewJsDefault.default).addHandlerAddBookmark(controlAddBookmark);
@@ -2602,20 +2607,20 @@ const addBookmark = function(recipe) {
     // add bookmark
     state.bookmarks.push(recipe);
     state.recipe.bookmarked = true;
-// persistBookmarks();
+    persistBookmarks();
 };
 const removeBookmark = function(id) {
     // remove bookmark
     const index = state.bookmarks.findIndex((bookmark)=>bookmark.id === id);
     state.bookmarks.splice(index, 1);
     state.recipe.bookmarked = false;
-// persistBookmarks();
+    persistBookmarks();
 };
 const init = function() {
     const storage = localStorage.getItem("bookmarks");
     if (storage) state.bookmarks = JSON.parse(storage);
 };
-// init();
+init();
 console.log(state.bookmarks);
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./config.js":"k5Hzs","./helpers.js":"hGI1E"}],"k5Hzs":[function(require,module,exports) {
@@ -3316,6 +3321,9 @@ class BookmarksView extends (0, _viewJsDefault.default) {
     _parentElement = document.querySelector(".bookmarks__list");
     _errorMessage = "No bookmarks yet! Find a recipe and bookmark it!";
     _message = "";
+    addHandlerBookmark(callback) {
+        window.addEventListener("load", callback);
+    }
     _generateMarkup() {
         return this._data.map((bookmark)=>(0, _previewViewJsDefault.default).render(bookmark, false)).join("");
     }
