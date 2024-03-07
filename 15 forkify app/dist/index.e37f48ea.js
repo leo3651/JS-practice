@@ -680,13 +680,17 @@ const controlAddNewRecipe = async function(newRecipe) {
         await _modelJs.uploadRecipe(newRecipe);
         // render uploaded recipe
         (0, _recipeViewJsDefault.default).render(_modelJs.state.recipe);
+        // render bookmark view
         (0, _bookmarksViewJsDefault.default).render(_modelJs.state.bookmarks);
         // success message
         (0, _addRecipeViewJsDefault.default).renderMessage();
         // close modal
         setTimeout(()=>{
             (0, _addRecipeViewJsDefault.default)._toggleWindow();
+            (0, _addRecipeViewJsDefault.default).render(_modelJs.state.recipe);
         }, (0, _configJs.MODAL_CLOSE_TIME) * 1000);
+        // change ID in URL
+        window.history.pushState(null, "", `#${_modelJs.state.recipe.id}`);
     } catch (err) {
         console.log(err);
         (0, _addRecipeViewJsDefault.default).renderError(err.message);
@@ -2563,6 +2567,7 @@ parcelHelpers.export(exports, "addBookmark", ()=>addBookmark);
 parcelHelpers.export(exports, "removeBookmark", ()=>removeBookmark);
 parcelHelpers.export(exports, "uploadRecipe", ()=>uploadRecipe);
 var _configJs = require("./config.js");
+// import { getJSON, sendJSON } from "./helpers.js";
 var _helpersJs = require("./helpers.js");
 const state = {
     recipe: {},
@@ -2593,7 +2598,7 @@ const createRecipeObject = function(data) {
 };
 const loadRecipe = async function(id) {
     try {
-        const results = await (0, _helpersJs.getJSON)(`${(0, _configJs.API_URL)}${id}`);
+        const results = await (0, _helpersJs.AJAX)(`${(0, _configJs.API_URL)}${id}`);
         state.recipe = createRecipeObject(results);
         if (state.bookmarks.some((bookmark)=>bookmark.id === state.recipe.id)) state.recipe.bookmarked = true;
         console.log(state.recipe);
@@ -2605,7 +2610,7 @@ const loadRecipe = async function(id) {
 const loadSearchResults = async function(query) {
     try {
         state.search.query = query;
-        const data = await (0, _helpersJs.getJSON)(`${(0, _configJs.API_URL)}?search=${query}`);
+        const data = await (0, _helpersJs.AJAX)(`${(0, _configJs.API_URL)}?search=${query}`);
         console.log(data);
         state.search.results = data.data.recipes.map((recipe)=>({
                 id: recipe.id,
@@ -2677,7 +2682,7 @@ const uploadRecipe = async function(newRecipe) {
             ingredients
         };
         console.log(recipe);
-        const data = await (0, _helpersJs.sendJSON)(`${(0, _configJs.API_URL)}?key=${(0, _configJs.KEY)}`, recipe);
+        const data = await (0, _helpersJs.AJAX)(`${(0, _configJs.API_URL)}?key=${(0, _configJs.KEY)}`, recipe);
         console.log(data);
         state.recipe = createRecipeObject(data);
         addBookmark(state.recipe);
@@ -2704,8 +2709,7 @@ const MODAL_CLOSE_TIME = 2;
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"hGI1E":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "getJSON", ()=>getJSON);
-parcelHelpers.export(exports, "sendJSON", ()=>sendJSON);
+parcelHelpers.export(exports, "AJAX", ()=>AJAX);
 var _config = require("./config");
 const timeout = function(s) {
     return new Promise(function(_, reject) {
@@ -2714,30 +2718,15 @@ const timeout = function(s) {
         }, s * 1000);
     });
 };
-const getJSON = async function(url) {
+const AJAX = async function(url, uploadData) {
     try {
-        const response = await Promise.race([
-            fetch(url),
-            timeout((0, _config.TIMEOUT_SEC))
-        ]);
-        const results = await response.json();
-        console.log(response);
-        console.log(results);
-        if (!response.ok) throw new Error(`${results.message} (${response.status})`);
-        return results;
-    } catch (err) {
-        throw err;
-    }
-};
-const sendJSON = async function(url, uploadData) {
-    try {
-        const fetchPromise = fetch(url, {
+        const fetchPromise = uploadData ? fetch(url, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(uploadData)
-        });
+        }) : fetch(url);
         const response = await Promise.race([
             fetchPromise,
             timeout((0, _config.TIMEOUT_SEC))
@@ -2750,7 +2739,45 @@ const sendJSON = async function(url, uploadData) {
     } catch (err) {
         throw err;
     }
+}; /* export const getJSON = async function (url) {
+  try {
+    const response = await Promise.race([fetch(url), timeout(TIMEOUT_SEC)]);
+    const results = await response.json();
+
+    console.log(response);
+    console.log(results);
+
+    if (!response.ok)
+      throw new Error(`${results.message} (${response.status})`);
+
+    return results;
+  } catch (err) {
+    throw err;
+  }
 };
+
+export const sendJSON = async function (url, uploadData) {
+  try {
+    const fetchPromise = fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(uploadData),
+    });
+
+    const response = await Promise.race([fetchPromise, timeout(TIMEOUT_SEC)]);
+    const results = await response.json();
+
+    console.log(response);
+    console.log(results);
+
+    if (!response.ok)
+      throw new Error(`${results.message} (${response.status})`);
+
+    return results;
+  } catch (err) {
+    throw err;
+  }
+}; */ 
 
 },{"./config":"k5Hzs","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"l60JC":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
@@ -3467,6 +3494,78 @@ class AddRecipeView extends (0, _viewJsDefault.default) {
             console.log(inputValues);
             callback(dataArr);
         });
+    }
+    _generateMarkup() {
+        return `
+      <form class="upload" action="submit">
+        <div class="upload__column">
+          <h3 class="upload__heading">Recipe data</h3>
+          <label>Title</label>
+          <input value="TEST" required name="title" type="text" />
+          <label>URL</label>
+          <input value="TEST23" required name="sourceUrl" type="text" />
+          <label>Image URL</label>
+          <input value="TEST23" required name="image" type="text" />
+          <label>Publisher</label>
+          <input value="TEST23" required name="publisher" type="text" />
+          <label>Prep time</label>
+          <input value="23" required name="cookingTime" type="number" />
+          <label>Servings</label>
+          <input value="23" required name="servings" type="number" />
+        </div>
+
+        <div class="upload__column">
+          <h3 class="upload__heading">Ingredients</h3>
+          <label>Ingredient 1</label>
+          <input
+            value="0.5,kg,Rice"
+            type="text"
+            required
+            name="ingredient-1"
+            placeholder="Format: 'Quantity,Unit,Description'"
+          />
+          <label>Ingredient 2</label>
+          <input
+            value="1,,Avocado"
+            type="text"
+            name="ingredient-2"
+            placeholder="Format: 'Quantity,Unit,Description'"
+          />
+          <label>Ingredient 3</label>
+          <input
+            value=",,salt"
+            type="text"
+            name="ingredient-3"
+            placeholder="Format: 'Quantity,Unit,Description'"
+          />
+          <label>Ingredient 4</label>
+          <input
+            type="text"
+            name="ingredient-4"
+            placeholder="Format: 'Quantity,Unit,Description'"
+          />
+          <label>Ingredient 5</label>
+          <input
+            type="text"
+            name="ingredient-5"
+            placeholder="Format: 'Quantity,Unit,Description'"
+          />
+          <label>Ingredient 6</label>
+          <input
+            type="text"
+            name="ingredient-6"
+            placeholder="Format: 'Quantity,Unit,Description'"
+          />
+        </div>
+
+        <button class="btn upload__btn">
+          <svg>
+            <use href="${0, _iconsSvgDefault.default}#icon-upload-cloud"></use>
+          </svg>
+          <span>Upload</span>
+        </button>
+      </form>
+    </div>`;
     }
 }
 exports.default = new AddRecipeView();
