@@ -24,3 +24,21 @@ export const getJSON = async function (url) {
     throw err;
   }
 };
+
+export const sendJSON = async function (url, uploadData) {
+  try {
+    const fetchPromise = fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(uploadData),
+    });
+
+    const response = await Promise.race(fetchPromise, timeout(TIMEOUT_SEC));
+    const results = await response.json();
+
+    if (!response.ok)
+      throw new Error(`${results.message} (${response.status})`);
+  } catch (err) {
+    throw err;
+  }
+};

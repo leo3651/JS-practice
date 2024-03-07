@@ -670,10 +670,16 @@ const controlBookmark = function() {
     (0, _bookmarksViewJsDefault.default).render(_modelJs.state.bookmarks);
     console.log(_modelJs.state.bookmarks);
 };
-const controlAddNewRecipe = function(newRecipe) {
-    console.log(newRecipe);
+const controlAddNewRecipe = async function(newRecipe) {
+    try {
+        // upload new recipe
+        console.log(newRecipe);
+        await _modelJs.uploadRecipe(newRecipe);
+    } catch (err) {
+        console.log(err);
+        (0, _addRecipeViewJsDefault.default).renderError(err.message);
+    }
 };
-const controlUploadRecipe = async function() {};
 const init = function() {
     (0, _bookmarksViewJsDefault.default).addHandlerBookmark(controlBookmark);
     (0, _recipeViewJsDefault.default).addHandlerRender(showRecipe);
@@ -2630,7 +2636,34 @@ const init = function() {
 };
 init();
 console.log(state.bookmarks);
-const uploadRecipe = async function() {};
+const uploadRecipe = async function(newRecipe) {
+    try {
+        const newRecipeArray = Object.entries(newRecipe);
+        const ingredients = newRecipeArray.filter(([entryName, entryValue])=>entryName.startsWith("ingredient") && entryValue !== "").map(([_, entryValue])=>{
+            console.log(entryValue);
+            const ingredientsArr = entryValue.replaceAll(" ", "").split(",");
+            if (ingredientsArr.length !== 3) throw new Error("Please choose the correct format");
+            const [quantity, unit, description] = ingredientsArr;
+            return {
+                quantity: +quantity || null,
+                unit,
+                description
+            };
+        });
+        const recipe = {
+            title: newRecipe.title,
+            cooking_time: newRecipe.cookingTime,
+            image_url: newRecipe.imageUrl,
+            source_url: newRecipe.sourceUrl,
+            servings: newRecipe.servings,
+            publisher: newRecipe.publisher,
+            ingredients
+        };
+        console.log(recipe);
+    } catch (err) {
+        throw err;
+    }
+};
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./config.js":"k5Hzs","./helpers.js":"hGI1E"}],"k5Hzs":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
@@ -2646,6 +2679,7 @@ const RES_PER_PAGE = 10;
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "getJSON", ()=>getJSON);
+parcelHelpers.export(exports, "sendJSON", ()=>sendJSON);
 var _config = require("./config");
 const timeout = function(s) {
     return new Promise(function(_, reject) {
@@ -2665,6 +2699,22 @@ const getJSON = async function(url) {
         console.log(results);
         if (!response.ok) throw new Error(`${results.message} (${response.status})`);
         return results;
+    } catch (err) {
+        throw err;
+    }
+};
+const sendJSON = async function(url, uploadData) {
+    try {
+        const fetchPromise = fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(uploadData)
+        });
+        const response = await Promise.race(fetchPromise, timeout((0, _config.TIMEOUT_SEC)));
+        const results = await response.json();
+        if (!response.ok) throw new Error(`${results.message} (${response.status})`);
     } catch (err) {
         throw err;
     }
@@ -3381,7 +3431,7 @@ class AddRecipeView extends (0, _viewJsDefault.default) {
                 ...new FormData(this)
             ];
             const dataArr = Object.fromEntries(inputValues);
-            callback(inputValues);
+            console.log(inputValues);
             callback(dataArr);
         });
     }

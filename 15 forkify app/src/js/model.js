@@ -108,4 +108,39 @@ const init = function () {
 init();
 console.log(state.bookmarks);
 
-export const uploadRecipe = async function () {};
+export const uploadRecipe = async function (newRecipe) {
+  try {
+    const newRecipeArray = Object.entries(newRecipe);
+
+    const ingredients = newRecipeArray
+      .filter(
+        ([entryName, entryValue]) =>
+          entryName.startsWith("ingredient") && entryValue !== ""
+      )
+      .map(([_, entryValue]) => {
+        console.log(entryValue);
+
+        const ingredientsArr = entryValue.replaceAll(" ", "").split(",");
+
+        if (ingredientsArr.length !== 3)
+          throw new Error("Please choose the correct format");
+
+        const [quantity, unit, description] = ingredientsArr;
+        return { quantity: +quantity || null, unit, description };
+      });
+
+    const recipe = {
+      title: newRecipe.title,
+      cooking_time: newRecipe.cookingTime,
+      image_url: newRecipe.imageUrl,
+      source_url: newRecipe.sourceUrl,
+      servings: newRecipe.servings,
+      publisher: newRecipe.publisher,
+      ingredients,
+    };
+
+    console.log(recipe);
+  } catch (err) {
+    throw err;
+  }
+};
