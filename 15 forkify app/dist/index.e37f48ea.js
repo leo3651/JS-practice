@@ -595,6 +595,8 @@ var _paginationViewJs = require("./views/paginationView.js");
 var _paginationViewJsDefault = parcelHelpers.interopDefault(_paginationViewJs);
 var _bookmarksViewJs = require("./views/bookmarksView.js");
 var _bookmarksViewJsDefault = parcelHelpers.interopDefault(_bookmarksViewJs);
+var _addRecipeViewJs = require("./views/addRecipeView.js");
+var _addRecipeViewJsDefault = parcelHelpers.interopDefault(_addRecipeViewJs);
 const recipeContainer = document.querySelector(".recipe");
 console.log((0, _iconsSvgDefault.default));
 // https://forkify-api.herokuapp.com/v2
@@ -668,6 +670,10 @@ const controlBookmark = function() {
     (0, _bookmarksViewJsDefault.default).render(_modelJs.state.bookmarks);
     console.log(_modelJs.state.bookmarks);
 };
+const controlAddNewRecipe = function(newRecipe) {
+    console.log(newRecipe);
+};
+const controlUploadRecipe = async function() {};
 const init = function() {
     (0, _bookmarksViewJsDefault.default).addHandlerBookmark(controlBookmark);
     (0, _recipeViewJsDefault.default).addHandlerRender(showRecipe);
@@ -675,10 +681,11 @@ const init = function() {
     (0, _recipeViewJsDefault.default).addHandlerAddBookmark(controlAddBookmark);
     (0, _searchViewJsDefault.default).addHandlerSearch(showSearchResults);
     (0, _paginationViewJsDefault.default).addHandlerClick(controlPagination);
+    (0, _addRecipeViewJsDefault.default).addHandlerUploadNewRecipe(controlAddNewRecipe);
 };
 init();
 
-},{"core-js/modules/web.immediate.js":"49tUX","regenerator-runtime/runtime":"dXNgZ","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./model.js":"Y4A21","./views/recipeView.js":"l60JC","url:../img/icons.svg":"loVOp","./views/searchView.js":"9OQAM","./views/resultsView.js":"cSbZE","./views/paginationView.js":"6z7bi","./views/bookmarksView.js":"4Lqzq"}],"49tUX":[function(require,module,exports) {
+},{"core-js/modules/web.immediate.js":"49tUX","regenerator-runtime/runtime":"dXNgZ","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./model.js":"Y4A21","./views/recipeView.js":"l60JC","url:../img/icons.svg":"loVOp","./views/searchView.js":"9OQAM","./views/resultsView.js":"cSbZE","./views/paginationView.js":"6z7bi","./views/bookmarksView.js":"4Lqzq","./views/addRecipeView.js":"i6DNj"}],"49tUX":[function(require,module,exports) {
 "use strict";
 // TODO: Remove this module from `core-js@4` since it's split to modules listed below
 require("52e9b3eefbbce1ed");
@@ -2536,6 +2543,7 @@ parcelHelpers.export(exports, "getSearchResultsPerPage", ()=>getSearchResultsPer
 parcelHelpers.export(exports, "updateServings", ()=>updateServings);
 parcelHelpers.export(exports, "addBookmark", ()=>addBookmark);
 parcelHelpers.export(exports, "removeBookmark", ()=>removeBookmark);
+parcelHelpers.export(exports, "uploadRecipe", ()=>uploadRecipe);
 var _configJs = require("./config.js");
 var _helpersJs = require("./helpers.js");
 const state = {
@@ -2622,6 +2630,7 @@ const init = function() {
 };
 init();
 console.log(state.bookmarks);
+const uploadRecipe = async function() {};
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./config.js":"k5Hzs","./helpers.js":"hGI1E"}],"k5Hzs":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
@@ -3212,7 +3221,7 @@ class ResultsView extends (0, _viewJsDefault.default) {
 }
 exports.default = new ResultsView();
 
-},{"./View.js":"5cUXS","url:../../img/icons.svg":"loVOp","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./previewView.js":"1FDQ6"}],"1FDQ6":[function(require,module,exports) {
+},{"./View.js":"5cUXS","./previewView.js":"1FDQ6","url:../../img/icons.svg":"loVOp","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"1FDQ6":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _viewJs = require("./View.js");
@@ -3330,6 +3339,55 @@ class BookmarksView extends (0, _viewJsDefault.default) {
 }
 exports.default = new BookmarksView();
 
-},{"./View.js":"5cUXS","url:../../img/icons.svg":"loVOp","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./previewView.js":"1FDQ6"}]},["f0HGD","aenu9"], "aenu9", "parcelRequire3a11")
+},{"./View.js":"5cUXS","./previewView.js":"1FDQ6","url:../../img/icons.svg":"loVOp","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"i6DNj":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _viewJs = require("./View.js");
+var _viewJsDefault = parcelHelpers.interopDefault(_viewJs);
+var _previewViewJs = require("./previewView.js");
+var _previewViewJsDefault = parcelHelpers.interopDefault(_previewViewJs);
+var _iconsSvg = require("url:../../img/icons.svg");
+var _iconsSvgDefault = parcelHelpers.interopDefault(_iconsSvg);
+class AddRecipeView extends (0, _viewJsDefault.default) {
+    _parentElement = document.querySelector(".upload");
+    _window = document.querySelector(".add-recipe-window");
+    _overlay = document.querySelector(".overlay");
+    _btnOpenModal = document.querySelector(".nav__btn--add-recipe");
+    _btnCloseModal = document.querySelector(".btn--close-modal");
+    constructor(){
+        super();
+        this.addHandlerShowWindow();
+        this.addHandlerHideWindow();
+    }
+    _toggleWindow() {
+        this._window.classList.toggle("hidden");
+        this._overlay.classList.toggle("hidden");
+    }
+    addHandlerShowWindow() {
+        this._btnOpenModal.addEventListener("click", (function(e) {
+            const btn = e.target.closest(".nav__btn--add-recipe");
+            if (!btn) return;
+            this._toggleWindow();
+        }).bind(this));
+    }
+    addHandlerHideWindow() {
+        this._btnCloseModal.addEventListener("click", this._toggleWindow.bind(this));
+        this._overlay.addEventListener("click", this._toggleWindow.bind(this));
+    }
+    addHandlerUploadNewRecipe(callback) {
+        this._parentElement.addEventListener("submit", function(e) {
+            e.preventDefault();
+            const inputValues = [
+                ...new FormData(this)
+            ];
+            const dataArr = Object.fromEntries(inputValues);
+            callback(inputValues);
+            callback(dataArr);
+        });
+    }
+}
+exports.default = new AddRecipeView();
+
+},{"./View.js":"5cUXS","./previewView.js":"1FDQ6","url:../../img/icons.svg":"loVOp","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["f0HGD","aenu9"], "aenu9", "parcelRequire3a11")
 
 //# sourceMappingURL=index.e37f48ea.js.map
