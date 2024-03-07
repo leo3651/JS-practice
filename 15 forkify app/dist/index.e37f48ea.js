@@ -597,6 +597,7 @@ var _bookmarksViewJs = require("./views/bookmarksView.js");
 var _bookmarksViewJsDefault = parcelHelpers.interopDefault(_bookmarksViewJs);
 var _addRecipeViewJs = require("./views/addRecipeView.js");
 var _addRecipeViewJsDefault = parcelHelpers.interopDefault(_addRecipeViewJs);
+var _configJs = require("./config.js");
 const recipeContainer = document.querySelector(".recipe");
 console.log((0, _iconsSvgDefault.default));
 // https://forkify-api.herokuapp.com/v2
@@ -672,9 +673,20 @@ const controlBookmark = function() {
 };
 const controlAddNewRecipe = async function(newRecipe) {
     try {
+        // show loading spinner
+        (0, _addRecipeViewJsDefault.default).renderSpinner();
         // upload new recipe
         console.log(newRecipe);
         await _modelJs.uploadRecipe(newRecipe);
+        // render uploaded recipe
+        (0, _recipeViewJsDefault.default).render(_modelJs.state.recipe);
+        (0, _bookmarksViewJsDefault.default).render(_modelJs.state.bookmarks);
+        // success message
+        (0, _addRecipeViewJsDefault.default).renderMessage();
+        // close modal
+        setTimeout(()=>{
+            (0, _addRecipeViewJsDefault.default)._toggleWindow();
+        }, (0, _configJs.MODAL_CLOSE_TIME) * 1000);
     } catch (err) {
         console.log(err);
         (0, _addRecipeViewJsDefault.default).renderError(err.message);
@@ -691,7 +703,7 @@ const init = function() {
 };
 init();
 
-},{"core-js/modules/web.immediate.js":"49tUX","regenerator-runtime/runtime":"dXNgZ","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./model.js":"Y4A21","./views/recipeView.js":"l60JC","url:../img/icons.svg":"loVOp","./views/searchView.js":"9OQAM","./views/resultsView.js":"cSbZE","./views/paginationView.js":"6z7bi","./views/bookmarksView.js":"4Lqzq","./views/addRecipeView.js":"i6DNj"}],"49tUX":[function(require,module,exports) {
+},{"core-js/modules/web.immediate.js":"49tUX","regenerator-runtime/runtime":"dXNgZ","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./model.js":"Y4A21","./views/recipeView.js":"l60JC","url:../img/icons.svg":"loVOp","./views/searchView.js":"9OQAM","./views/resultsView.js":"cSbZE","./views/paginationView.js":"6z7bi","./views/bookmarksView.js":"4Lqzq","./views/addRecipeView.js":"i6DNj","./config.js":"k5Hzs"}],"49tUX":[function(require,module,exports) {
 "use strict";
 // TODO: Remove this module from `core-js@4` since it's split to modules listed below
 require("52e9b3eefbbce1ed");
@@ -2562,22 +2574,27 @@ const state = {
     },
     bookmarks: []
 };
+const createRecipeObject = function(data) {
+    const { recipe } = data.data;
+    return {
+        id: recipe.id,
+        cookingTime: recipe.cooking_time,
+        imageUrl: recipe.image_url,
+        ingredients: recipe.ingredients,
+        publisher: recipe.publisher,
+        servings: recipe.servings,
+        sourceUrl: recipe.source_url,
+        title: recipe.title,
+        bookmarked: false,
+        ...recipe.key && {
+            key: recipe.key
+        }
+    };
+};
 const loadRecipe = async function(id) {
     try {
         const results = await (0, _helpersJs.getJSON)(`${(0, _configJs.API_URL)}${id}`);
-        const { recipe } = results.data;
-        console.log(recipe);
-        state.recipe = {
-            id: recipe.id,
-            cookingTime: recipe.cooking_time,
-            imageUrl: recipe.image_url,
-            ingredients: recipe.ingredients,
-            publisher: recipe.publisher,
-            servings: recipe.servings,
-            sourceUrl: recipe.source_url,
-            title: recipe.title,
-            bookmarked: false
-        };
+        state.recipe = createRecipeObject(results);
         if (state.bookmarks.some((bookmark)=>bookmark.id === state.recipe.id)) state.recipe.bookmarked = true;
         console.log(state.recipe);
     } catch (err) {
@@ -2620,7 +2637,7 @@ const persistBookmarks = function() {
 const addBookmark = function(recipe) {
     // add bookmark
     state.bookmarks.push(recipe);
-    state.recipe.bookmarked = true;
+    if (recipe.id === state.recipe.id) state.recipe.bookmarked = true;
     persistBookmarks();
 };
 const removeBookmark = function(id) {
@@ -2652,14 +2669,19 @@ const uploadRecipe = async function(newRecipe) {
         });
         const recipe = {
             title: newRecipe.title,
-            cooking_time: newRecipe.cookingTime,
-            image_url: newRecipe.imageUrl,
+            cooking_time: +newRecipe.cookingTime,
+            image_url: newRecipe.image,
             source_url: newRecipe.sourceUrl,
-            servings: newRecipe.servings,
+            servings: +newRecipe.servings,
             publisher: newRecipe.publisher,
             ingredients
         };
         console.log(recipe);
+        const data = await (0, _helpersJs.sendJSON)(`${(0, _configJs.API_URL)}?key=${(0, _configJs.KEY)}`, recipe);
+        console.log(data);
+        state.recipe = createRecipeObject(data);
+        addBookmark(state.recipe);
+        console.log(state.recipe);
     } catch (err) {
         throw err;
     }
@@ -2671,9 +2693,13 @@ parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "API_URL", ()=>API_URL);
 parcelHelpers.export(exports, "TIMEOUT_SEC", ()=>TIMEOUT_SEC);
 parcelHelpers.export(exports, "RES_PER_PAGE", ()=>RES_PER_PAGE);
+parcelHelpers.export(exports, "KEY", ()=>KEY);
+parcelHelpers.export(exports, "MODAL_CLOSE_TIME", ()=>MODAL_CLOSE_TIME);
 const API_URL = "https://forkify-api.herokuapp.com/api/v2/recipes/";
 const TIMEOUT_SEC = 10;
 const RES_PER_PAGE = 10;
+const KEY = "e734300a-643d-420e-b346-95186642def2";
+const MODAL_CLOSE_TIME = 2;
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"hGI1E":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
@@ -2712,9 +2738,15 @@ const sendJSON = async function(url, uploadData) {
             },
             body: JSON.stringify(uploadData)
         });
-        const response = await Promise.race(fetchPromise, timeout((0, _config.TIMEOUT_SEC)));
+        const response = await Promise.race([
+            fetchPromise,
+            timeout((0, _config.TIMEOUT_SEC))
+        ]);
         const results = await response.json();
+        console.log(response);
+        console.log(results);
         if (!response.ok) throw new Error(`${results.message} (${response.status})`);
+        return results;
     } catch (err) {
         throw err;
     }
@@ -3404,6 +3436,7 @@ class AddRecipeView extends (0, _viewJsDefault.default) {
     _overlay = document.querySelector(".overlay");
     _btnOpenModal = document.querySelector(".nav__btn--add-recipe");
     _btnCloseModal = document.querySelector(".btn--close-modal");
+    _message = "You successfully uploaded the recipe!";
     constructor(){
         super();
         this.addHandlerShowWindow();

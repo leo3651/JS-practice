@@ -1,5 +1,5 @@
-import { API_URL } from "./config.js";
-import { getJSON } from "./helpers.js";
+import { API_URL, KEY } from "./config.js";
+import { getJSON, sendJSON } from "./helpers.js";
 import { RES_PER_PAGE } from "./config.js";
 
 export const state = {
@@ -13,24 +13,27 @@ export const state = {
   bookmarks: [],
 };
 
+const createRecipeObject = function (data) {
+  const { recipe } = data.data;
+
+  return {
+    id: recipe.id,
+    cookingTime: recipe.cooking_time,
+    imageUrl: recipe.image_url,
+    ingredients: recipe.ingredients,
+    publisher: recipe.publisher,
+    servings: recipe.servings,
+    sourceUrl: recipe.source_url,
+    title: recipe.title,
+    bookmarked: false,
+    ...(recipe.key && { key: recipe.key }),
+  };
+};
+
 export const loadRecipe = async function (id) {
   try {
     const results = await getJSON(`${API_URL}${id}`);
-
-    const { recipe } = results.data;
-    console.log(recipe);
-
-    state.recipe = {
-      id: recipe.id,
-      cookingTime: recipe.cooking_time,
-      imageUrl: recipe.image_url,
-      ingredients: recipe.ingredients,
-      publisher: recipe.publisher,
-      servings: recipe.servings,
-      sourceUrl: recipe.source_url,
-      title: recipe.title,
-      bookmarked: false,
-    };
+    state.recipe = createRecipeObject(results);
 
     if (state.bookmarks.some((bookmark) => bookmark.id === state.recipe.id))
       state.recipe.bookmarked = true;
@@ -86,7 +89,8 @@ const persistBookmarks = function () {
 export const addBookmark = function (recipe) {
   // add bookmark
   state.bookmarks.push(recipe);
-  state.recipe.bookmarked = true;
+
+  if (recipe.id === state.recipe.id) state.recipe.bookmarked = true;
 
   persistBookmarks();
 };
@@ -131,15 +135,22 @@ export const uploadRecipe = async function (newRecipe) {
 
     const recipe = {
       title: newRecipe.title,
-      cooking_time: newRecipe.cookingTime,
-      image_url: newRecipe.imageUrl,
+      cooking_time: +newRecipe.cookingTime,
+      image_url: newRecipe.image,
       source_url: newRecipe.sourceUrl,
-      servings: newRecipe.servings,
+      servings: +newRecipe.servings,
       publisher: newRecipe.publisher,
       ingredients,
     };
 
     console.log(recipe);
+
+    const data = await sendJSON(`${API_URL}?key=${KEY}`, recipe);
+    console.log(data);
+
+    state.recipe = createRecipeObject(data);
+    addBookmark(state.recipe);
+    console.log(state.recipe);
   } catch (err) {
     throw err;
   }

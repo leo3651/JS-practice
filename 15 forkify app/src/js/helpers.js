@@ -33,11 +33,16 @@ export const sendJSON = async function (url, uploadData) {
       body: JSON.stringify(uploadData),
     });
 
-    const response = await Promise.race(fetchPromise, timeout(TIMEOUT_SEC));
+    const response = await Promise.race([fetchPromise, timeout(TIMEOUT_SEC)]);
     const results = await response.json();
+
+    console.log(response);
+    console.log(results);
 
     if (!response.ok)
       throw new Error(`${results.message} (${response.status})`);
+
+    return results;
   } catch (err) {
     throw err;
   }
