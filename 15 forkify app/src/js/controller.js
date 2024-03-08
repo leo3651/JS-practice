@@ -126,7 +126,9 @@ const controlAddNewRecipe = async function (newRecipe) {
     // close modal
     setTimeout(() => {
       addRecipeView._toggleWindow();
-      addRecipeView.render(model.state.recipe);
+      setTimeout(() => {
+        addRecipeView.render(model.state.recipe);
+      }, 1000);
     }, MODAL_CLOSE_TIME * 1000);
 
     // change ID in URL

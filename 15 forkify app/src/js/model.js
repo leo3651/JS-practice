@@ -33,7 +33,7 @@ const createRecipeObject = function (data) {
 
 export const loadRecipe = async function (id) {
   try {
-    const results = await AJAX(`${API_URL}${id}`);
+    const results = await AJAX(`${API_URL}${id}?key=${KEY}`);
     state.recipe = createRecipeObject(results);
 
     if (state.bookmarks.some((bookmark) => bookmark.id === state.recipe.id))
@@ -49,7 +49,7 @@ export const loadRecipe = async function (id) {
 export const loadSearchResults = async function (query) {
   try {
     state.search.query = query;
-    const data = await AJAX(`${API_URL}?search=${query}`);
+    const data = await AJAX(`${API_URL}?search=${query}&key=${KEY}`);
     console.log(data);
 
     state.search.results = data.data.recipes.map((recipe) => ({
@@ -57,6 +57,7 @@ export const loadSearchResults = async function (query) {
       title: recipe.title,
       imageUrl: recipe.image_url,
       publisher: recipe.publisher,
+      ...(recipe.key && { key: recipe.key }),
     }));
     console.log(state);
   } catch (err) {
@@ -125,7 +126,7 @@ export const uploadRecipe = async function (newRecipe) {
       .map(([_, entryValue]) => {
         console.log(entryValue);
 
-        const ingredientsArr = entryValue.replaceAll(" ", "").split(",");
+        const ingredientsArr = entryValue.split(",").map((el) => el.trim());
 
         if (ingredientsArr.length !== 3)
           throw new Error("Please choose the correct format");

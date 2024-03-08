@@ -687,7 +687,9 @@ const controlAddNewRecipe = async function(newRecipe) {
         // close modal
         setTimeout(()=>{
             (0, _addRecipeViewJsDefault.default)._toggleWindow();
-            (0, _addRecipeViewJsDefault.default).render(_modelJs.state.recipe);
+            setTimeout(()=>{
+                (0, _addRecipeViewJsDefault.default).render(_modelJs.state.recipe);
+            }, 1000);
         }, (0, _configJs.MODAL_CLOSE_TIME) * 1000);
         // change ID in URL
         window.history.pushState(null, "", `#${_modelJs.state.recipe.id}`);
@@ -2598,7 +2600,7 @@ const createRecipeObject = function(data) {
 };
 const loadRecipe = async function(id) {
     try {
-        const results = await (0, _helpersJs.AJAX)(`${(0, _configJs.API_URL)}${id}`);
+        const results = await (0, _helpersJs.AJAX)(`${(0, _configJs.API_URL)}${id}?key=${(0, _configJs.KEY)}`);
         state.recipe = createRecipeObject(results);
         if (state.bookmarks.some((bookmark)=>bookmark.id === state.recipe.id)) state.recipe.bookmarked = true;
         console.log(state.recipe);
@@ -2610,13 +2612,16 @@ const loadRecipe = async function(id) {
 const loadSearchResults = async function(query) {
     try {
         state.search.query = query;
-        const data = await (0, _helpersJs.AJAX)(`${(0, _configJs.API_URL)}?search=${query}`);
+        const data = await (0, _helpersJs.AJAX)(`${(0, _configJs.API_URL)}?search=${query}&key=${(0, _configJs.KEY)}`);
         console.log(data);
         state.search.results = data.data.recipes.map((recipe)=>({
                 id: recipe.id,
                 title: recipe.title,
                 imageUrl: recipe.image_url,
-                publisher: recipe.publisher
+                publisher: recipe.publisher,
+                ...recipe.key && {
+                    key: recipe.key
+                }
             }));
         console.log(state);
     } catch (err) {
@@ -2663,7 +2668,7 @@ const uploadRecipe = async function(newRecipe) {
         const newRecipeArray = Object.entries(newRecipe);
         const ingredients = newRecipeArray.filter(([entryName, entryValue])=>entryName.startsWith("ingredient") && entryValue !== "").map(([_, entryValue])=>{
             console.log(entryValue);
-            const ingredientsArr = entryValue.replaceAll(" ", "").split(",");
+            const ingredientsArr = entryValue.split(",").map((el)=>el.trim());
             if (ingredientsArr.length !== 3) throw new Error("Please choose the correct format");
             const [quantity, unit, description] = ingredientsArr;
             return {
@@ -2703,7 +2708,7 @@ parcelHelpers.export(exports, "MODAL_CLOSE_TIME", ()=>MODAL_CLOSE_TIME);
 const API_URL = "https://forkify-api.herokuapp.com/api/v2/recipes/";
 const TIMEOUT_SEC = 10;
 const RES_PER_PAGE = 10;
-const KEY = "e734300a-643d-420e-b346-95186642def2";
+const KEY = "a9a2d361-1b59-4f06-9e81-c473d8eacb7f";
 const MODAL_CLOSE_TIME = 2;
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"hGI1E":[function(require,module,exports) {
@@ -2831,7 +2836,7 @@ class RecipeView extends (0, _viewJsDefault.default) {
         </div>
       </div>
 
-      <div class="recipe__user-generated">
+      <div class="recipe__user-generated ${this._data.key ? "" : "hidden"}">
         <svg>
           <use href="${0, _iconsSvgDefault.default}#icon-user"></use>
         </svg>
@@ -3209,7 +3214,15 @@ var _iconsSvg = require("url:../../img/icons.svg");
 var _iconsSvgDefault = parcelHelpers.interopDefault(_iconsSvg);
 class View {
     _data;
-    render(state, render = true) {
+    /**
+   * Render the recived object to the DOM
+   * @param {Object | Object[]} state The data to be rendered (e.g. recipe)
+   * @param {boolean} [render = true] if false create markup string instead rendering to the DOM
+   * @returns {undefined | string} A markup is returned if render = false
+   * @this {Object} View instance
+   * @author Leo KOvačević
+   * @todo Finish implementation
+   */ render(state, render = true) {
         if (!state || Array.isArray(state) && state.length === 0) return this.renderError();
         this._data = state;
         const html = this._generateMarkup();
@@ -3350,6 +3363,12 @@ class PreviewView extends (0, _viewJsDefault.default) {
         <div class="preview__data">
           <h4 class="preview__title">${this._data.title}</h4>
           <p class="preview__publisher">${this._data.publisher}</p>
+
+          <div  class="preview__user-generated ${this._data.key ? "" : "hidden"}">
+            <svg>
+              <use href="${0, _iconsSvgDefault.default}#icon-user"></use>
+            </svg>
+          </div>
         </div>
       </a>
     </li>`;
