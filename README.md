@@ -1,8 +1,8 @@
-# JS workshop
+# JS practice
 
 ## Description
 
-### JS workshop repository
+### JS practice through course by Jonas Schmedtmann
 
 #### Guess my number: https://65f34fca5c521518e1a4c4fa--unrivaled-maamoul-f1c8e5.netlify.app/
 
